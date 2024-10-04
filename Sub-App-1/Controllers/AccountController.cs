@@ -37,25 +37,14 @@ public class AccountController : Controller {
             ViewBag.Error = "Invalid username or password.";
             return View("Index");
         }
+        await SignInUser(user);
 
-        // User is valid, prepare to sign them in
-        // Create claims for the user; these are pieces of user information like account type.
-        var claims = new List<Claim> {
-            new Claim(ClaimTypes.Name, user.Username),
-            new Claim(ClaimTypes.Role, user.AccountType.ToString())
-        };
-        // Create a ClaimsIdentity, which represents the user's identity
-        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-        // Sign in the user by creating a new ClaimsPrincipal and calling SignInAsync
-        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-
-        // redirect to the dashboard after successful login
+        // redirect to the dashboard after successful login, or whatever the frontend wants to happen =D
         // TODO !!
         return RedirectToAction("Index", "Home");
     }
 
-    // Logout action
+    // /Account/Logout
     public async Task<IActionResult> Logout() {
         // Sign out the user
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -63,29 +52,48 @@ public class AccountController : Controller {
         return RedirectToAction("Index", "Home");
     }
 
-    // /Account/Register
-    [HttpPost]
-    public IActionResult Register(string username, string password, string accountType) {
-        if (_context.Users.Any(u => u.Username == username)) {
-            ViewBag.Error = "Username already exists.";
-            return View("Index");
+        // /Account/Register
+        [HttpPost]
+        public async Task<IActionResult> Register(string username, string password, string accountType) {
+            // Check if the username already exists in the database
+            if (await _context.Users.AnyAsync(u => u.Username == username)) {
+                ViewBag.Error = "Username already exists.";
+                return View("Index");
+            }
+
+            // Create a new User object with the provided information
+            var user = new User {
+                Username = username,
+                Password = password,  // TODO: HASHING !!
+                AccountType = Enum.Parse<AccountType>(accountType)
+            };
+            // Add the new user to the database context
+            _context.Users.Add(user);
+            // Save changes to the database asynchronously
+            await _context.SaveChangesAsync();
+            // Sign in the registered user
+            await SignInUser(user);
+
+            // Todo: proper redirection and stuff.
+            return RedirectToAction("Index", "Home");
         }
 
-        var user = new User {
-            Username = username,
-            Password = password,  // TODO: HASHING !!
-            AccountType = Enum.Parse<AccountType>(accountType)
+    // Helper method for signing in a user.
+    private async Task SignInUser(User user) {
+        // Create claims for the user; these are pieces of user information like account type.
+        var claims = new List<Claim> {
+            new Claim(ClaimTypes.Name, user.Username),
+            new Claim(ClaimTypes.Role, user.AccountType.ToString())
         };
+        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-        _context.Users.Add(user);
-        _context.SaveChanges();
-
-        return RedirectToAction("Index", "Home");
+        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
     }
 
+    // /Account/BrowseAsGuest
     public IActionResult BrowseAsGuest() {
         // todo ..
         // continue browsing without an account
-        return RedirectToAction("Home", "Index");
+        return RedirectToAction("Index", "Home");
     }
 }
