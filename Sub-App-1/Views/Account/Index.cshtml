@@ -11,7 +11,7 @@
         </div>
     }
 
-    @if(User.Identity.IsAuthenticated) {
+    @if(User.Identity != null && User.Identity.IsAuthenticated) {
         <h2>Welcome, @User.Identity.Name!</h2>
         <p>You are currently logged in.</p>
         <form asp-action="Logout" method="post"><button type="submit" class="btn btn-danger">Logout</button></form>
