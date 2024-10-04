@@ -3,6 +3,11 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>You need to login to use this web application. <a asp-area="" asp-controller="Account" asp-action="Index">Click here.</a></p>
+    @if (User.Identity.IsAuthenticated) {
+        <p>Welcome, @User.Identity.Name! You are logged in.</p>
+        <!-- Add more content for logged-in users here (TODO: FRONT END) -->
+    } else {
+        <!-- Todo: FRONT END -->
+        <p>You need to login to use this web application. <a asp-area="" asp-controller="Account" asp-action="Index">Click here to login or register.</a></p>
+    }
 </div>

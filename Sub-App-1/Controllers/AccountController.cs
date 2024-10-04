@@ -52,31 +52,31 @@ public class AccountController : Controller {
         return RedirectToAction("Index", "Home");
     }
 
-        // /Account/Register
-        [HttpPost]
-        public async Task<IActionResult> Register(string username, string password, string accountType) {
-            // Check if the username already exists in the database
-            if (await _context.Users.AnyAsync(u => u.Username == username)) {
-                ViewBag.Error = "Username already exists.";
-                return View("Index");
-            }
-
-            // Create a new User object with the provided information
-            var user = new User {
-                Username = username,
-                Password = password,  // TODO: HASHING !!
-                AccountType = Enum.Parse<AccountType>(accountType)
-            };
-            // Add the new user to the database context
-            _context.Users.Add(user);
-            // Save changes to the database asynchronously
-            await _context.SaveChangesAsync();
-            // Sign in the registered user
-            await SignInUser(user);
-
-            // Todo: proper redirection and stuff.
-            return RedirectToAction("Index", "Home");
+    // /Account/Register
+    [HttpPost]
+    public async Task<IActionResult> Register(string username, string password, string accountType) {
+        // Check if the username already exists in the database
+        if (await _context.Users.AnyAsync(u => u.Username == username)) {
+            ViewBag.Error = "Username already exists.";
+            return View("Index");
         }
+
+        // Create a new User object with the provided information
+        var user = new User {
+            Username = username,
+            Password = password,  // TODO: HASHING !!
+            AccountType = Enum.Parse<AccountType>(accountType)
+        };
+        // Add the new user to the database context
+        _context.Users.Add(user);
+        // Save changes to the database asynchronously
+        await _context.SaveChangesAsync();
+        // Sign in the registered user
+        await SignInUser(user);
+
+        // Todo: proper redirection and stuff.
+        return RedirectToAction("Index", "Home");
+    }
 
     // Helper method for signing in a user.
     private async Task SignInUser(User user) {
@@ -85,8 +85,10 @@ public class AccountController : Controller {
             new Claim(ClaimTypes.Name, user.Username),
             new Claim(ClaimTypes.Role, user.AccountType.ToString())
         };
+        // Create a ClaimsIdentity, which represents the user's identity
         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
+        // Sign in the user by creating a new ClaimsPrincipal and calling SignInAsync
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
     }
 
