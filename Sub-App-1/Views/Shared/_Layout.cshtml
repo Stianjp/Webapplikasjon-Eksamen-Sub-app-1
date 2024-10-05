@@ -10,6 +10,65 @@
 </head>
 <body>
     <header>
+        <!-- Navbar -->
+        <nav class="navbar navbar-light bg-light d-flex justify-content-between px-4 shadow" style="z-index: 1000; width: 100%;">
+            <a class="navbar-brand">Logo</a> <!-- Her kan du legge inn logoen som en <img>-tag -->
+            <div class="d-flex align-items-center">
+                <span class="navbar-text mr-3">Bruker: @User.Identity.Name</span>
+                <!-- Fjern img-taggen hvis du ikke trenger profilbildet -->
+                <img src="path/to/profile-picture.png" alt="Profile" class="rounded-circle" style="width: 30px; height: 30px;">
+            </div>
+
+        </nav>
+
+        <!-- Sidebar -->
+        <div id="sidebar" class="d-flex flex-shrink-0 p-3 bg-light nav nav-pills flex-column mb-auto navbar-collapse collapse d-sm-inline-flex justify-content-between" style="width: 250px; height: 100vh; position: fixed;">
+            <hr>
+            <ul class="navbar-nav flex-grow-1">
+                <li class="nav-item">
+                    <a href="/" class="nav-link active" aria-current="page">
+                        Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="/Products" class="nav-link link-dark">
+                        Products
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Index">Account</a>
+                </li>
+                <li>
+                    <a href="/Home/Privacy" class="nav-link link-dark">
+                        Privacy
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="https://github.com/Stianjp/Webapplikasjon-Eksamen/tree/main/Sub-App-1" target="_blank">GitHub</a>
+                </li>
+            </navbar-nav>
+            <!-- Log out button -->
+            <hr>
+            <a href="#" class="d-flex align-items-center text-dark text-decoration-none">
+                Log out
+            </a>
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <div class="flex-grow-1 p-4" style="margin-left: 250px;">
+        <h1>Welcome, @User.Identity.Name!</h1> <!-- @User.Identity.Name vil hente brukernavn hvis brukeren er logget inn -->
+        <p>You are currently logged in.</p>
+    </div>
+
+
+
+
+
+<!--
+
+            <li>
+                <a href="
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Sub_App_1</a>
@@ -36,7 +95,8 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    -->
+    <div class="flex-grow-1 p-4" style="margin-left: 250px;">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

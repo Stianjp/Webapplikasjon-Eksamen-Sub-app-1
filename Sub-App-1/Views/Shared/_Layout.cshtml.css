@@ -11,6 +11,15 @@ a {
   color: #0077cc;
 }
 
+#sidebar{
+  position: fixed;
+  top:0;
+  bottom: 0;
+}
+.mt-auto {
+  margin-top: auto;
+}
+
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
