@@ -4,15 +4,18 @@ using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Sub_App_1.Data;
 using Sub_App_1.Models;
 
 public class AccountController : Controller {
     private readonly ApplicationDbContext _context;
+    private readonly IPasswordHasher<User> _passwordHasher;
 
     public AccountController(ApplicationDbContext context) {
         _context = context;
+        _passwordHasher = new PasswordHasher<User>();
     }
 
     // /Account/Index
@@ -32,8 +35,10 @@ public class AccountController : Controller {
             return View("Index");
         }
 
-        // TODO: proper password hashing and verification
-        if (user.Password != password) {
+        // verify the password using password hasher
+        var pwd_verification_result = _passwordHasher.VerifyHashedPassword(user, user.Password, password);
+        
+        if (pwd_verification_result != PasswordVerificationResult.Success) {
             ViewBag.Error = "Invalid username or password.";
             return View("Index");
         }
@@ -64,9 +69,11 @@ public class AccountController : Controller {
         // Create a new User object with the provided information
         var user = new User {
             Username = username,
-            Password = password,  // TODO: HASHING !!
-            AccountType = Enum.Parse<AccountType>(accountType)
+            AccountType = Enum.Parse<AccountType>(accountType),
         };
+        // have to set the password after creating the user object, as we need the user object.
+        user.Password = _passwordHasher.HashPassword(user, password);
+
         // Add the new user to the database context
         _context.Users.Add(user);
         // Save changes to the database asynchronously
