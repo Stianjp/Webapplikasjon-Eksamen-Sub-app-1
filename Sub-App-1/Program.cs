@@ -4,6 +4,11 @@ using Sub_App_1.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Logging
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddDebug();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -21,6 +26,21 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     options.Cookie.Name = "SubApp1_Auth_Cookie"; // todo: Unique cookie name subject to change (or are we calling it this?)
     options.ExpireTimeSpan = TimeSpan.FromMinutes(60); // how long should the user stay logged in.
     options.SlidingExpiration = true; // if the user interacts with the server in this timespan, the timer refreshes so the user stays logged in.
+});
+
+builder.Services.AddHttpsRedirection(options =>
+{
+    options.RedirectStatusCode = StatusCodes.Status308PermanentRedirect;
+    options.HttpsPort = 7041; // Hardcoded port taken from launchSettings.json
+});
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenLocalhost(5289); // HTTP port - hardcoded from launchSettings.json
+    options.ListenLocalhost(7041, listenOptions =>
+    {
+        listenOptions.UseHttps(); // HTTPS port - hardcoded from launchSettings.json
+    });
 });
 
 var app = builder.Build();
