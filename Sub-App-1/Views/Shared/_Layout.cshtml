@@ -57,8 +57,13 @@
 
     <!-- Main content -->
     <div class="flex-grow-1 p-4" style="margin-left: 250px;">
-        <h1>Welcome, @User.Identity.Name!</h1> <!-- @User.Identity.Name vil hente brukernavn hvis brukeren er logget inn -->
-        <p>You are currently logged in.</p>
+        @if (User.Identity.IsAuthenticated) {
+            <h1>Welcome, @User.Identity.Name!</h1>
+            <p>You are currently logged in.</p>
+        } else {
+            <h1>Hello there!</h1>
+            <p>You are not currently logged in.</p>
+        }
     </div>
 
 

@@ -6,18 +6,19 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Logging
-builder.Logging.ClearProviders();
-builder.Logging.AddConsole();
-builder.Logging.AddDebug();
-
-Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateBootstrapLogger();
+// Use Serilog for logging.
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .CreateBootstrapLogger();
 
 builder.Host.UseSerilog((context, services, configuration) => configuration
     .ReadFrom.Configuration(context.Configuration)
     .ReadFrom.Services(services)
     .Enrich.FromLogContext()
     .WriteTo.Console());
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -26,14 +27,17 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add password complexity.
-builder.Services.Configure<IdentityOptions>(options => {
+// Have to properly implement ASP.NET Core Identity - or continue with manual approach.
+// TODO: Research approprate solution
+
+/*builder.Services.Configure<IdentityOptions>(options => {
     options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
     options.Password.RequireNonAlphanumeric = true;
     options.Password.RequireUppercase = true;
     options.Password.RequiredLength = 8;
     options.Password.RequiredUniqueChars = 1;
-});
+});*/
 
 // Add cookie authentification (Todo: test)
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => {
@@ -48,19 +52,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     options.SlidingExpiration = true; // if the user interacts with the server in this timespan, the timer refreshes so the user stays logged in.
 });
 
-builder.Services.AddHttpsRedirection(options =>
-{
-    options.RedirectStatusCode = StatusCodes.Status308PermanentRedirect;
-    options.HttpsPort = 7041; // Hardcoded port taken from launchSettings.json
-});
-
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.ListenLocalhost(5289); // HTTP port - hardcoded from launchSettings.json
-    options.ListenLocalhost(7041, listenOptions =>
-    {
-        listenOptions.UseHttps(); // HTTPS port - hardcoded from launchSettings.json
-    });
+builder.WebHost.ConfigureKestrel((context, options) => {
+    options.Configure(context.Configuration.GetSection("Kestrel"));
 });
 
 var app = builder.Build();

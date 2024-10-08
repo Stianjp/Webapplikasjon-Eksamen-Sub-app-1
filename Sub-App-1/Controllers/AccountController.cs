@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 using Sub_App_1.Data;
 using Sub_App_1.Models;
 
+/*
+* TODO: Consider using ASP.NET Core Identity instead.
+*/ 
 public class AccountController : Controller {
     private readonly ApplicationDbContext _context;
     private readonly IPasswordHasher<User> _passwordHasher;
