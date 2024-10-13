@@ -11,6 +11,7 @@ using Sub_App_1.Models;
 
 /*
 * TODO: Consider using ASP.NET Core Identity instead.
+* Oppdatere Index til Accountindex på grunn av rename av cshtml filen 
 */ 
 public class AccountController : Controller {
     private readonly ApplicationDbContext _context;
