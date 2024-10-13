@@ -4,6 +4,8 @@
   box-sizing: border-box;
 }
 
+/*Navbar */
+
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -16,31 +18,58 @@ a.navbar-brand {
   z-index: 1030;
 }
 
-li {
-  padding: 10px;
-}
-
 
 /* Sidebar styles */
 .sidebar{
-  background-color: var(--bs-dark) !important;
   width: 240px; 
   height: 100vh; 
   position: fixed;
-  top: 45px;
+  top: 56px;
   bottom:0;
-  /*padding-top: 20%; /* Juster for å gi litt avstand til toppen */
-
 }
 
+.sidebar nav {
+  padding-top: 20px;
+}
+
+.sidebar li {
+  padding: 10px;
+}
+
+/* Her kan en bruke fargene fra customdesign.css hvis man vil ved å skrive f.eks. background-color: bg-gray-100; se custom.css */
+.nav-link {
+  color: #212529; /* Standard tekstfarge */
+}
+
+.nav-link:hover {
+  background-color: #e9ecef; /* Lys grå bakgrunn ved hover */
+  color: #0056b3; /* Mørkere blå tekst ved hover */
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-link.active {
+  background-color: #007bff; /* Blå bakgrunn for aktiv lenke  */
+  color: #fff; /* Hvit tekst for aktiv lenke */
+  border-radius: 4px;
+}
+
+.nav-link.active:hover {
+  background-color: #0056b3; /* Mørkere blå ved hover på aktiv lenke */
+  color: #fff;
+  border-radius: 4px;
+}
 
 /* Main innhold styles */
 .main-content {
   margin-left: 240px; /* Forskyver innholdet til siden */
   padding: 20px;
+  
 
 }
 
+
+/* Footer hvis nødvendig */
 .footer {
   position: absolute;
   bottom: 0;

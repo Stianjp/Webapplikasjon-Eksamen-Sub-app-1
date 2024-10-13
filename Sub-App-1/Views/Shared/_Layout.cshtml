@@ -5,25 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Sub_App_1</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/css/customdesign.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    
 </head>
 <body>
 <header>
     <!-- Navbar -->
-    <nav class="navbar-nav p-1 mb-1 bg-primary text-white d-flex justify-content-between box-shadow">
-        <a class="navbar-brand">Logo</a> <!-- Sett inn logo som <img>-tag om ønskelig -->
-        <div class="d-flex align-items-center">
-            <span class="navbar-text mr-3 p-1">Bruker: @User.Identity.Name</span>
-            <!-- Profilbilde (fjern hvis unødvendig) -->
-            <img class="rounded-circle profile-picture" src="path/to/profile-picture.png" alt="Profile">
-        </div>
+    <nav class="navbar bg-gray-100 d-flex justify-content-between px-4 shadow-sm">
+            <span class="navbar-brand text-bg-dark">FoodStack</span> <!-- Her kan du legge inn logoen som en <img>-tag -->
+            <div class="d-flex align-items-center">
+                <span class="navbar-text md-3">Bruker:  @User.Identity.Name</span>
+                <!-- Fjern img-taggen hvis du ikke trenger profilbildet -->
+                <img src="path/to/profile-picture.png" alt="Profile" class="rounded-circle" style="width: 30px; height: 30px;">
+            </div>
     </nav>
 
     <!-- Sidebar -->
-    <div class="sidebar mb-auto d-flex flex-column bg-info">
-        <ul class="nav flex-column nav-pills nav-fill ">
+    <div class="sidebar mb-auto d-flex flex-column bg-gray-200 px-2 shadow-sm">
+        <div class="nav flex-column nav-pills nav-fill ">
             <li class="nav-item ">
-                <a class="nav-link active" href="/" aria-current="page">Dashboard</a>
+                <a class="nav-link active rounded" href="/" aria-current="page"><img src="path/to/house.png" alt="Hjem til Dashboard icon hus">Dashboard</a>
             </li>
             <li class="nav-item ">
                 <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Products">Products</a>
@@ -32,16 +34,20 @@
                 <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Index">Account</a>
             </li>
             <li class="nav-item ">
-                <a href="/Home/Privacy" class="nav-link">Privacy</a>
+                <a href="/Home/Privacy" class="nav-link"><i class="bi bi-house-door"></i>Privacy</a>
             </li>
-        
+         </div>
         <!-- Log out button -->
-            <li class="nav-item justif">
-                <button class="btn btn-link">Log out</button>
+        <hr>
+        <div class="logut">
+            <li class="nav-item">
+                <button class=" nav-link rounded d-flex btn btn-primary text-decoration-none"><i class="bi bi-house-door"></i>Log out</button>
             </li>
-        </ul>
+        </div>
     </div>
 </header>
+
+
 
 <!-- Main content -->
 <div class="main-content">
