@@ -11,32 +11,32 @@
 <header>
     <!-- Navbar -->
     <nav class="navbar-nav p-1 mb-1 bg-primary text-white d-flex justify-content-between box-shadow">
-        <a class="navbar-brand p-1">Logo</a> <!-- Sett inn logo som <img>-tag om ønskelig -->
+        <a class="navbar-brand">Logo</a> <!-- Sett inn logo som <img>-tag om ønskelig -->
         <div class="d-flex align-items-center">
             <span class="navbar-text mr-3 p-1">Bruker: @User.Identity.Name</span>
             <!-- Profilbilde (fjern hvis unødvendig) -->
-            <img src="path/to/profile-picture.png" alt="Profile" class="rounded-circle profile-picture">
+            <img class="rounded-circle profile-picture" src="path/to/profile-picture.png" alt="Profile">
         </div>
     </nav>
 
     <!-- Sidebar -->
     <div class="sidebar mb-auto d-flex flex-column bg-info">
-        <ul class="nav flex-column nav-pills nav-fill">
-            <li class="nav-item align-items-left">
+        <ul class="nav flex-column nav-pills nav-fill ">
+            <li class="nav-item ">
                 <a class="nav-link active" href="/" aria-current="page">Dashboard</a>
             </li>
-            <li class="nav-item align-items-center">
+            <li class="nav-item ">
                 <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Products">Products</a>
             </li>
-            <li class="nav-item align-items-left">
+            <li class="nav-item ">
                 <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Index">Account</a>
             </li>
-            <li class="nav-item align-items-left">
+            <li class="nav-item ">
                 <a href="/Home/Privacy" class="nav-link">Privacy</a>
             </li>
         
         <!-- Log out button -->
-            <li class="nav-item align-items-left">
+            <li class="nav-item justif">
                 <button class="btn btn-link">Log out</button>
             </li>
         </ul>
@@ -73,34 +73,3 @@
 </body>
 </html>
 
-<!--
-
-            <li>
-                <a href="
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Sub_App_1</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Index">Account</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" href="https://github.com/Stianjp/Webapplikasjon-Eksamen/tree/main/Sub-App-1" target="_blank">GitHub</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    -->
