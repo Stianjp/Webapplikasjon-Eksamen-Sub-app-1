@@ -5,10 +5,25 @@
 
 /* sidebar */
 .bg-gray-200 {
-    background-color: #e2e6ea; 
+    background-color: #E2E7F0; 
   }
 
 /* navbar */
 .bg-gray-100 {
-    background-color: #e5ebf2;
+    background-color: #EDF0F7;
+  }
+
+  /* primærfarge 
+  .bg-green-600 {
+    background-color: #27A74B;
+  }
+    */
+
+  /* text-farge */
+  .bg-text-dark {
+    color: #2D3648; 
+  }
+
+  .bg-text-light{
+    color:white;
   }

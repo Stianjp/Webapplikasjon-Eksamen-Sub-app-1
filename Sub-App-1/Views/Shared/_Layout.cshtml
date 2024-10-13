@@ -13,7 +13,7 @@
 <header>
     <!-- Navbar -->
     <nav class="navbar bg-gray-100 d-flex justify-content-between px-4 shadow-sm">
-            <span class="navbar-brand text-bg-dark">FoodStack</span> <!-- Her kan du legge inn logoen som en <img>-tag -->
+            <span class="navbar-brand text-dark">FoodStack</span> <!-- Her kan du legge inn logoen som en <img>-tag -->
             <div class="d-flex align-items-center">
                 <span class="navbar-text md-3">Bruker:  @User.Identity.Name</span>
                 <!-- Fjern img-taggen hvis du ikke trenger profilbildet -->
@@ -22,25 +22,30 @@
     </nav>
 
     <!-- Sidebar -->
-    <div class="sidebar mb-auto d-flex flex-column bg-gray-200 px-2 shadow-sm">
-        <div class="nav flex-column nav-pills nav-fill ">
+    <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-gray-200 text-bg-dark shadow-sm">
+        <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item ">
-                <a class="nav-link bg-success text-white active" href="/" aria-current="page"><img src="~/icons/gauge-solid.svg">Dashboard</a>
+                <a class="nav-link bg-success text-light active" href="/" aria-current="page">
+                    <img src="~/icons/gauge-solid.svg"> Dashboard </a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Products"><img src="~/icons/bowl-food-solid.svg">Products</a>
+                <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Products">
+                    <img src="~/icons/bowl-food-solid.svg"> Products </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Accountindex"><img src="~/icons/gear-solid.svg">Account</a>
+                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Accountindex">
+                    <img src="~/icons/gear-solid.svg"> Account </a>
             </li>
             <li class="nav-item ">
-                <a href="/Home/Privacy" class="nav-link"><img src="~/icons/bowl-food-solid.svg">Privacy</a>
+                <a href="/Home/Privacy" class="nav-link">
+                <img src="~/icons/bowl-food-solid.svg">Privacy</a>
             </li>
-         </div>
+         </ul>
         <!-- Log out button -->
         <hr>
         <div class="logut">
-            <button class=" nav-link align-items-center d-flex bg-success btn btn-success text-decoration-none"><img src="~/icons/right-to-bracket-solid.svg">Log out</button>
+            <a href="#" class="d-flex align-items-center text-dark text-decoration-none">
+                <img src="~/icons/right-to-bracket-solid.svg"> Log out </a>
         </div>
     </div>
 </header>
