@@ -1,3 +1,12 @@
+/* I denne css skal bare global styling ligge. 
+* Her kan en bruke fargene fra customdesign.css eller andre css variabler for en et gjennomgående UI desifgn hvis man vil
+*f.eks. background-color: bg-gray-100; se customdesign.css
+*TO DO
+* Oppdatere hover links og farger
+* Endre på fargen til iconer svg. 
+*/
+
+
 * {
   padding: 0;
   margin: 0;
@@ -36,35 +45,40 @@ a.navbar-brand {
   padding: 10px;
 }
 
-/* Her kan en bruke fargene fra customdesign.css hvis man vil ved å skrive f.eks. background-color: bg-gray-100; se custom.css */
 .nav-link {
   color: #212529; /* Standard tekstfarge */
 }
 
 .nav-link:hover {
-  background-color: #e9ecef; /* Lys grå bakgrunn ved hover */
-  color: #0056b3; /* Mørkere blå tekst ved hover */
+  background-color: #d4edda; /* Lys grønn bakgrunn ved hover */
+  color: #28a745; /* Grønn tekst ved hover */
   border-radius: 4px;
   transition: background-color 0.3s, color 0.3s;
 }
 
 .nav-link.active {
-  background-color: #007bff; /* Blå bakgrunn for aktiv lenke  */
+  background-color: #28a745; /* Grønn bakgrunn for aktiv lenke */
   color: #fff; /* Hvit tekst for aktiv lenke */
   border-radius: 4px;
 }
 
 .nav-link.active:hover {
-  background-color: #0056b3; /* Mørkere blå ved hover på aktiv lenke */
+  background-color: #2eb44b; /* Mørkere grønn ved hover på aktiv lenke */
   color: #fff;
   border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar img{
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
 }
 
 /* Main innhold styles */
 .main-content {
   margin-left: 240px; /* Forskyver innholdet til siden */
   padding: 20px;
-  
 
 }
 

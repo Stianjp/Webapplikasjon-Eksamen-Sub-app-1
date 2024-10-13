@@ -17,7 +17,7 @@
             <div class="d-flex align-items-center">
                 <span class="navbar-text md-3">Bruker:  @User.Identity.Name</span>
                 <!-- Fjern img-taggen hvis du ikke trenger profilbildet -->
-                <img src="path/to/profile-picture.png" alt="Profile" class="rounded-circle" style="width: 30px; height: 30px;">
+                <img src="~/icons/user-solid.svg" alt="Profile" class="rounded-circle" style="width: 30px; height: 30px;">
             </div>
     </nav>
 
@@ -25,24 +25,22 @@
     <div class="sidebar mb-auto d-flex flex-column bg-gray-200 px-2 shadow-sm">
         <div class="nav flex-column nav-pills nav-fill ">
             <li class="nav-item ">
-                <a class="nav-link active bg-" href="/" aria-current="page"><img src="path/to/house.png" alt="Hjem til Dashboard icon hus">Dashboard</a>
+                <a class="nav-link bg-success text-white active" href="/" aria-current="page"><img src="~/icons/gauge-solid.svg">Dashboard</a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Products">Products</a>
+                <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Products"><img src="~/icons/bowl-food-solid.svg">Products</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Accountindex">Account</a>
+                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Accountindex"><img src="~/icons/gear-solid.svg">Account</a>
             </li>
             <li class="nav-item ">
-                <a href="/Home/Privacy" class="nav-link"><i class="bi bi-house-door"></i>Privacy</a>
+                <a href="/Home/Privacy" class="nav-link"><img src="~/icons/bowl-food-solid.svg">Privacy</a>
             </li>
          </div>
         <!-- Log out button -->
         <hr>
         <div class="logut">
-            <li class="nav-item">
-                <button class=" nav-link align-items-center d-flex btn btn-primary text-decoration-none"><i class="bi bi-house-door"></i>Log out</button>
-            </li>
+            <button class=" nav-link align-items-center d-flex bg-success btn btn-success text-decoration-none"><img src="~/icons/right-to-bracket-solid.svg">Log out</button>
         </div>
     </div>
 </header>
