@@ -2,7 +2,7 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
+<div class="main-content">
     @if(User.Identity != null && User.Identity.IsAuthenticated) {
         <p>Welcome, @User.Identity.Name! You are logged in.</p>
         <!-- Add more content for logged-in users here (TODO: FRONT END) -->

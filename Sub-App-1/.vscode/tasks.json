@@ -1,0 +1,15 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "msbuild",
+			"problemMatcher": [
+				"$msCompile"
+			],
+			"group": "build",
+			"label": "Build: Sub-App-1.csproj",
+			"detail": "Build the Sub-App-1.csproj project using dotnet build"
+		}
+	]
+}
+

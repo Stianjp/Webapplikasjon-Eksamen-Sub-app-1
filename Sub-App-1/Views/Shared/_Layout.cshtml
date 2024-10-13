@@ -4,71 +4,74 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Sub_App_1</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Sub_App_1.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <!-- Navbar -->
-        <nav class="navbar navbar-light bg-light d-flex justify-content-between px-4 shadow" style="z-index: 1000; width: 100%;">
-            <a class="navbar-brand">Logo</a> <!-- Her kan du legge inn logoen som en <img>-tag -->
-            <div class="d-flex align-items-center">
-                <span class="navbar-text mr-3">Bruker: @User.Identity.Name</span>
-                <!-- Fjern img-taggen hvis du ikke trenger profilbildet -->
-                <img src="path/to/profile-picture.png" alt="Profile" class="rounded-circle" style="width: 30px; height: 30px;">
-            </div>
-
-        </nav>
-
-        <!-- Sidebar -->
-        <div id="sidebar" class="d-flex flex-shrink-0 p-3 bg-light nav nav-pills flex-column mb-auto navbar-collapse collapse d-sm-inline-flex justify-content-between" style="width: 250px; height: 100vh; position: fixed;">
-            <hr>
-            <ul class="navbar-nav flex-grow-1">
-                <li class="nav-item">
-                    <a href="/" class="nav-link active" aria-current="page">
-                        Dashboard
-                    </a>
-                </li>
-                <li>
-                    <a href="/Products" class="nav-link link-dark">
-                        Products
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Index">Account</a>
-                </li>
-                <li>
-                    <a href="/Home/Privacy" class="nav-link link-dark">
-                        Privacy
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="https://github.com/Stianjp/Webapplikasjon-Eksamen/tree/main/Sub-App-1" target="_blank">GitHub</a>
-                </li>
-            </navbar-nav>
-            <!-- Log out button -->
-            <hr>
-            <a href="#" class="d-flex align-items-center text-dark text-decoration-none">
-                Log out
-            </a>
+<header>
+    <!-- Navbar -->
+    <nav class="navbar-nav p-1 mb-1 bg-primary text-white d-flex justify-content-between box-shadow">
+        <a class="navbar-brand p-1">Logo</a> <!-- Sett inn logo som <img>-tag om ønskelig -->
+        <div class="d-flex align-items-center">
+            <span class="navbar-text mr-3 p-1">Bruker: @User.Identity.Name</span>
+            <!-- Profilbilde (fjern hvis unødvendig) -->
+            <img src="path/to/profile-picture.png" alt="Profile" class="rounded-circle profile-picture">
         </div>
-    </header>
+    </nav>
 
-    <!-- Main content -->
-    <div class="flex-grow-1 p-4" style="margin-left: 250px;">
-        @if (User.Identity.IsAuthenticated) {
-            <h1>Welcome, @User.Identity.Name!</h1>
-            <p>You are currently logged in.</p>
-        } else {
-            <h1>Hello there!</h1>
-            <p>You are not currently logged in.</p>
-        }
+    <!-- Sidebar -->
+    <div class="sidebar mb-auto d-flex flex-column bg-info">
+        <ul class="nav flex-column nav-pills nav-fill">
+            <li class="nav-item align-items-left">
+                <a class="nav-link active" href="/" aria-current="page">Dashboard</a>
+            </li>
+            <li class="nav-item align-items-center">
+                <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Products">Products</a>
+            </li>
+            <li class="nav-item align-items-left">
+                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Index">Account</a>
+            </li>
+            <li class="nav-item align-items-left">
+                <a href="/Home/Privacy" class="nav-link">Privacy</a>
+            </li>
+        
+        <!-- Log out button -->
+            <li class="nav-item align-items-left">
+                <button class="btn btn-link">Log out</button>
+            </li>
+        </ul>
     </div>
+</header>
+
+<!-- Main content -->
+<div class="main-content">
+    @if (User.Identity.IsAuthenticated) {
+        <h1>Welcome, @User.Identity.Name!</h1>
+        <p>You are currently logged in.</p>
+    } else {
+        <h1>Hello there!</h1>
+        <p>You are not currently logged in.</p>
+    }
+        @RenderBody()
+</div>
 
 
 
+<!-- Footer -->
+<footer class="border-top footer text-muted">
+    <!-- Footer content kan legges til her om nødvendig -->
+     @* <div class="container">
+            &copy; 2024 - Sub_App_1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div> *@
+</footer>
 
+<!-- Scripts -->
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
 
 <!--
 
@@ -101,20 +104,3 @@
         </nav>
     </header>
     -->
-    <div class="flex-grow-1 p-4" style="margin-left: 250px;">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        @* <div class="container">
-            &copy; 2024 - Sub_App_1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div> *@
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
-</body>
-</html>
