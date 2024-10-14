@@ -8,6 +8,11 @@
         <!-- Add more content for logged-in users here (TODO: FRONT END) -->
     } else {
         <!-- Todo: FRONT END -->
-        <p>You need to login to use this web application. <a asp-area="" asp-controller="Account" asp-action="Index">Click here to login or register.</a></p>
+        <div class="background-not-logged-in">
+            <div class="text-overlay">
+                <h1>Hello there!</h1>
+                <p>You need to login to use this web application. <a asp-area="" asp-controller="Account" asp-action="Accountindex">Click here to login or register.</a></p></div>
+        
+            </div>
     }
 </div>

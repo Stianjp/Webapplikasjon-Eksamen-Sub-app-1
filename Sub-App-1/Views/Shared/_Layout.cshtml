@@ -25,19 +25,19 @@
     <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-gray-200 text-bg-dark shadow-sm">
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item ">
-                <a class="nav-link bg-success text-light active" href="/" aria-current="page">
+                <a class="nav-link bg-success text-light active" asp-controller="Home" asp-action="Index">
                     <img src="~/icons/gauge-solid.svg"> Dashboard </a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Products">
+                <a class="nav-link" asp-controller="Products" asp-action="Productsindex">
                     <img src="~/icons/bowl-food-solid.svg"> Products </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Accountindex">
+                <a class="nav-link" asp-controller="Account" asp-action="Accountindex">
                     <img src="~/icons/gear-solid.svg"> Account </a>
             </li>
             <li class="nav-item ">
-                <a href="/Home/Privacy" class="nav-link">
+                <a class="nav-link" asp-controller="Home" asp-action="Privacy">
                 <img src="~/icons/bowl-food-solid.svg">Privacy</a>
             </li>
          </ul>
@@ -51,18 +51,18 @@
 </header>
 
 
-
+<!-- Dette er lim felles så her kan det ikke stå -->
 <!-- Main content -->
 <div class="main-content">
-    @if (User.Identity.IsAuthenticated) {
+   <!-- @if (User.Identity.IsAuthenticated) {
         <h1>Welcome, @User.Identity.Name!</h1>
         <p>You are currently logged in.</p>
     } else {
         <h1>Hello there!</h1>
         <p>You are not currently logged in.</p>
-    }
+    }-->
         @RenderBody()
-</div>
+</div> 
 
 
 

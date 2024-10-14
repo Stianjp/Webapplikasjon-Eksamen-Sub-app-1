@@ -29,7 +29,7 @@ a.navbar-brand {
 
 /* Sidebar styles */
 .sidebar{
-  width: 240px; 
+  width: 15%; 
   height: 100vh; 
   position: fixed;
   top: 0;
@@ -76,9 +76,30 @@ a.navbar-brand {
 
 /* Main innhold styles */
 .main-content {
-  margin-left: 240px; /* Forskyver innholdet til siden */
+  margin-left: 15%; /* Forskyver innholdet til siden */
   padding: 20px;
 
+}
+
+/* Not logged in styles */
+.background-not-logged-in {
+  background-image: url('/Pictures/testBildeDashboard.png');
+  background-size: cover;
+  height: 100vh; /* Full viewport height */
+  display: flex;
+  margin-left:-20%; /*Må endres til en bedre måte å gjøre dette på*/
+  align-items: center;
+}
+
+.text-overlay {
+  background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+.text-overlay a {
+  color: white;
 }
 
 
