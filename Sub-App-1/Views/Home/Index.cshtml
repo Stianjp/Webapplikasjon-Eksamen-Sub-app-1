@@ -8,6 +8,7 @@
         <h2>Welcome, @User.Identity.Name!</h2>
         <p>You are logged in.</p>
         <button class="btn btn-success text-light"><img src="~/icons/pluss-solid.svg">Add new product</button>
+        <form asp-action="Logout" method="post"><button type="submit" class="btn btn-danger">Logout</button></form>
         
         <!-- Add more content for logged-in users here (TODO: FRONT END) -->
 
@@ -15,12 +16,11 @@
     } else {
         <!-- Todo: FRONT END -->
         <!-- Bilde av dashboard for vanlig bruker -->
-        <img id="overlay" scr="~/images/.jpg">
-        
-    <!-- Tekst blir liggende over, bilde får blure i css filen for layout kan hende en skal lage en egen etterhvert -->
-        <div class="overlay">
-             <p>You need to login to use this web application. <a asp-area="" asp-controller="Account" asp-action="Index">Click here to login or register.</a></p>
+       <div class="background-not-logged-in">
+            <div class="text-overlay">
+                <h1>Hello there!</h1>
+                <p>You need to login to use this web application. <a asp-area="" asp-controller="Account" asp-action="Index">Click here to login or register.</a></p></div>
         </div>
 
-      }  
+    }  
 </div>

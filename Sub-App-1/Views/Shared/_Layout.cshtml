@@ -23,28 +23,30 @@
     <!-- Sidebar -->
     <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-gray-200 text-bg-dark shadow-sm">
         <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item ">
-                <a class="nav-link bg-success text-light active" href="/" aria-current="page">
-                    <img src="~/icons/gauge-solid.svg"/> Dashboard </a>
+             <li class="nav-item ">
+                <a class="nav-link bg-success text-light active" asp-controller="Home" asp-action="Index">
+                    <img src="~/icons/gauge-solid.svg"> Dashboard </a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Products">
-                    <img src="~/icons/bowl-food-solid.svg"/> Products </a>
+                <a class="nav-link" asp-controller="Products" asp-action="Productsindex">
+                    <img src="~/icons/bowl-food-solid.svg"> Products </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Accountindex">
-                    <img src="~/icons/gear-solid.svg"/> Account </a>
+                <a class="nav-link" asp-controller="Account" asp-action="Index">
+                    <img src="~/icons/gear-solid.svg"> Account </a>
             </li>
             <li class="nav-item ">
-                <a href="/Home/Privacy" class="nav-link">
-                <img src="~/icons/bowl-food-solid.svg"/>Privacy</a>
+                <a class="nav-link" asp-controller="Home" asp-action="Privacy">
+                <img src="~/icons/bowl-food-solid.svg">Privacy</a>
             </li>
          </ul>
         <!-- Log out button -->
         <hr>
         <div class="logut">
             <a href="#" class="d-flex align-items-center text-dark text-decoration-none">
-                <img src="~/icons/right-to-bracket-solid.svg"/> Log out</a>
+                <form asp-action="Logout" method="post"><button type="submit" class="btn btn-success">
+                    <img src="~/icons/right-to-bracket-solid.svg"/>Logout</button></form>
+            </a>
         </div>
     </div>
 </header>

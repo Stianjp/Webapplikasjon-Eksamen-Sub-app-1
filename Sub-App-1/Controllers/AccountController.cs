@@ -23,7 +23,7 @@ public class AccountController : Controller {
     }
 
     // /Account/Index
-    public IActionResult Accountindex() {
+    public IActionResult Index() {
         return View();
     }
 

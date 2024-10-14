@@ -87,8 +87,7 @@ a.navbar-brand {
   background-image: url('/Pictures/testBildeDashboard.png');
   background-size: cover;
   height: 100vh; /* Full viewport height */
-  display: flex;
-  margin-left:-20%; /*Må endres til en bedre måte å gjøre dette på*/
+  display: flex; /*Må endres til en bedre måte å gjøre dette på*/
   align-items: center;
 }
 
