@@ -76,8 +76,9 @@ a.navbar-brand {
 
 /* Main innhold styles */
 .main-content {
-  margin-left: 15%; /* Forskyver innholdet til siden */
-  padding: 20px;
+  margin-left: 240px; /* Forskyver innholdet til siden */
+  height: auto;
+  padding: 2rem;
 
 }
 
