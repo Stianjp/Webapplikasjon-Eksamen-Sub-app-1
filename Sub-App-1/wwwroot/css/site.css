@@ -29,7 +29,7 @@ a.navbar-brand {
 
 /* Sidebar styles */
 .sidebar{
-  width: 15%; 
+  width: 240px; 
   height: 100vh; 
   position: fixed;
   top: 0;
