@@ -11,53 +11,80 @@
 <body>
 <header>
     <!-- Navbar -->
-    <nav class="navbar bg-gray-100 d-flex justify-content-between px-4 shadow-sm">
-            <span class="navbar-brand text-dark">FoodStack</span> <!-- Her kan du legge inn logoen som en <img>-tag -->
-            <div class="d-flex align-items-center">
-                <span class="navbar-text md-3">Bruker:  @User.Identity.Name</span>
-                <!-- Fjern img-taggen hvis du ikke trenger profilbildet -->
-                <img src="~/icons/user-solid.svg" alt="Profile" class="rounded-circle" style="width: 30px; height: 30px;">
-            </div>
-    </nav>
+    
 
     <!-- Sidebar -->
           <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-gray-200 text-bg-dark shadow-sm">
+            <span class="navbar-brand text-dark">FoodStack</span> <!-- Her kan du legge inn logoen som en <img>-tag -->
+            <hr>
             <ul class="nav nav-pills flex-column mb-auto">
-              <li class="nav-item">
-                  <a class="nav-link @(ViewContext.RouteData.Values["controller"].ToString() == "Home" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "bg-success text-light active" : "")" 
-                    asp-controller="Home" asp-action="Index">
-                     <img src="~/icons/gauge-solid.svg"> Dashboard
-                 </a>
-             </li>
-             <li class="nav-item">
-                 <a class="nav-link @(ViewContext.RouteData.Values["controller"].ToString() == "Products" && ViewContext.RouteData.Values["action"].ToString() == "Productsindex" ? "bg-success text-light active" : "")" 
-                    asp-controller="Products" asp-action="Productsindex">
-                     <img src="~/icons/bowl-food-solid.svg"> Products
-                 </a>
-             </li>
-             <li class="nav-item">
-                 <a class="nav-link @(ViewContext.RouteData.Values["controller"].ToString() == "Account" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "bg-success text-light active" : "")" 
-                    asp-controller="Account" asp-action="Index">
-                     <img src="~/icons/gear-solid.svg"> Account
-                 </a>
-             </li>
-             <li class="nav-item">
-                 <a class="nav-link @(ViewContext.RouteData.Values["controller"].ToString() == "Home" && ViewContext.RouteData.Values["action"].ToString() == "Privacy" ? "bg-success text-light active" : "")" 
-                    asp-controller="Home" asp-action="Privacy">
-                     <img src="~/icons/bowl-food-solid.svg"> Privacy
-                 </a>
-             </li>
+              @if (User.Identity.IsAuthenticated) {
+                <!-- Hvis brukeren er logget inn, vis normale knapper -->
+                <li class="nav-item">
+                    <a class="nav-link bg-success text-light" asp-controller="Home" asp-action="Index">
+                        <img src="~/icons/gauge-solid.svg"> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Products" asp-action="Productsindex">
+                        <img src="~/icons/bowl-food-solid.svg"> Products
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Account" asp-action="Index">
+                        <img src="~/icons/gear-solid.svg"> Account
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Home" asp-action="Privacy">
+                        <img src="~/icons/bowl-food-solid.svg"> Privacy
+                    </a>
+                </li>
+            } else {
+                <!-- Hvis brukeren ikke er logget inn, gjør knapper inaktive eller fjern href -->
+                <li class="nav-item">
+                    <a class="nav-link disabled" aria-disabled="true">
+                        <img src="~/icons/gauge-solid.svg"> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" aria-disabled="true">
+                        <img src="~/icons/bowl-food-solid.svg"> Products
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" aria-disabled="true">
+                        <img src="~/icons/gear-solid.svg"> Account
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" aria-disabled="true">
+                        <img src="~/icons/bowl-food-solid.svg"> Privacy
+                    </a>
+                </li>
+            }
             </ul>
-        </div>      
-        <!-- Log out button -->
-        <hr>
-        <div class="logut">
-            <a href="#" class="d-flex align-items-center text-dark text-decoration-none">
-                <form asp-action="Logout" method="post"><button type="submit" class="btn btn-success">
-                    <img src="~/icons/right-to-bracket-solid.svg"/>Logout</button></form>
-            </a>
+             
+            <!-- Log in button -->
+            <hr>
+            <div class="logut">
+            @if (!User.Identity.IsAuthenticated) {
+                <a class="d-flex align-items-center text-dark text-decoration-none">
+                    <form asp-controller="Account" asp-action="Index" method="get">
+                        <button type="submit" class="btn btn-success">
+                            <img src="~/icons/right-to-bracket-solid.svg"/> Logg inn
+                        </button>
+                    </form>
+                </a>
+            }else { <!-- Log out button -->
+                @if(User.Identity != null && User.Identity.IsAuthenticated) {
+                <form asp-action="Logout" method="post">
+                    <button type="submit" class="btn btn-danger">Logout</button><!-- Magnus; få denne til å funke, den skal gå tilbake til home view-->
+                </form>
+                }
+            }
+            </div>
         </div>
-    </div>
 </header>
 
 
