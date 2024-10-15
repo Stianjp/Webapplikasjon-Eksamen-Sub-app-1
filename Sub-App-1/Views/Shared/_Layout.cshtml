@@ -10,53 +10,44 @@
 </head>
 <body>
 <header>
-    <!-- Navbar -->
-    
-
     <!-- Sidebar -->
           <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-gray-200 text-bg-dark shadow-sm">
             <span class="navbar-brand text-dark">FoodStack</span> <!-- Her kan du legge inn logoen som en <img>-tag -->
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
-              @if (User.Identity.IsAuthenticated) {
-                <!-- Hvis brukeren er logget inn, vis normale knapper -->
                 <li class="nav-item">
-                    <a class="nav-link bg-success text-light" asp-controller="Home" asp-action="Index">
+                    <a class="nav-link" asp-controller="Home" asp-action="Index">
                         <img src="~/icons/gauge-solid.svg"> Dashboard
                     </a>
                 </li>
+              @if (User.Identity.IsAuthenticated) {
+                <!-- Hvis brukeren er logget inn, vis normale knapper -->
                 <li class="nav-item">
                     <a class="nav-link" asp-controller="Products" asp-action="Productsindex">
                         <img src="~/icons/bowl-food-solid.svg"> Products
                     </a>
                 </li>
+                }else{
+                    <li class="nav-item">
+                        <a class="nav-link disabled" aria-disabled="true">
+                            <img src="~/icons/bowl-food-solid.svg"> Products
+                        </a>
+                    </li>
+                }
                 <li class="nav-item">
                     <a class="nav-link" asp-controller="Account" asp-action="Index">
                         <img src="~/icons/gear-solid.svg"> Account
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-controller="Home" asp-action="Privacy">
-                        <img src="~/icons/bowl-food-solid.svg"> Privacy
-                    </a>
-                </li>
-            } else {
+                @if (User.Identity.IsAuthenticated) {
+                    <!-- Hvis brukeren er logget inn, vis normale knapper -->
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Privacy">
+                            <img src="~/icons/bowl-food-solid.svg"> Privacy
+                        </a>
+                    </li>
+                } else {
                 <!-- Hvis brukeren ikke er logget inn, gjør knapper inaktive eller fjern href -->
-                <li class="nav-item">
-                    <a class="nav-link disabled" aria-disabled="true">
-                        <img src="~/icons/gauge-solid.svg"> Dashboard
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" aria-disabled="true">
-                        <img src="~/icons/bowl-food-solid.svg"> Products
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" aria-disabled="true">
-                        <img src="~/icons/gear-solid.svg"> Account
-                    </a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link disabled" aria-disabled="true">
                         <img src="~/icons/bowl-food-solid.svg"> Privacy
