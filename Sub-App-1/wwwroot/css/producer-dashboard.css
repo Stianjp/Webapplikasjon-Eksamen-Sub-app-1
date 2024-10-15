@@ -1,0 +1,166 @@
+/* Resetter padding og margin */
+* {
+    padding: 0;
+    margin: 0;
+}
+
+/* Navbar */
+.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+    text-decoration: none;
+}
+
+.navbar {
+    width: 100%;
+    position: fixed;
+    z-index: 1030;
+}
+
+/* Sidebar styles */
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    background-color: #f8f9fa; /* Lys bakgrunn for sidebar */
+}
+
+.sidebar-header {
+    padding: 1rem;
+    text-align: center;
+}
+
+.sidebar-header img {
+    width: 100px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.nav-pills .nav-link {
+    color: #212529; /* Standard tekstfarge */
+}
+
+.nav-pills .nav-link:hover {
+    background-color: #d4edda; /* Lys grønn bakgrunn ved hover */
+    color: #28a745; /* Grønn tekst ved hover */
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #28a745; /* Grønn bakgrunn for aktiv lenke */
+    color: #fff; /* Hvit tekst for aktiv lenke */
+    border-radius: 4px;
+}
+
+.nav-pills .nav-link.active:hover {
+    background-color: #2eb44b; /* Mørkere grønn ved hover på aktiv lenke */
+    color: #fff;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Main content styles */
+.main-content {
+    margin-left: 240px;
+    padding: 2rem;
+}
+
+/* Header styles */
+.header-left img {
+    max-width: 150px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.header-right img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+/* Welcome section */
+.welcome-section {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+/* Product cards */
+.product-cards {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+}
+
+.product-cards .product-card {
+    width: 22%;
+    background-color: #f8f9fa;
+    padding: 1rem;
+    text-align: center;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.add-product {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-product:hover {
+    background-color: #0056b3;
+}
+
+/* Charts section */
+.charts-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3rem;
+}
+
+.chart {
+    width: 48%;
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+/* Footer */
+.footer {
+    background-color: #f8f9fa;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 1rem;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* Not logged in styles */
+.background-not-logged-in {
+    background-image: url('/Pictures/testBildeDashboard.png');
+    background-size: cover;
+    height: 100vh; /* Full viewport height */
+    display: flex;
+    align-items: center;
+}
+
+.text-overlay {
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.text-overlay a {
+    color: white;
+}

@@ -1,0 +1,39 @@
+@page
+@model DashboardModel
+@{
+    Layout = "~/Sub-App-1/Shared/_Layout.cshtml";  // Arver layouten
+    ViewData["Title"] = "Dashboard";
+}
+
+<section class="welcome-section text-center">
+    <h1>Welcome Tine AS</h1>
+    <p class="date">Dato: 10.08.2024</p>
+</section>
+
+<section class="recent-products my-5">
+    <h2>Siste matvarer lagt</h2>
+    <div class="product-cards row g-4">
+        @foreach (var product in Model.Products)
+        {
+            <div class="product-card col-md-3 bg-light text-center p-3">
+                <h3>@product.Name</h3>
+                <p>@product.Volume</p>
+                <p>Kategori: @product.Category</p>
+            </div>
+        }
+        <div class="product-card col-md-3 bg-primary text-white text-center p-3 add-product">
+            + Add new product
+        </div>
+    </div>
+</section>
+
+<section class="charts-section row g-4">
+    <div class="chart col-md-6 bg-light p-4">
+        <h3>Products based on category</h3>
+        <!-- Her kan vi legge inn et dynamisk diagram -->
+    </div>
+    <div class="chart col-md-6 bg-light p-4">
+        <h3>Antall sertifiseringer pr. produkt</h3>
+        <!-- Her kan vi legge inn sertifiseringsdiagram -->
+    </div>
+</section>

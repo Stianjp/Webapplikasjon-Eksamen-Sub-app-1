@@ -1,0 +1,87 @@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/producer-dashboard.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="d-flex flex-column flex-shrink-0 p-3 bg-light sidebar">
+        <div class="sidebar-header mb-4 text-center">
+            <img src="~/images/logo.png" alt="Logo" class="sidebar-logo mb-2">
+            <h2>FoodStack</h2>
+        </div>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Produkter</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Konto</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Personvern</a>
+            </li>
+        </ul>
+        <div class="mt-auto">
+            <a href="#" class="btn btn-danger w-100">Logg ut</a>
+        </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="main-content container-fluid">
+        <header class="d-flex justify-content-between align-items-center my-4">
+            <div class="header-left">
+                <img src="~/images/company-logo.png" alt="Company Logo" class="img-fluid">
+            </div>
+            <div class="header-right d-flex align-items-center">
+                <span class="me-3">Username</span>
+                <img src="~/images/user-logo.png" alt="User Logo" class="img-fluid rounded-circle">
+            </div>
+        </header>
+
+        <section class="welcome-section text-center">
+            <h1>Welcome Tine AS</h1>
+            <p class="date">Dato: 10.08.2024</p>
+        </section>
+
+        <section class="recent-products my-5">
+            <h2>Siste matvarer lagt</h2>
+            <div class="product-cards row g-4">
+                <!-- Dynamiske produktkort her -->
+                <div class="product-card col-md-3 bg-light text-center p-3">Name product</div>
+                <div class="product-card col-md-3 bg-light text-center p-3">Name product</div>
+                <div class="product-card col-md-3 bg-light text-center p-3">Name product</div>
+                <div class="product-card col-md-3 bg-primary text-white text-center p-3 add-product">+ Add new product</div>
+            </div>
+        </section>
+
+        <section class="charts-section row g-4">
+            <div class="chart col-md-6 bg-light p-4">
+                <h3>Products based on category</h3>
+                <!-- Legg inn diagrammer her -->
+            </div>
+            <div class="chart col-md-6 bg-light p-4">
+                <h3>Antall sertifiseringer pr. produkt</h3>
+                <!-- Legg inn sertifiseringsdiagram her -->
+            </div>
+        </section>
+
+        <footer class="footer text-center py-4">
+            <p>Body Medium tekst eller annen informasjon</p>
+        </footer>
+    </div>
+
+    <!-- Bootstrap JS og jQuery -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
