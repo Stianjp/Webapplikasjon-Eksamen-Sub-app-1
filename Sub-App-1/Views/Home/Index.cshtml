@@ -8,9 +8,15 @@
         <h2>Welcome, @User.Identity.Name!</h2>
         <p>You are logged in.</p>
         <button class="btn btn-success text-light"><img src="~/icons/pluss-solid.svg">Add new product</button>
-        <form asp-action="Logout" method="post"><button type="submit" class="btn btn-danger">Logout</button></form>
+        
+
         
         <!-- Add more content for logged-in users here (TODO: FRONT END) -->
+        <!-- Section for siste produkter lagt inn i tabell eventuetl utvide if setning til ulik bruker -->
+        <!-- Da vil innholdet her heller bli en vising til et view til Admin under Admin mappen i view eller annen annen bruker -->
+        <div class="card-container">
+
+        </div>
 
 
     } else {
