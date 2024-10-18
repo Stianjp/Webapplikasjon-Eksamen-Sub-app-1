@@ -7,10 +7,12 @@ using Sub_App_1.Models;
 public class AccountController : Controller {
     private readonly UserManager<IdentityUser> _userManager;
     private readonly SignInManager<IdentityUser> _signInManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
 
-    public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager) {
+    public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager) {
         _userManager = userManager;
         _signInManager = signInManager;
+        _roleManager =  roleManager;
     }
 
     // /Account/Index
@@ -38,19 +40,30 @@ public class AccountController : Controller {
 
     // /Account/Register
     [HttpPost]
-    public async Task<IActionResult> Register(string username, string password, AccountType accountType) {
+    public async Task<IActionResult> Register(string username, string password, string role) {
         if(string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)) {
             ModelState.AddModelError(string.Empty, "Username and password cannot be null or empty.");
             return View("Index", ModelState);
         }
 
-        var user = new User {
-            UserName = username,
-            AccountType = accountType
+        var user = new IdentityUser {
+            UserName = username
         };
         var result = await _userManager.CreateAsync(user, password); // create user (attempt)
-
-        if (result.Succeeded) {
+        
+        if(result.Succeeded) {
+            if(string.IsNullOrEmpty(role)) {
+                await _userManager.AddToRoleAsync(user, UserRoles.RegularUser); // default role
+            } else {
+                if(await _roleManager.RoleExistsAsync(role)) {
+                    await _userManager.AddToRoleAsync(user, role);
+                } else {
+                    ModelState.AddModelError(string.Empty, "Invalid role specified.");
+                    ViewBag.Error = "Error during registration.";
+                    return View("Index", ModelState);
+                }
+            }
+    
             await _signInManager.SignInAsync(user, isPersistent: false);
             return RedirectToAction("Index", "Home");   
         }

@@ -11,7 +11,7 @@ using Sub_App_1.Data;
 namespace Sub_App_1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241018134630_InitialCreate")]
+    [Migration("20241018151545_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -81,11 +81,6 @@ namespace Sub_App_1.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(13)
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
@@ -136,10 +131,6 @@ namespace Sub_App_1.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasDiscriminator().HasValue("IdentityUser");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -223,7 +214,9 @@ namespace Sub_App_1.Migrations
 
             modelBuilder.Entity("Sub_App_1.Models.Product", b =>
                 {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
                     b.Property<double>("Calories")
                         .HasColumnType("REAL");
@@ -249,9 +242,11 @@ namespace Sub_App_1.Migrations
                     b.Property<double>("Protein")
                         .HasColumnType("REAL");
 
+                    b.HasKey("Id");
+
                     b.HasIndex("ProducerId");
 
-                    b.HasDiscriminator().HasValue("Product");
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
