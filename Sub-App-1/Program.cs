@@ -23,21 +23,19 @@ builder.Host.UseSerilog((context, services, configuration) => configuration
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Add DbContext
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Add ApplicationDbContext
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
+    .EnableSensitiveDataLogging() // debug
+    .EnableDetailedErrors()); // debug
 
-// Add password complexity.
-// Have to properly implement ASP.NET Core Identity - or continue with manual approach.
-// TODO: Research approprate solution
-
-/*builder.Services.Configure<IdentityOptions>(options => {
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => {
     options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
-    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequireNonAlphanumeric = false; // defautlt = true | (discuss?)
     options.Password.RequireUppercase = true;
     options.Password.RequiredLength = 8;
     options.Password.RequiredUniqueChars = 1;
-});*/
+}).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
 // Add cookie authentification (Todo: test)
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => {

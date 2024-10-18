@@ -1,25 +1,16 @@
 namespace Sub_App_1.Controllers;
 
-using System.Security.Claims;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Sub_App_1.Data;
 using Sub_App_1.Models;
 
-/*
-* TODO: Consider using ASP.NET Core Identity instead.
-* Oppdatere Index til Accountindex på grunn av rename av cshtml filen 
-*/ 
 public class AccountController : Controller {
-    private readonly ApplicationDbContext _context;
-    private readonly IPasswordHasher<User> _passwordHasher;
+    private readonly UserManager<IdentityUser> _userManager;
+    private readonly SignInManager<IdentityUser> _signInManager;
 
-    public AccountController(ApplicationDbContext context) {
-        _context = context;
-        _passwordHasher = new PasswordHasher<User>();
+    public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager) {
+        _userManager = userManager;
+        _signInManager = signInManager;
     }
 
     // /Account/Index
@@ -30,77 +21,45 @@ public class AccountController : Controller {
     // /Account/Login
     [HttpPost]
     public async Task<IActionResult> Login(string username, string password) {
-        // Search for the user in the database by username (Asynchronous)
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+        var result = await _signInManager.PasswordSignInAsync(username, password, isPersistent: false, lockoutOnFailure: false);
 
-        // return an error if no user is found in the db.
-        if (user == null) {
-            ViewBag.Error = "Invalid username or password.";
-            return View("Index");
+        if (result.Succeeded) {
+            return RedirectToAction("Index", "Home");
         }
-
-        // verify the password using password hasher
-        var pwd_verification_result = _passwordHasher.VerifyHashedPassword(user, user.Password, password);
-        
-        if (pwd_verification_result != PasswordVerificationResult.Success) {
-            ViewBag.Error = "Invalid username or password.";
-            return View("Index");
-        }
-        await SignInUser(user);
-
-        // redirect to the dashboard after successful login, or whatever the frontend wants to happen =D
-        // TODO !!
-        return RedirectToAction("Index", "Home");
+        ViewBag.Error = "Invalid username or password.";
+        return View("Index");
     }
 
     // /Account/Logout
     public async Task<IActionResult> Logout() {
-        // Sign out the user
-        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        // Redirect to the home page
+        await _signInManager.SignOutAsync();
         return RedirectToAction("Index", "Home");
     }
 
     // /Account/Register
     [HttpPost]
-    public async Task<IActionResult> Register(string username, string password, string accountType) {
-        // Check if the username already exists in the database
-        if (await _context.Users.AnyAsync(u => u.Username == username)) {
-            ViewBag.Error = "Username already exists.";
-            return View("Index");
+    public async Task<IActionResult> Register(string username, string password, AccountType accountType) {
+        if(string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)) {
+            ModelState.AddModelError(string.Empty, "Username and password cannot be null or empty.");
+            return View("Index", ModelState);
         }
 
-        // Create a new User object with the provided information
         var user = new User {
-            Username = username,
-            AccountType = Enum.Parse<AccountType>(accountType),
+            UserName = username,
+            AccountType = accountType
         };
-        // have to set the password after creating the user object, as we need the user object.
-        user.Password = _passwordHasher.HashPassword(user, password);
+        var result = await _userManager.CreateAsync(user, password); // create user (attempt)
 
-        // Add the new user to the database context
-        _context.Users.Add(user);
-        // Save changes to the database asynchronously
-        await _context.SaveChangesAsync();
-        // Sign in the registered user
-        await SignInUser(user);
+        if (result.Succeeded) {
+            await _signInManager.SignInAsync(user, isPersistent: false);
+            return RedirectToAction("Index", "Home");   
+        }
 
-        // Todo: proper redirection and stuff.
-        return RedirectToAction("Index", "Home");
-    }
-
-    // Helper method for signing in a user.
-    private async Task SignInUser(User user) {
-        // Create claims for the user; these are pieces of user information like account type.
-        var claims = new List<Claim> {
-            new Claim(ClaimTypes.Name, user.Username),
-            new Claim(ClaimTypes.Role, user.AccountType.ToString())
-        };
-        // Create a ClaimsIdentity, which represents the user's identity
-        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-        // Sign in the user by creating a new ClaimsPrincipal and calling SignInAsync
-        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+        foreach (var error in result.Errors) {
+            ModelState.AddModelError(string.Empty, error.Description);
+        }
+        ViewBag.Error = "Error during registration.";
+        return View("Index", ModelState);
     }
 
     // /Account/BrowseAsGuest

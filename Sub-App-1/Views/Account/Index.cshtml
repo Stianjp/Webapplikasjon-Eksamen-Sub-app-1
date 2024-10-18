@@ -4,11 +4,19 @@
 
 <div class="container mt-5">
     <!-- Error message -->
-    @if (ViewBag.Error != null)
-    {
+    @if(ViewBag.Error != null) {
         <div class="alert alert-danger">
             @ViewBag.Error
         </div>
+    }
+
+    <!-- Further detailed error message(s) if any (like too short pwd) -->
+    @if(ViewData.ModelState.Count > 0) {
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors)) {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
     }
 
     @if(User.Identity != null && User.Identity.IsAuthenticated) {
@@ -20,7 +28,6 @@
         <h3>TODO FINISH CRUD FOR ACCOUNTS/USERS</h3>
         <p>- Change password (update) </p>
         <p>- Account deletion (delete)</p>
-        <p>- Email authentification?</p>
         <p>- .. More</p>
     } else {
         <div class="row">
