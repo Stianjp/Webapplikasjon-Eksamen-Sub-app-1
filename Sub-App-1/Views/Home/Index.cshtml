@@ -5,17 +5,21 @@
 <div class="content">
     @if(User.Identity != null && User.Identity.IsAuthenticated) {
 
+        @* Redirect logged-in users to their specific dashboard *@
+
+
         <h2>Welcome, @User.Identity.Name!</h2>
         <p>You are logged in.</p>
         <button class="btn btn-success text-light" asp-action="Productsindex"><img src="~/icons/pluss-solid.svg">Add new product</button>
         <form asp-action="Logout" method="post"><button type="submit" class="btn btn-danger">Logout</button></form>
         
-        <!-- Add more content for logged-in users here (TODO: FRONT END) -->
+        <!-- Add more content for logged-in users here (TODO: FRONT END) egen view basert på user -->
 
 
     } else {
-        <!-- Todo: FRONT END -->
-        <!-- Bilde av dashboard for vanlig bruker -->
+
+        @* Display a message for non-authenticated users *@
+        <!-- Bilde av dashboard for vanlig bruker må fikses på av front-end -->
        <div class="background-not-logged-in">
             <div class="text-overlay">
                 <h1>Hello there!</h1>

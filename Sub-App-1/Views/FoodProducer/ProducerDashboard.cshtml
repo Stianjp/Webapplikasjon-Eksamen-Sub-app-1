@@ -1,0 +1,30 @@
+@{
+    ViewData["Title"] = "Food producer Dashboard";
+}
+
+<h2>Welcome, @User.Identity.Name!</h2>
+<p class="date">Dato: 10.08.2024.</p>
+
+    <section class="recent-products my-5">
+            <h2>Last products added</h2>
+            <div class="product-cards row g-4">
+                <!-- Dynamiske produktkort her -->
+                <div class="product-card col-md-3 bg-light text-center p-3">Name product</div>
+                <div class="product-card col-md-3 bg-light text-center p-3">Name product</div>
+                <div class="product-card col-md-3 bg-light text-center p-3">Name product</div>
+                <div class="product-card col-md-3 bg-primary text-white text-center p-3 add-product">+ Add new product</div>
+            </div>
+        </section>
+
+        <section class="charts-section row g-4">
+            <div class="chart col-md-6 bg-light p-4">
+                <h3>Products based on category</h3>
+                <!-- Legg inn diagrammer her -->
+            </div>
+            <div class="chart col-md-6 bg-light p-4">
+                <h3>Antall sertifiseringer pr. produkt</h3>
+                <!-- Legg inn sertifiseringsdiagram her -->
+            </div>
+        </section>
+
+
