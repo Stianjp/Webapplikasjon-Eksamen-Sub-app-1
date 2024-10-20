@@ -1,12 +1,19 @@
-namespace Sub_App_1.Data;
+namespace Sub_App_1.Data
+{
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore;
+    using Sub_App_1.Models;
+    using Microsoft.EntityFrameworkCore;  // Dette legger til ToListAsync
 
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Sub_App_1.Models;
 
-public class ApplicationDbContext : IdentityDbContext<IdentityUser> {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+    public class ApplicationDbContext : IdentityDbContext
+    {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
+        {
+        }
 
-    public DbSet<Product> Products { get; set; }
+        public DbSet<Product> Products { get; set; }
+    }
 }
+
