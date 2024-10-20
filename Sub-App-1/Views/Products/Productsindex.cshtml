@@ -1,5 +1,9 @@
 @model IEnumerable<Sub_App_1.Models.Product>
 
+@{
+    ViewData["Title"] = "Products";
+}
+
 <div class="content">
     <h1>@ViewData["Title"]</h1>
     <a class="btn btn-primary" asp-action="Create">Add New Product</a>
