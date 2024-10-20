@@ -1,14 +1,16 @@
+@model IEnumerable<Sub_App_1.Models.Product>
+
 @{
     ViewData["Title"] = "Food producer Dashboard";
 }
 
 <h2>Welcome, @User.Identity.Name!</h2>
-<p class="date">Dato: 10.08.2024.</p>
+<p class="date">Date: @DateTime.Now.ToString("dd.MM.yyyy")</p> / <!--gir dagens dato metode hentet fra chatgtp -->
 
     <section class="recent-products my-5">
             <h2>Last products added</h2>
             <div class="product-cards row g-4">
-                <!-- Dynamiske produktkort her -->
+                <!-- Dynamiske produktkort her kommer bruk foreach løkke med model som utganspunkt, ps må først opprettes db kontakt i controller Foodproducer-->
                 <div class="product-card col-md-3 bg-light text-center p-3">Name product</div>
                 <div class="product-card col-md-3 bg-light text-center p-3">Name product</div>
                 <div class="product-card col-md-3 bg-light text-center p-3">Name product</div>

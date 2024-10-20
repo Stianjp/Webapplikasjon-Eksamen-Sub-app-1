@@ -1,38 +1,62 @@
-namespace Sub_App_1.Controllers;
+namespace Sub_App_1.Controllers
+{
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Sub_App_1.Models;
 
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Sub_App_1.Models;
+    /*
+* TODO: Consider using ASP.NET Core Identity instead.
+* Oppdatere Index til Accountindex på grunn av rename av cshtml filen 
+*/ 
+    public class AccountController : Controller
+    {
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-public class AccountController : Controller {
-    private readonly UserManager<IdentityUser> _userManager;
-    private readonly SignInManager<IdentityUser> _signInManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
-
-    public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager) {
-        _userManager = userManager;
-        _signInManager = signInManager;
-        _roleManager =  roleManager;
-    }
-
-    // /Account/Index
-    public IActionResult Index() {
-        return View();
-    }
-
-    // /Account/Login
-    [HttpPost]
-    public async Task<IActionResult> Login(string username, string password) {
-        var result = await _signInManager.PasswordSignInAsync(username, password, isPersistent: false, lockoutOnFailure: false);
-
-        if (result.Succeeded) {
-            return RedirectToAction("Index", "Home");
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _roleManager = roleManager;
         }
-        ViewBag.Error = "Invalid username or password.";
-        return View("Index");
-    }
 
-    // /Account/Logout
+        // /Account/Index
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        // /Account/Login
+        [HttpPost]
+        public async Task<IActionResult> Login(string username, string password)
+        {
+            //Egen variabler for resultatet slik at det kan sjekke med if-setning
+            var result = await _signInManager.PasswordSignInAsync(username, password, isPersistent: false, lockoutOnFailure: false);
+
+            if (result.Succeeded)
+            {
+                // Finn bruker variabler 
+                var user = await _userManager.FindByNameAsync(username);
+                var roles = await _userManager.GetRolesAsync(user);
+
+                // Redirect basert på bruker type direkte til riktig view for brukeren 
+                // Kan vi legge inn flere basert på roller
+                //Problem etter logget inn forsvinner FoodProducer Dashboard, ikke klart å løses enda
+                if (roles.Contains("FoodProducer"))
+                {
+                    return RedirectToAction("Dashboard", "FoodProducer");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home"); // Default for andre brukere/roller eventuelt gjestebruker?
+                }
+            }
+            ViewBag.Error = "Invalid username or password.";
+            return View("Index");
+        }
+
+       // /Account/Logout
     public async Task<IActionResult> Logout() {
         await _signInManager.SignOutAsync();
         return RedirectToAction("Index", "Home");

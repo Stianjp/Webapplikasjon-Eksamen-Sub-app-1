@@ -6,12 +6,13 @@
     @if(User.Identity != null && User.Identity.IsAuthenticated) {
 
         @* Redirect logged-in users to their specific dashboard *@
+        <!-- Add more content for logged-in users here (TODO: FRONT END) egen view basert på user -->
 
-
-        <h2>Welcome, @User.Identity.Name!</h2>
+        <!-- dette vil ligge i en av views avhenging av bruker -->
+        @*<h2>Welcome, @User.Identity.Name!</h2>
         <p>You are logged in.</p>
         <button class="btn btn-success text-light" asp-action="Productsindex"><img src="~/icons/pluss-solid.svg">Add new product</button>
-        <form asp-action="Logout" method="post"><button type="submit" class="btn btn-danger">Logout</button></form>
+        <form asp-action="Logout" method="post"><button type="submit" class="btn btn-danger">Logout</button></form> *@
         
         <!-- Add more content for logged-in users here (TODO: FRONT END) egen view basert på user -->
 
