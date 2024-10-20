@@ -2,10 +2,13 @@ namespace Sub_App_1.Models;
 
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
+using System.Text.Json.Serialization;
 
-public class Product {
+
+public class Product
+{
     [Key]
-    public int Id { get; set; }
+    public int Id { get; set; } // Primary Key
 
     [Required]
     public string Name { get; set; }
@@ -27,6 +30,8 @@ public class Product {
     public double Fat { get; set; } // grams per 100g
 
     // Foreign Key to the producer
-    public string ProducerId { get; set; }
-    public IdentityUser Producer { get; set; } // who created the product
+    [JsonIgnore]
+    public string? ProducerId { get; set; }
+    public IdentityUser? Producer { get; set; }
+
 }

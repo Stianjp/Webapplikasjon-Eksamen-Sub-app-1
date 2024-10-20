@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Sub_App_1.Data;
 using Serilog;
 using Sub_App_1.Models;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
