@@ -7,6 +7,13 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/customdesign.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <!-- Laster inn bare når man bruker Product siden spesifisert css -->
+    @if (ViewData["Title"] == "Products")
+    {
+        <link rel="stylesheet" href="~/css/product.css asp-append-version" />
+    }
+
 </head>
 <body>
 <header>
@@ -82,7 +89,9 @@
 <!-- Dette er lim felles så her kan det ikke stå -->
 <!-- Main content -->
 <div class="main-content">
-    @RenderBody()
+    <div id="margin">
+         @RenderBody()
+    </div>
 </div>
 
 

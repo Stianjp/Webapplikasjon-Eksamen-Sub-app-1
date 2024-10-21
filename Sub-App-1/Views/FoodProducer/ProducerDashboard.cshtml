@@ -4,8 +4,9 @@
     ViewData["Title"] = "Food producer Dashboard";
 }
 
+<div class="content-dashboard">
 <h2>Welcome, @User.Identity.Name!</h2>
-<p class="date">Date: @DateTime.Now.ToString("dd.MM.yyyy")</p> / <!--gir dagens dato metode hentet fra chatgtp -->
+<p class="date">Date: @DateTime.Now.ToString("dd.MM.yyyy")</p>  <!--gir dagens dato metode hentet fra chatgtp -->
 
     <section class="recent-products my-5">
             <h2>Last products added</h2>
@@ -28,5 +29,5 @@
                 <!-- Legg inn sertifiseringsdiagram her -->
             </div>
         </section>
-
+</div>
 
