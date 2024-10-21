@@ -45,7 +45,7 @@ namespace Sub_App_1.Controllers
                 //Problem etter logget inn forsvinner FoodProducer Dashboard, ikke klart å løses enda
                 if (roles.Contains("FoodProducer"))
                 {
-                    return RedirectToAction("Dashboard", "FoodProducer");
+                    return RedirectToAction("ProducerDashboard", "FoodProducer");
                 }
                 else
                 {

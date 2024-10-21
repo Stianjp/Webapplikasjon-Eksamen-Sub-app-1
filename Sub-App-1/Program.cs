@@ -60,6 +60,10 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+app.MapControllerRoute(
+    name: "foodproducer",
+    pattern: "{controller=FoodProducer}/{action=ProducerDashboard}/{id?}");
+
 app.Lifetime.ApplicationStopped.Register(Log.CloseAndFlush);
 
 using (var scope = app.Services.CreateScope()) {
