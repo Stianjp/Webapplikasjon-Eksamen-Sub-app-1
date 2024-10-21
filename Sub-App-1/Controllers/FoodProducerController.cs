@@ -18,7 +18,7 @@ public class FoodProducerController : Controller
 {
     public IActionResult ProducerDashboard()
     {
-        var model = GetProducerData(); //Denne metoden må lages
+        /*var model = GetProducerData();*/ //Denne metoden må lages
         return View("ProducerDashboard", model); // Assuming this view is located at Views/FoodProducer/ProducerDashboard.cshtml
     }
 }
