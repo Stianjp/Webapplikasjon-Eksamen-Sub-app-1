@@ -16,6 +16,8 @@ public class Product
     [Required]
     public string Description { get; set; }
 
+    public string Category { get; set; }
+
     // Nutritional Information
     [Required]
     public double Calories { get; set; } // kcal per 100g
@@ -29,7 +31,6 @@ public class Product
     [Required]
     public double Fat { get; set; } // grams per 100g
 
-    public string Category {get; set; }
 
     //Behov for kategorier av type mat
     // public string Category {get; set; } // Skal vi bruke en liste med kategorier som er alt satt av oss?

@@ -30,7 +30,7 @@ public class ProductsController : Controller
     // POST: Products/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Name,Description,Calories,Protein,Fat,Carbohydrates")] Product product)
+    public async Task<IActionResult> Create([Bind("Name,Description,Category,Calories,Protein,Fat,Carbohydrates")] Product product)
     {
         try
         {
@@ -65,7 +65,7 @@ public class ProductsController : Controller
     // POST: Products/Edit/{id}
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Calories,Protein,Fat,Carbohydrates")] Product product)
+    public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Category,Calories,Protein,Fat,Carbohydrates")] Product product)
     {
         if (id != product.Id)
         {
