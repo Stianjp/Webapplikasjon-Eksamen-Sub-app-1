@@ -74,38 +74,25 @@ a.navbar-brand {
 /* Main innhold styles */
 .main-content {
   margin-left: 240px; /* Forskyver innholdet til siden */
-  height: auto;
-  padding: 2rem;
-
+  height: 100vh;
 }
 
 /* Not logged in styles */
 .background-not-logged-in {
   background-image: url('/Pictures/testBildeDashboard.png');
   background-size: cover;
-  height: 100vh; /* Full viewport height */
-  display: flex; /*Må endres til en bedre måte å gjøre dette på*/
-  align-items: center;
+  height: 100vh; 
 }
 
 .text-overlay {
-  background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
   color: white;
-  padding: 20px;
-  border-radius: 8px;
   text-align: center;
 }
+
 .text-overlay a {
   color: white;
-}
-
-
-/* Footer hvis nødvendig */
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px;
 }
 
