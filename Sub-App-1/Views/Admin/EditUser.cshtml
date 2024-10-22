@@ -1,0 +1,23 @@
+@model Sub_App_1.Models.UserWithRolesViewModel
+
+<h2>Edit User - @Model.Username</h2>
+
+<form asp-action="EditUser" method="post">
+    <input type="hidden" name="UserId" value="@Model.UserId" />
+
+    <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" id="username" name="username" value="@Model.Username" readonly />
+    </div>
+
+    <div class="form-group">
+        <label for="roles">Roles</label>
+        <select multiple class="form-control" id="roles" name="roles">
+            @foreach (var role in ViewBag.AllRoles as List<string>) {
+                <option value="@role" selected="@Model.Roles.Contains(role)">@role</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
