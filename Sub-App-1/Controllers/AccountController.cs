@@ -87,12 +87,22 @@ public class AccountController : Controller {
         return View("Index", ModelState);
     }
 
+    [HttpGet]
+    public IActionResult ChangePassword() {
+        return View(); // ChangePassword.cshtml
+    }
+
     // /Account/ChangePassword
     [HttpPost]
     public async Task<IActionResult> ChangePassword(string currentPassword, string newPassword, string confirmPassword) {
+        if (string.IsNullOrEmpty(currentPassword) || string.IsNullOrEmpty(newPassword) || string.IsNullOrEmpty(confirmPassword)) {
+            ModelState.AddModelError(string.Empty, "All password fields are required.");
+            return View();  // Returns the view so user can correct inputs
+        }
+
         if (newPassword != confirmPassword) {
             ModelState.AddModelError(string.Empty, "New password and confirmation password do not match.");
-            return View("ChangePassword");
+            return View();
         }
 
         var user = await _userManager.GetUserAsync(User);
@@ -109,14 +119,17 @@ public class AccountController : Controller {
         foreach (var error in result.Errors) {
             ModelState.AddModelError(string.Empty, error.Description);
         }
-        return View("ChangePassword");
+        return View();
     }
 
-    // /Account/DeleteAccount
-    [HttpPost]
-    public async Task<IActionResult> DeleteAccount() {
-        // TODO: Confirm dialog, also need to figure out what will happen to all the products or whatever of said user?
+    // Show a confirmation view for deleting the account
+    [HttpGet]
+    public IActionResult DeleteAccount() {
+        return View(); // DeleteAccount.cshtml
+    }
 
+    [HttpPost]
+    public async Task<IActionResult> DeleteAccountConfirmed() {
         var user = await _userManager.GetUserAsync(User);
         if (user == null) {
             return RedirectToAction("Index");
