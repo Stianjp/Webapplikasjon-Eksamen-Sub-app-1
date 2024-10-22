@@ -4,15 +4,19 @@
     ViewData["Title"] = "Products";
 }
 
- <link rel="stylesheet" href="~/css/product.css" asp-append-version="true"/> 
+<link rel="stylesheet" href="~/css/product.css" asp-append-version="true"/> 
 
 <div class="content-product">
     <h1>@ViewData["Title"]</h1>
-    <a class="btn btn-primary" asp-action="Create"><img src="~/icons/pluss-solid.svg">Add New Product</a>
+
+    @if (User.IsInRole(UserRoles.FoodProducer)) {
+        <a class="btn btn-primary" asp-action="Create"><img src="~/icons/pluss-solid.svg"> Add New Product</a>
+    }
+
     <div class="card-container">
         <hr>
         <div class="table table-responsive">
-            <table class="table table-sm table-hover ">
+            <table class="table table-sm table-hover">
                 <thead>
                     <tr>
                         <th scope="col">Product ID</th>
@@ -39,8 +43,10 @@
                             <td>@item.Fat</td>
                             <td>@item.Carbohydrates</td>
                             <td>
-                                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                @if (User.IsInRole(UserRoles.FoodProducer) && item.ProducerId == @User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value) {
+                                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                }
                             </td>
                         </tr>
                     }
