@@ -25,12 +25,9 @@
         <h2>Welcome, @User.Identity.Name!</h2>
         <p>You are currently logged in.</p>
         <form asp-action="Logout" method="post"><button type="submit" class="btn btn-danger">Logout</button></form>
-
         <hr></hr>
-        <h3>TODO FINISH CRUD FOR ACCOUNTS/USERS</h3>
-        <p>- Change password (update) </p>
-        <p>- Account deletion (delete)</p>
-        <p>- .. More</p>
+        <a asp-controller="Account" asp-action="ChangePassword" class="btn btn-primary">Change Password</a>
+        <a asp-controller="Account" asp-action="DeleteAccount" class="btn btn-danger">Delete Account</a>
     } else {
         <div class="row">
             <!-- Login Section -->
@@ -73,12 +70,13 @@
             </div>
         </div>
 
-        <div class="row mt-5">
+        @* TODO: *@
+        @* <div class="row mt-5">
             <!-- Browse as Guest Section -->
             <div class="col-md-8 offset-md-2 text-center">
                 <h2>Browse as Guest</h2>
                 <a href="@Url.Action("BrowseAsGuest", "Account")" class="btn btn-outline-secondary mt-3">Browse as Guest</a>
             </div>
-        </div>
+        </div> *@
     }
 </div>

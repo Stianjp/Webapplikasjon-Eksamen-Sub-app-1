@@ -1,62 +1,50 @@
-namespace Sub_App_1.Controllers
-{
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Mvc;
-    using Sub_App_1.Models;
+namespace Sub_App_1.Controllers;
 
-    /*
-* TODO: Consider using ASP.NET Core Identity instead.
-* Oppdatere Index til Accountindex på grunn av rename av cshtml filen 
-*/ 
-    public class AccountController : Controller
-    {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Sub_App_1.Models;
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager)
-        {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _roleManager = roleManager;
-        }
+public class AccountController : Controller {
+    private readonly UserManager<IdentityUser> _userManager;
+    private readonly SignInManager<IdentityUser> _signInManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
 
-        // /Account/Index
-        public IActionResult Index()
-        {
-            return View();
-        }
+    public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager) {
+        _userManager = userManager;
+        _signInManager = signInManager;
+        _roleManager = roleManager;
+    }
 
-        // /Account/Login
-        [HttpPost]
-        public async Task<IActionResult> Login(string username, string password)
-        {
-            //Egen variabler for resultatet slik at det kan sjekke med if-setning
-            var result = await _signInManager.PasswordSignInAsync(username, password, isPersistent: false, lockoutOnFailure: false);
+    // /Account/Index
+    public IActionResult Index() {
+        return View();
+    }
 
-            if (result.Succeeded)
-            {
-                // Finn bruker variabler 
-                var user = await _userManager.FindByNameAsync(username);
-                var roles = await _userManager.GetRolesAsync(user);
+    // /Account/Login
+    [HttpPost]
+    public async Task<IActionResult> Login(string username, string password) {
+        //Egen variabler for resultatet slik at det kan sjekke med if-setning
+        var result = await _signInManager.PasswordSignInAsync(username, password, isPersistent: false, lockoutOnFailure: false);
 
-                // Redirect basert på bruker type direkte til riktig view for brukeren 
-                // Kan vi legge inn flere basert på roller
-                //Problem etter logget inn forsvinner FoodProducer Dashboard, ikke klart å løses enda
-                if (roles.Contains("FoodProducer"))
-                {
-                    return RedirectToAction("ProducerDashboard", "FoodProducer");
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Home"); // Default for andre brukere/roller eventuelt gjestebruker?
-                }
+        if (result.Succeeded) {
+            // Finn bruker variabler 
+            var user = await _userManager.FindByNameAsync(username);
+            var roles = await _userManager.GetRolesAsync(user);
+
+            // Redirect basert på bruker type direkte til riktig view for brukeren 
+            // Kan vi legge inn flere basert på roller
+            //Problem etter logget inn forsvinner FoodProducer Dashboard, ikke klart å løses enda
+            if (roles.Contains("FoodProducer")) {
+                return RedirectToAction("ProducerDashboard", "FoodProducer");
+            } else {
+                return RedirectToAction("Index", "Home"); // Default for andre brukere/roller eventuelt gjestebruker?
             }
-            ViewBag.Error = "Invalid username or password.";
-            return View("Index");
         }
+        ViewBag.Error = "Invalid username or password.";
+        return View("Index");
+    }
 
-       // /Account/Logout
+    // /Account/Logout
     public async Task<IActionResult> Logout() {
         await _signInManager.SignOutAsync();
         return RedirectToAction("Index", "Home");
@@ -87,7 +75,7 @@ namespace Sub_App_1.Controllers
                     return View("Index", ModelState);
                 }
             }
-    
+
             await _signInManager.SignInAsync(user, isPersistent: false);
             return RedirectToAction("Index", "Home");   
         }
@@ -99,11 +87,57 @@ namespace Sub_App_1.Controllers
         return View("Index", ModelState);
     }
 
+    // /Account/ChangePassword
+    [HttpPost]
+    public async Task<IActionResult> ChangePassword(string currentPassword, string newPassword, string confirmPassword) {
+        if (newPassword != confirmPassword) {
+            ModelState.AddModelError(string.Empty, "New password and confirmation password do not match.");
+            return View("ChangePassword");
+        }
+
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null) {
+            return RedirectToAction("Index");
+        }
+
+        var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+        if (result.Succeeded) {
+            await _signInManager.RefreshSignInAsync(user);  // Keeps the user signed in after password change
+            return RedirectToAction("Index", "Account");
+        }
+
+        foreach (var error in result.Errors) {
+            ModelState.AddModelError(string.Empty, error.Description);
+        }
+        return View("ChangePassword");
+    }
+
+    // /Account/DeleteAccount
+    [HttpPost]
+    public async Task<IActionResult> DeleteAccount() {
+        // TODO: Confirm dialog, also need to figure out what will happen to all the products or whatever of said user?
+
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null) {
+            return RedirectToAction("Index");
+        }
+
+        var result = await _userManager.DeleteAsync(user);
+        if (result.Succeeded) {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
+        foreach (var error in result.Errors) {
+            ModelState.AddModelError(string.Empty, error.Description);
+        }
+        return View("Index");
+    }
+
     // /Account/BrowseAsGuest
     public IActionResult BrowseAsGuest() {
         // todo ..
         // continue browsing without an account
         return RedirectToAction("Index", "Home");
     }
-}
 }

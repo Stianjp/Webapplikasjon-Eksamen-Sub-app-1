@@ -1,0 +1,11 @@
+@{
+    ViewBag.Title = "Delete Account";
+}
+
+<h2>Delete Your Account</h2>
+
+<p>Are you sure you want to delete your account? This action cannot be undone.</p>
+
+<form asp-action="DeleteAccount" method="post">
+    <button type="submit" class="btn btn-danger">Delete Account</button>
+</form>
