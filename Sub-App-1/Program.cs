@@ -67,6 +67,7 @@ app.MapControllerRoute(
 app.Lifetime.ApplicationStopped.Register(Log.CloseAndFlush);
 
 using (var scope = app.Services.CreateScope()) {
+    var serviceProvider = scope.ServiceProvider;
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var roles = new[] { UserRoles.RegularUser, UserRoles.FoodProducer, UserRoles.Administrator };
     
@@ -75,6 +76,32 @@ using (var scope = app.Services.CreateScope()) {
             await roleManager.CreateAsync(new IdentityRole(role));
         }
     }
+    await EnsureAdminUserExists(serviceProvider);
 }
 
 app.Run();
+
+static async Task EnsureAdminUserExists(IServiceProvider serviceProvider) {
+    var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+    var adminUsername = "Admin";
+
+    var adminUser = await userManager.FindByNameAsync(adminUsername);
+    if (adminUser == null) {
+        adminUser = new IdentityUser {
+            UserName = adminUsername,
+        };
+
+        var result = await userManager.CreateAsync(adminUser, "OsloMet2024");
+        if (result.Succeeded) {
+            await userManager.AddToRoleAsync(adminUser, UserRoles.Administrator);
+        } else {
+            var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+            throw new Exception($"Failed to create admin user. Errors: {errors}");
+        }
+    } else {
+        // Ensure the existing admin user has the Administrator role
+        if (!await userManager.IsInRoleAsync(adminUser, UserRoles.Administrator)) {
+            await userManager.AddToRoleAsync(adminUser, UserRoles.Administrator);
+        }
+    }
+}   
