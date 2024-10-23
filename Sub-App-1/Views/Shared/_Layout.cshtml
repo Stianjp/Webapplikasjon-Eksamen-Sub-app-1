@@ -4,115 +4,106 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Sub_App_1</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="~/css/customdesign.css" asp-append-version="true"/>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="~/favicon.png" />
+    
+    <!-- CSS Files with Tag Helpers -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/custom_layout.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-
-    <!-- Laster inn bare når man bruker Product siden spesifisert css -->
-    @if (ViewData["Title"] == "Products")
-    {
-        <link rel="stylesheet" href="~/css/product.css asp-append-version" />
+    
+    <!-- Conditional CSS for Products Page -->
+    @if (ViewData["Title"]?.ToString() == "Products") {
+        <link rel="stylesheet" href="~/css/product.css" asp-append-version="true" />
     }
-
 </head>
 <body>
-<header>
-    <!-- Sidebar -->
-          <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-gray-200 text-bg-dark shadow-sm">
-            <span class="navbar-brand text-dark">FoodStack</span> <!-- Her kan du legge inn logoen som en <img>-tag -->
+    <header>
+        <!-- Sidebar -->
+        <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-gray-200 text-bg-dark shadow-sm">
+            <span class="navbar-brand text-dark">FoodStack</span> <!-- todo: logo -->
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
                     <a class="nav-link" asp-controller="Home" asp-action="Index">
-                        <img src="~/icons/gauge-solid.svg"> Dashboard
+                        <img src="~/icons/gauge-solid.svg" alt="Dashboard Icon"> Dashboard
                     </a>
                 </li>
-              @if (User.Identity.IsAuthenticated) {
-                <!-- Hvis brukeren er logget inn, vis normale knapper -->
-                <li class="nav-item">
-                    <a class="nav-link" asp-controller="Products" asp-action="Productsindex">
-                        <img src="~/icons/bowl-food-solid.svg"> Products
-                    </a>
-                </li>
-                }else{
+                @if (User.Identity != null && User.Identity.IsAuthenticated) {
+                    <!-- If user is authenticated, show active links -->
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Products" asp-action="ProductsIndex">
+                            <img src="~/icons/bowl-food-solid.svg" alt="Products Icon"> Products
+                        </a>
+                    </li>
+                } else {
                     <li class="nav-item">
                         <a class="nav-link disabled" aria-disabled="true">
-                            <img src="~/icons/bowl-food-solid.svg"> Products
+                            <img src="~/icons/bowl-food-solid.svg" alt="Products Icon"> Products
                         </a>
                     </li>
                 }
                 <li class="nav-item">
                     <a class="nav-link" asp-controller="Account" asp-action="Index">
-                        <img src="~/icons/gear-solid.svg"> Account
+                        <img src="~/icons/gear-solid.svg" alt="Account Icon"> Account
                     </a>
                 </li>
-                @if (User.Identity.IsAuthenticated) {
-                    <!-- Hvis brukeren er logget inn, vis normale knapper -->
+                @if (User.Identity != null && User.Identity.IsAuthenticated) {
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Home" asp-action="Privacy">
-                            <img src="~/icons/bowl-food-solid.svg"> Privacy
+                            <img src="~/icons/bowl-food-solid.svg" alt="Privacy Icon"> Privacy
                         </a>
                     </li>
                 } else {
-                <!-- Hvis brukeren ikke er logget inn, gjør knapper inaktive eller fjern href -->
-                <li class="nav-item">
-                    <a class="nav-link disabled" aria-disabled="true">
-                        <img src="~/icons/bowl-food-solid.svg"> Privacy
-                    </a>
-                </li>
-            }
+                    <li class="nav-item">
+                        <a class="nav-link disabled" aria-disabled="true">
+                            <img src="~/icons/bowl-food-solid.svg" alt="Privacy Icon"> Privacy
+                        </a>
+                    </li>
+                }
             </ul>
              
-            <!-- Log in button -->
+            <!-- Log in/Logout button -->
             <hr>
-            <div class="logut">
-            @if (!User.Identity.IsAuthenticated) {
-                <a class="d-flex align-items-center text-dark text-decoration-none">
+            <div class="logout">
+                @if (User.Identity != null && !User.Identity.IsAuthenticated) {
+                    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+                    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+                    var isOnLoginPage = (currentController == "Account" && currentAction == "Index");
+                    
                     <form asp-controller="Account" asp-action="Index" method="get">
-                        <button type="submit" class="btn btn-success">
-                            <img src="~/icons/right-to-bracket-solid.svg"/> Logg inn
+                        <button type="submit" class="btn btn-success @(isOnLoginPage ? "active-login" : "")" @(isOnLoginPage ? "disabled" : "")>
+                            <img src="~/icons/right-to-bracket-solid.svg" alt="Login Icon"/> Logg inn
                         </button>
                     </form>
-                </a>
-            }else { <!-- Log out button -->
-                @if(User.Identity != null && User.Identity.IsAuthenticated) {
-                <form asp-controller="Account" asp-action="Logout" method="post">
-                    @Html.AntiForgeryToken()
-                    <button type="submit" class="btn btn-danger"><img src="~/icons/right-to-bracket-solid.svg" alt="Logout Icon" /> Logout</button>
-            </form>
+                } else { 
+                    <!-- Log out button -->
+                    @if(User.Identity != null && User.Identity.IsAuthenticated) {
+                        <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-danger" id="logoutButton">
+                                <img src="~/icons/logout-solid.svg" alt="Logout Icon" /> Logout
+                            </button>
+                        </form>
+                    }
                 }
-            }
             </div>
         </div>
-</header>
-
-
-<!-- Dette er lim felles så her kan det ikke stå -->
-<!-- Main content -->
-<div class="main-content">
-    <div id="margin">
-         @RenderBody()
+    </header>
+    
+    <!-- Main content -->
+    <div class="main-content">
+        <div id="margin">
+             @RenderBody()
+        </div>
     </div>
-</div>
-
-
- <!-- 
-    @* @if (User.Identity.IsAuthenticated) {
-        <h1>Welcome, @User.Identity.Name!</h1>
-        <p>You are currently logged in.</p>
-    } else {
-        <h1>Hello there!</h1>
-        <p>You are not currently logged in.</p>
-    } *@
-    -->
-
-
-
-<!-- Scripts -->
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
-@await RenderSectionAsync("Scripts", required: false)
+    
+    <!-- Scripts -->
+    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+    
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-
