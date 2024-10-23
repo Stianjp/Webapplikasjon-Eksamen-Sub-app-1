@@ -76,9 +76,10 @@
                 </a>
             }else { <!-- Log out button -->
                 @if(User.Identity != null && User.Identity.IsAuthenticated) {
-                <form asp-action="Logout" method="post">
-                    <button type="submit" class="btn btn-danger">Logout</button><!-- Magnus; få denne til å funke, den skal gå tilbake til home view-->
-                </form>
+                <form asp-controller="Account" asp-action="Logout" method="post">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger"><img src="~/icons/right-to-bracket-solid.svg" alt="Logout Icon" /> Logout</button>
+            </form>
                 }
             }
             </div>

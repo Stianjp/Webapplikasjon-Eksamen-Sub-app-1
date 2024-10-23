@@ -45,6 +45,8 @@ public class AccountController : Controller {
     }
 
     // /Account/Logout
+    [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Logout() {
         await _signInManager.SignOutAsync();
         return RedirectToAction("Index", "Home");
