@@ -86,9 +86,9 @@ public class AccountController : Controller {
         if (result.Succeeded) {
             // Prevent users from assigning themselves the "Administrator" role during registration
             if (role == UserRoles.Administrator) {
-                ModelState.AddModelError(string.Empty, "You are not allowed to assign the Administrator role.");
-                ViewBag.Error = "Error during registration."
                 await _userManager.DeleteAsync(user); // rollback user creation
+                ModelState.AddModelError(string.Empty, "You are not allowed to assign the Administrator role.");
+                ViewBag.Error = "Error during registration.";
                 return View("Index", ModelState);
             }
 
