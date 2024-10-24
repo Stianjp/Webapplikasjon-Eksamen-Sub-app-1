@@ -2,10 +2,22 @@
     ViewBag.Title = "Delete Account";
 }
 
-<h2>Delete Your Account</h2>
+<div class="container mt-5">
+    <h2>Delete Account</h2>
+    <p>To delete your account, please enter your password for confirmation.</p>
 
-<p>Are you sure you want to delete your account? This action cannot be undone.</p>
+    <!-- Error message -->
+    @if(ViewBag.Error != null) {
+        <div class="alert alert-danger">
+            @ViewBag.Error
+        </div>
+    }
 
-<form asp-action="DeleteAccountConfirmed" method="post">
-    <button type="submit" class="btn btn-danger">Delete Account</button>
-</form>
+    <form asp-action="DeleteAccountConfirmed" method="post">
+        <div class="form-group mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required />
+        </div>
+        <button type="submit" class="btn btn-danger">Delete Account</button>
+    </form>
+</div>

@@ -136,10 +136,18 @@ public class AccountController : Controller {
     }
 
     [HttpPost]
-    public async Task<IActionResult> DeleteAccountConfirmed() {
+    public async Task<IActionResult> DeleteAccountConfirmed(string password) {
         var user = await _userManager.GetUserAsync(User);
         if (user == null) {
             return RedirectToAction("Index");
+        }
+
+        // Check if the provided password is correct
+        var passwordCheck = await _signInManager.CheckPasswordSignInAsync(user, password, false);
+        if (!passwordCheck.Succeeded) {
+            ModelState.AddModelError(string.Empty, "Incorrect password.");
+            ViewBag.Error = "Password confirmation failed.";
+            return View("DeleteAccount");
         }
 
         var result = await _userManager.DeleteAsync(user);
@@ -151,7 +159,7 @@ public class AccountController : Controller {
         foreach (var error in result.Errors) {
             ModelState.AddModelError(string.Empty, error.Description);
         }
-        return View("Index");
+        return View("DeleteAccount");
     }
 
     // /Account/BrowseAsGuest
