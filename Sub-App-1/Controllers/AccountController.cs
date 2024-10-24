@@ -20,26 +20,32 @@ public class AccountController : Controller {
         return View();
     }
 
-    // /Account/Login
     [HttpPost]
     public async Task<IActionResult> Login(string username, string password) {
-        //Egen variabler for resultatet slik at det kan sjekke med if-setning
+        // Perform the sign-in attempt
         var result = await _signInManager.PasswordSignInAsync(username, password, isPersistent: false, lockoutOnFailure: false);
 
         if (result.Succeeded) {
-            // Finn bruker variabler 
+            // Get the user and their roles after successful login
             var user = await _userManager.FindByNameAsync(username);
             var roles = await _userManager.GetRolesAsync(user);
 
-            // Redirect basert på bruker type direkte til riktig view for brukeren 
-            // Kan vi legge inn flere basert på roller
-            //Problem etter logget inn forsvinner FoodProducer Dashboard, ikke klart å løses enda
-            if (roles.Contains("FoodProducer")) {
-                return RedirectToAction("ProducerDashboard", "FoodProducer");
-            } else {
-                return RedirectToAction("Index", "Home"); // Default for andre brukere/roller eventuelt gjestebruker?
+            // Redirect users based on their roles
+            if (roles.Contains(UserRoles.FoodProducer)) {
+                return RedirectToAction("Dashboard", "FoodProducer");
             }
+            else if (roles.Contains(UserRoles.Administrator)) {
+                return RedirectToAction("Dashboard", "FoodProducer");
+            }
+            else if (roles.Contains(UserRoles.RegularUser)) {
+                return RedirectToAction("Dashboard", "RegularUser");
+            }
+
+            // Default redirection for other roles or guest users
+            return RedirectToAction("Index", "Home");
         }
+
+        // If login failed, show an error message
         ViewBag.Error = "Invalid username or password.";
         return View("Index");
     }

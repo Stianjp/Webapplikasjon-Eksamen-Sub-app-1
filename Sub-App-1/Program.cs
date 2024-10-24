@@ -22,7 +22,9 @@ builder.Host.UseSerilog((context, services, configuration) => configuration
     .WriteTo.Console());
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddViewOptions(options => {
+    options.HtmlHelperOptions.ClientValidationEnabled = true;
+});
 
 // Add ApplicationDbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options => 
@@ -39,10 +41,6 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => {
 
 builder.WebHost.ConfigureKestrel((context, options) => {
     options.Configure(context.Configuration.GetSection("Kestrel"));
-});
-
-builder.Services.AddControllersWithViews().AddViewOptions(options => {
-    options.HtmlHelperOptions.ClientValidationEnabled = true;
 });
 
 var app = builder.Build();
@@ -66,7 +64,12 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     name: "foodproducer",
-    pattern: "{controller=FoodProducer}/{action=ProducerDashboard}/{id?}");
+    pattern: "{controller=FoodProducer}/{action=Dashboard}/{id?}");
+
+app.MapControllerRoute(
+    name: "regularuser",
+    pattern: "RegularUser/{action=Dashboard}/{id?}",
+    defaults: new { controller = "RegularUser" });
 
 app.MapControllerRoute(
     name: "admin",
