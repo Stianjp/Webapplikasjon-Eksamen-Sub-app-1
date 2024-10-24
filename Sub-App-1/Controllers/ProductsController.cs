@@ -5,7 +5,6 @@ using Sub_App_1.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 
-[Authorize]  // ensure only logged-in users can access products
 public class ProductsController : Controller {
     private readonly ApplicationDbContext _context;
 
@@ -13,15 +12,14 @@ public class ProductsController : Controller {
         _context = context;
     }
 
-    // GET: Products (available to all logged-in users)
-    [Authorize(Roles = UserRoles.RegularUser + "," + UserRoles.FoodProducer)]  // Both FoodProducer and RegularUser can view products
+    // GET: Products (available to all, including not logged in users)
     public async Task<IActionResult> Productsindex() {
         var products = await _context.Products.ToListAsync();
         return View(products);
     }
 
-    // GET: Products/Create (only FoodProducers can create products)
-    [Authorize(Roles = UserRoles.FoodProducer)]
+    // GET: Products/Create (only FoodProducers and Admins can create products)
+    [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
     public IActionResult Create() {
         return View();
     }
@@ -29,7 +27,7 @@ public class ProductsController : Controller {
     // POST: Products/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = UserRoles.FoodProducer)]  // Only FoodProducers can post products
+    [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
     public async Task<IActionResult> Create([Bind("Name,Description,Category,Calories,Protein,Fat,Carbohydrates")] Product product) {
         try {
             if (ModelState.IsValid) {
@@ -45,8 +43,8 @@ public class ProductsController : Controller {
         }
     }
 
-    // GET: Products/Edit/{id}
-    [Authorize(Roles = UserRoles.FoodProducer)]  // Only FoodProducers can edit products
+    // GET: Products/Edit/{id} (only FoodProducers and Admins can edit products)
+    [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
     public async Task<IActionResult> Edit(int id) {
         var product = await _context.Products.FindAsync(id);
         if (product == null || product.ProducerId != User.FindFirstValue(ClaimTypes.NameIdentifier)) { // Ensure producer owns the product
@@ -58,7 +56,7 @@ public class ProductsController : Controller {
     // POST: Products/Edit/{id}
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = UserRoles.FoodProducer)]
+    [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
     public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Category,Calories,Protein,Fat,Carbohydrates")] Product product) {
         if (id != product.Id || product.ProducerId != User.FindFirstValue(ClaimTypes.NameIdentifier)) { // Ensure producer owns the product
             return BadRequest();
@@ -80,8 +78,8 @@ public class ProductsController : Controller {
         return View(product);
     }
 
-    // GET: Products/Delete/{id}
-    [Authorize(Roles = UserRoles.FoodProducer)]  // Only FoodProducers can delete products
+    // GET: Products/Delete/{id} (only FoodProducers and Admins can delete products)
+    [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
     public async Task<IActionResult> Delete(int id) {
         var product = await _context.Products.FindAsync(id);
         if (product == null || product.ProducerId != User.FindFirstValue(ClaimTypes.NameIdentifier)) { // Ensure producer owns the product
@@ -93,7 +91,7 @@ public class ProductsController : Controller {
     // POST: Products/Delete/{id}
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = UserRoles.FoodProducer)]
+    [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
     public async Task<IActionResult> DeleteConfirmed(int id) {
         var product = await _context.Products.FindAsync(id);
         if (product != null && product.ProducerId == User.FindFirstValue(ClaimTypes.NameIdentifier)) { // Ensure producer owns the product
