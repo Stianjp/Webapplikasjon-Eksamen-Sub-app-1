@@ -54,9 +54,14 @@ public class AccountController : Controller {
 
     // /Account/Register
     [HttpPost]
-    public async Task<IActionResult> Register(string username, string password, string role) {
-        if(string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)) {
-            ModelState.AddModelError(string.Empty, "Username and password cannot be null or empty.");
+    public async Task<IActionResult> Register(string username, string password, string confirmPassword, string role) {
+        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmPassword)) {
+            ModelState.AddModelError(string.Empty, "Username, password, and password confirmation cannot be null or empty.");
+            return View("Index", ModelState);
+        }
+
+        if (password != confirmPassword) {
+            ModelState.AddModelError(string.Empty, "Passwords do not match.");
             return View("Index", ModelState);
         }
 
@@ -64,12 +69,12 @@ public class AccountController : Controller {
             UserName = username
         };
         var result = await _userManager.CreateAsync(user, password); // create user (attempt)
-        
-        if(result.Succeeded) {
-            if(string.IsNullOrEmpty(role)) {
+
+        if (result.Succeeded) {
+            if (string.IsNullOrEmpty(role)) {
                 await _userManager.AddToRoleAsync(user, UserRoles.RegularUser); // default role
             } else {
-                if(await _roleManager.RoleExistsAsync(role)) {
+                if (await _roleManager.RoleExistsAsync(role)) {
                     await _userManager.AddToRoleAsync(user, role);
                 } else {
                     ModelState.AddModelError(string.Empty, "Invalid role specified.");
@@ -79,7 +84,7 @@ public class AccountController : Controller {
             }
 
             await _signInManager.SignInAsync(user, isPersistent: false);
-            return RedirectToAction("Index", "Home");   
+            return RedirectToAction("Index", "Home");
         }
 
         foreach (var error in result.Errors) {
