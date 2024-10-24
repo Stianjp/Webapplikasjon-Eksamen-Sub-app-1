@@ -41,6 +41,10 @@ builder.WebHost.ConfigureKestrel((context, options) => {
     options.Configure(context.Configuration.GetSection("Kestrel"));
 });
 
+builder.Services.AddControllersWithViews().AddViewOptions(options => {
+    options.HtmlHelperOptions.ClientValidationEnabled = true;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
