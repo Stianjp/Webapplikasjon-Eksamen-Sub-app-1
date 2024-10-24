@@ -66,6 +66,13 @@ public class AccountController : Controller {
             return View("Index", ModelState);
         }
 
+        // Prevent the use of the username "Admin" and similar
+        var reservedUsernames = new[] { "Admin", "Administrator", "Superuser", "Root" }; // reserved usernames
+        if (reservedUsernames.Contains(username, StringComparer.OrdinalIgnoreCase)) {
+            ModelState.AddModelError(string.Empty, "The username is reserved and cannot be used.");
+            return View("Index", ModelState);
+        }
+
         if (password != confirmPassword) {
             ModelState.AddModelError(string.Empty, "Passwords do not match.");
             return View("Index", ModelState);
@@ -77,6 +84,13 @@ public class AccountController : Controller {
         var result = await _userManager.CreateAsync(user, password); // create user (attempt)
 
         if (result.Succeeded) {
+            // Prevent users from assigning themselves the "Administrator" role during registration
+            if (role == UserRoles.Administrator) {
+                ModelState.AddModelError(string.Empty, "You are not allowed to assign the Administrator role.");
+                await _userManager.DeleteAsync(user); // rollback user creation
+                return View("Index", ModelState);
+            }
+
             if (string.IsNullOrEmpty(role)) {
                 await _userManager.AddToRoleAsync(user, UserRoles.RegularUser); // default role
             } else {
