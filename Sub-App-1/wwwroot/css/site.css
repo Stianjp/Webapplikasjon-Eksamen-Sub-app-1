@@ -2,7 +2,6 @@
 * Her kan en bruke fargene fra customdesign.css eller andre css variabler for en et gjennomgående UI desifgn hvis man vil
 *f.eks. background-color: bg-gray-100; se customdesign.css
 *TO DO
-* Oppdatere hover links og farger
 * Endre på fargen til iconer svg. 
 */
 
@@ -45,21 +44,24 @@ a.navbar-brand {
   color: #212529; /* Standard tekstfarge */
 }
 
+/* Regular hover on nav-link */
 .nav-link:hover {
-  background-color: #d4edda; /* Lys grønn bakgrunn ved hover */
-  color: #28a745; /* Grønn tekst ved hover */
+  background-color: #2e8b57; /* Dark green background on hover */
+  color: #ffffff; /* White text on hover */
   border-radius: 4px;
   transition: background-color 0.3s, color 0.3s;
 }
 
+/* Active nav-link */
 .nav-link.active {
-  background-color: #28a745; /* Grønn bakgrunn for aktiv lenke */
-  color: #fff; /* Hvit tekst for aktiv lenke */
+  background-color: #28a745; /* Green background for active link */
+  color: #fff; /* White text for active link */
   border-radius: 4px;
 }
 
+/* Hover on active nav-link */
 .nav-link.active:hover {
-  background-color: #2eb44b; /* Mørkere grønn ved hover på aktiv lenke */
+  background-color: #1c6f3b; /* Darker green on hover for active link */
   color: #fff;
   border-radius: 4px;
   transition: background-color 0.3s, color 0.3s;
