@@ -18,6 +18,19 @@ public class ProductsController : Controller {
         return View(products);
     }
 
+    // GET: Products for Detailed view (only FoodProducers and Admins)
+    [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
+    public async Task<IActionResult> Details(int id)
+    {
+        var product = await _context.Products.FindAsync(id);
+        if (product == null)
+        {
+            Console.WriteLine($"Error: Not found");
+            return NotFound();
+        }
+        return View(product);
+    }
+
     // GET: Products/Create (only FoodProducers and Admins can create products)
     [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
     public IActionResult Create() {
