@@ -16,7 +16,11 @@ public class Product
     [Required]
     public string Description { get; set; }
 
+    public string Volume { get; set; } // Volum eller enhet (f.eks. "33 cl", "500 g")
+
     public string Category { get; set; }
+
+    public DateTime AddedDate { get; set; } // Dato når produktet ble lagt til
 
     // Nutritional Information
     [Required]

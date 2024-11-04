@@ -5,29 +5,74 @@
 }
 
 <div class="content-dashboard">
-<h2>Welcome, @User.Identity.Name!</h2>
-<p class="date">Date: @DateTime.Now.ToString("dd.MM.yyyy")</p>  <!--gir dagens dato metode hentet fra chatgtp -->
+    <h2>Welcome, @User.Identity.Name!</h2>
+    <p class="date">Date: @DateTime.Now.ToString("dd.MM.yyyy")</p>
 
     <section class="recent-products my-5">
-            <h2>Last products added</h2>
-            <div class="product-cards row g-4">
-                <!-- Dynamiske produktkort her kommer bruk foreach løkke med model som utganspunkt, ps må først opprettes db kontakt i controller Foodproducer-->
-                <div class="product-card col-md-3 bg-light text-center p-3">Name product</div>
-                <div class="product-card col-md-3 bg-light text-center p-3">Name product</div>
-                <div class="product-card col-md-3 bg-light text-center p-3">Name product</div>
-                <div class="product-card col-md-3 bg-primary text-white text-center p-3 add-product">+ Add new product</div>
+        <h2>Last products added</h2>
+        <div class="product-cards row g-4">
+            @foreach (var product in Model)
+            {
+                <div class="product-card col-md-3 bg-light text-center p-3">
+                    <p>@product.Name</p>
+                    <p>@product.Volume</p>
+                    <span class="badge bg-secondary">@product.Category</span>
+                </div>
+            }
+            <div class="product-card col-md-3 bg-primary text-white text-center p-3 add-product">
+                + Add new product
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="charts-section row g-4">
-            <div class="chart col-md-6 bg-light p-4">
-                <h3>Products based on category</h3>
-                <!-- Legg inn diagrammer her -->
-            </div>
-            <div class="chart col-md-6 bg-light p-4">
-                <h3>Antall sertifiseringer pr. produkt</h3>
-                <!-- Legg inn sertifiseringsdiagram her -->
-            </div>
-        </section>
+    <section class="charts-section row g-4">
+        <div class="chart col-md-6 bg-light p-4">
+            <h3>Products based on category</h3>
+            <canvas id="categoryChart"></canvas>
+        </div>
+        <div class="chart col-md-6 bg-light p-4">
+            <h3>Products added by year</h3>
+            <canvas id="yearChart"></canvas>
+        </div>
+    </section>
 </div>
 
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Data for category chart
+        var categoryData = @Html.Raw(Json.Serialize(Model.GroupBy(p => p.Category).Select(g => new { Category = g.Key, Count = g.Count() })));
+        var categoryLabels = categoryData.map(data => data.Category);
+        var categoryCounts = categoryData.map(data => data.Count);
+
+        var ctxCategory = document.getElementById('categoryChart').getContext('2d');
+        new Chart(ctxCategory, {
+            type: 'doughnut',
+            data: {
+                labels: categoryLabels,
+                datasets: [{
+                    data: categoryCounts,
+                    backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc']
+                }]
+            }
+        });
+
+        // Data for year chart
+        var yearData = @Html.Raw(Json.Serialize(Model.GroupBy(p => p.AddedDate.Year).Select(g => new { Year = g.Key, Count = g.Count() })));
+        var yearLabels = yearData.map(data => data.Year);
+        var yearCounts = yearData.map(data => data.Count);
+
+        var ctxYear = document.getElementById('yearChart').getContext('2d');
+        new Chart(ctxYear, {
+            type: 'bar',
+            data: {
+                labels: yearLabels,
+                datasets: [{
+                    label: 'Number of Products',
+                    data: yearCounts,
+                    backgroundColor: '#4e73df'
+                }]
+            }
+        });
+    </script>
+}
