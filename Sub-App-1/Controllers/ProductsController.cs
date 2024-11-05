@@ -203,4 +203,52 @@ public class ProductsController : Controller {
         selectList.WriteTo(writer, HtmlEncoder.Default);
         return writer.ToString();
     }
+
+public IActionResult Index(string sortOrder, string currentSort, string sortDirection)
+{
+    // Holder styr på gjeldende sorteringskolonne og retning
+    ViewData["CurrentSort"] = sortOrder;
+    ViewData["CurrentDirection"] = sortDirection == "asc" ? "desc" : "asc";
+
+    // Sorteringsalternativer for kolonner
+    ViewData["NameSortParam"] = "Name";
+    ViewData["CategorySortParam"] = "Category";
+    ViewData["CaloriesSortParam"] = "Calories";
+    ViewData["ProteinSortParam"] = "Protein";
+    ViewData["FatSortParam"] = "Fat";
+    ViewData["CarbohydratesSortParam"] = "Carbohydrates";
+
+    // Hent produktene
+    var products = from p in _context.Products
+                   select p;
+
+    // Sorter basert på sortOrder og sortDirection
+    switch (sortOrder)
+    {
+        case "Name":
+            products = sortDirection == "desc" ? products.OrderByDescending(p => p.Name) : products.OrderBy(p => p.Name);
+            break;
+        case "Category":
+            products = sortDirection == "desc" ? products.OrderByDescending(p => p.Category) : products.OrderBy(p => p.Category);
+            break;
+        case "Calories":
+            products = sortDirection == "desc" ? products.OrderByDescending(p => p.Calories) : products.OrderBy(p => p.Calories);
+            break;
+        case "Protein":
+            products = sortDirection == "desc" ? products.OrderByDescending(p => p.Protein) : products.OrderBy(p => p.Protein);
+            break;
+        case "Fat":
+            products = sortDirection == "desc" ? products.OrderByDescending(p => p.Fat) : products.OrderBy(p => p.Fat);
+            break;
+        case "Carbohydrates":
+            products = sortDirection == "desc" ? products.OrderByDescending(p => p.Carbohydrates) : products.OrderBy(p => p.Carbohydrates);
+            break;
+        default:
+            products = products.OrderBy(p => p.Name); // Standard sortering
+            break;
+    }
+
+    return View("ProductsIndex", products.ToList());
+}
+
 }

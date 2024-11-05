@@ -28,13 +28,50 @@
     <table class="table rounded-2 table-responsiv table-hover">
     <thead>
         <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Category</th>
-            <th scope ="col">Description</th>
-            <th scope ="col">Calories (kcal)</th>
-            <th scope ="col">Protein (g)</th>
-            <th scope ="col">Fat (g)</th>
-            <th scope ="col">Carbohydrates (g)</th>
+            <th scope="col">
+            <a asp-action="Index" asp-route-sortOrder="Name" asp-route-sortDirection="@ViewData["CurrentDirection"]">Name</a>
+            @if (ViewData["CurrentSort"]?.ToString() == "Name")
+            {
+                <span>@(ViewData["CurrentDirection"]?.ToString() == "asc" ? "▲" : "▼")</span>
+            }
+        </th>
+        <th scope="col">
+            <a asp-action="Index" asp-route-sortOrder="Category" asp-route-sortDirection="@ViewData["CurrentDirection"]">Category</a>
+            @if (ViewData["CurrentSort"]?.ToString() == "Category")
+            {
+                <span>@(ViewData["CurrentDirection"]?.ToString() == "asc" ? "▲" : "▼")</span>
+            }
+        </th>
+        <th scope="col">Description</th>
+        <th scope="col">
+            <a asp-action="Index" asp-route-sortOrder="Calories" asp-route-sortDirection="@ViewData["CurrentDirection"]">Calories (kcal)</a>
+            @if (ViewData["CurrentSort"]?.ToString() == "Calories")
+            {
+                <span>@(ViewData["CurrentDirection"]?.ToString() == "asc" ? "▲" : "▼")</span>
+            }
+        </th>
+        <th scope="col">
+            <a asp-action="Index" asp-route-sortOrder="Protein" asp-route-sortDirection="@ViewData["CurrentDirection"]">Protein (g)</a>
+            @if (ViewData["CurrentSort"]?.ToString() == "Protein")
+            {
+                <span>@(ViewData["CurrentDirection"]?.ToString() == "asc" ? "▲" : "▼")</span>
+            }
+        </th>
+        <th scope="col">
+            <a asp-action="Index" asp-route-sortOrder="Fat" asp-route-sortDirection="@ViewData["CurrentDirection"]">Fat (g)</a>
+            @if (ViewData["CurrentSort"]?.ToString() == "Fat")
+            {
+                <span>@(ViewData["CurrentDirection"]?.ToString() == "asc" ? "▲" : "▼")</span>
+            }
+        </th>
+        <th scope="col">
+            <a asp-action="Index" asp-route-sortOrder="Carbohydrates" asp-route-sortDirection="@ViewData["CurrentDirection"]">Carbohydrates (g)</a>
+            @if (ViewData["CurrentSort"]?.ToString() == "Carbohydrates")
+            {
+                <span>@(ViewData["CurrentDirection"]?.ToString() == "asc" ? "▲" : "▼")</span>
+            }
+        </th>
+            
             @if (User.IsInRole(UserRoles.FoodProducer) || User.IsInRole(UserRoles.Administrator)) {
                 <th scope="col">Actions</th>
             }
