@@ -47,6 +47,22 @@
             <input asp-for="Carbohydrates" class="form-control" />
             <span asp-validation-for="Carbohydrates" class="text-danger"></span>
         </div>
+        <div class="form-group">
+   <div class="form-group">
+    <label asp-for="Allergens">Allergens (Select up to 10)</label>
+    <select asp-for="Allergens" class="form-control" multiple="multiple">
+        @foreach (var allergen in ViewBag.AllergenOptions as List<string>)
+        {
+            <option value="@allergen" selected="@(Model?.Allergens?.Contains(allergen) == true ? "selected" : null)">
+                @allergen
+            </option>
+        }
+    </select>
+    <span asp-validation-for="Allergens" class="text-danger"></span>
+    </div>
+
+
+
 
         <hr>
         <button type="submit" class="btn btn-primary">Save changes</button>

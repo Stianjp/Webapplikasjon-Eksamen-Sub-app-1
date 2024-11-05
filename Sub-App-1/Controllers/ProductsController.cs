@@ -23,6 +23,17 @@ public class ProductsController : Controller {
         "Legume",
         "Drink"
     };
+    private readonly List<string> _availabeAllergens = new List<string>{
+        "Milk",
+        "Egg",
+        "Peanut",
+        "Soy",
+        "Wheat",
+        "Tree Nut",
+        "Shellfish",
+        "Fish",
+        "Sesame"
+    };
 
     public ProductsController(ApplicationDbContext context) {
         _context = context;
@@ -51,95 +62,123 @@ public class ProductsController : Controller {
 
     // GET: Products/Create (only FoodProducers and Admins can create products)
     [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
-    public IActionResult Create() {
-        // Generate category options
+    public IActionResult Create()
+    {
+        ViewBag.AllergenOptions = _availabeAllergens;
         ViewBag.CategoryOptions = GenerateCategoryOptions(null);
         return View();
     }
 
-    // POST: Products/Create
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
-    public async Task<IActionResult> Create([Bind("Name,Description,Category,Calories,Protein,Fat,Carbohydrates")] Product product) {
-        try {
-            if (ModelState.IsValid) {
-                product.ProducerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                _context.Add(product);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Productsindex));
-            }
-            // If model state is invalid, regenerate category options
-            ViewBag.CategoryOptions = GenerateCategoryOptions(product.Category);
-            return View(product);
-        } catch (Exception ex) {
-            Console.WriteLine($"Error: {ex.Message}");
-            // In case of error, regenerate category options
-            ViewBag.CategoryOptions = GenerateCategoryOptions(product.Category);
-            return View(product);
-        }
-    }
 
-    // GET: Products/Edit/{id} (only FoodProducers and Admins can edit products)
+    // POST: Products/Create
+[HttpPost]
+[ValidateAntiForgeryToken]
+[Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
+public async Task<IActionResult> Create([Bind("Name,Description,Category,Calories,Protein,Fat,Carbohydrates,Allergens")] Product product)
+{
+    try
+    {
+        if (ModelState.IsValid)
+        {
+            product.ProducerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            _context.Add(product);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Productsindex));
+        }
+        // Regenerer allergen- og kategori-alternativer hvis model state er ugyldig
+        ViewBag.AllergenOptions = _availabeAllergens;
+        ViewBag.CategoryOptions = GenerateCategoryOptions(product.Category);
+        return View(product);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error: {ex.Message}");
+        // Regenerer allergen- og kategori-alternativer i tilfelle feil
+        ViewBag.AllergenOptions = _availabeAllergens;
+        ViewBag.CategoryOptions = GenerateCategoryOptions(product.Category);
+        return View(product);
+    }
+}
+
+   // GET: Products/Edit/{id} (only FoodProducers and Admins can edit products)
     [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
-    public async Task<IActionResult> Edit(int id) {
+    public async Task<IActionResult> Edit(int id)
+    {
         var product = await _context.Products.FindAsync(id);
 
-        if (product == null) {
+        if (product == null)
+        {
             return NotFound();
         }
 
-        if (!IsAdmin() && product.ProducerId != User.FindFirstValue(ClaimTypes.NameIdentifier)) {
+        if (!IsAdmin() && product.ProducerId != User.FindFirstValue(ClaimTypes.NameIdentifier))
+        {
             return Forbid(); // Return 403 Forbidden instead of NotFound
         }
 
-        // Generate category options with the selected categories
+        // Send allergener og kategori-alternativer til viewet
+        ViewBag.AllergenOptions = _availabeAllergens;
         ViewBag.CategoryOptions = GenerateCategoryOptions(product.Category);
         return View(product);
     }
 
+
     // POST: Products/Edit/{id}
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
-    public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Category,Calories,Protein,Fat,Carbohydrates")] Product updatedProduct) {
-        if (id != updatedProduct.Id) {
-            return BadRequest();
-        }
-        var product = await _context.Products.FindAsync(id);
+[HttpPost]
+[ValidateAntiForgeryToken]
+[Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
+public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Category,Calories,Protein,Fat,Carbohydrates,Allergens")] Product updatedProduct)
+{
+    if (id != updatedProduct.Id)
+    {
+        return BadRequest();
+    }
+    var product = await _context.Products.FindAsync(id);
 
-        if (product == null) {
-            return NotFound();
-        }
+    if (product == null)
+    {
+        return NotFound();
+    }
 
-        if (!IsAdmin() && product.ProducerId != User.FindFirstValue(ClaimTypes.NameIdentifier)) {
-            return Forbid();
-        }
+    if (!IsAdmin() && product.ProducerId != User.FindFirstValue(ClaimTypes.NameIdentifier))
+    {
+        return Forbid();
+    }
 
-        if (ModelState.IsValid) {
-            try {
-                // Update the product properties
-                product.Name = updatedProduct.Name;
-                product.Description = updatedProduct.Description;
-                product.Category = updatedProduct.Category;
-                product.Calories = updatedProduct.Calories;
-                product.Protein = updatedProduct.Protein;
-                product.Fat = updatedProduct.Fat;
-                product.Carbohydrates = updatedProduct.Carbohydrates;
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Productsindex));
-            } catch (DbUpdateConcurrencyException) {
-                if (!_context.Products.Any(p => p.Id == id)) {
-                    return NotFound();
-                } else {
-                    throw;
-                }
+    if (ModelState.IsValid)
+    {
+        try
+        {
+            // Oppdater produktets egenskaper
+            product.Name = updatedProduct.Name;
+            product.Description = updatedProduct.Description;
+            product.Category = updatedProduct.Category;
+            product.Calories = updatedProduct.Calories;
+            product.Protein = updatedProduct.Protein;
+            product.Fat = updatedProduct.Fat;
+            product.Carbohydrates = updatedProduct.Carbohydrates;
+            product.Allergens = updatedProduct.Allergens;
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Productsindex));
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!_context.Products.Any(p => p.Id == id))
+            {
+                return NotFound();
+            }
+            else
+            {
+                throw;
             }
         }
-        // If model state is invalid, regenerate category options
-        ViewBag.CategoryOptions = GenerateCategoryOptions(updatedProduct.Category);
-        return View(updatedProduct);
     }
+    // Regenerer allergen- og kategori-alternativer hvis model state er ugyldig
+    ViewBag.AllergenOptions = _availabeAllergens;
+    ViewBag.CategoryOptions = GenerateCategoryOptions(updatedProduct.Category);
+    return View(updatedProduct);
+}
+
 
     // GET: Products/Delete/{id} (only FoodProducers and Admins can delete products)
     [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]

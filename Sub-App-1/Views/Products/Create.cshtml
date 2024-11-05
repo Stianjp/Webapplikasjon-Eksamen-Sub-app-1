@@ -19,6 +19,7 @@
     <div class="form-group">
         <label asp-for="Category">Category (Select up to 3)</label>
         <select asp-for="Category" class="form-control" multiple="multiple" required>
+            <option value="Meat">Meat</option>
             <option value="Fish">Fish</option>
             <option value="Vegetable">Vegetable</option>
             <option value="Fruit">Fruit</option>
@@ -48,6 +49,21 @@
         <input asp-for="Carbohydrates" class="form-control" />
         <span asp-validation-for="Carbohydrates" class="text-danger"></span>
     </div>
+    <div class="form-group">
+    <label asp-for="Allergens">Allergens (Select up to 10)</label>
+    <select asp-for="Allergens" class="form-control" multiple="multiple">
+        @foreach (var allergen in ViewBag.AllergenOptions as List<string>)
+        {
+            <option value="@allergen" selected="@(Model?.Allergens?.Contains(allergen) == true ? "selected" : null)">
+                @allergen
+            </option>
+        }
+    </select>
+    <span asp-validation-for="Allergens" class="text-danger"></span>
+    </div>
+
+
+
     <button type="submit" class="btn btn-primary">Save</button>
     <a href="@Url.Action("Productsindex", "Products")" class="btn btn-secondary mt-3">Back to Products List</a>
 </form>
