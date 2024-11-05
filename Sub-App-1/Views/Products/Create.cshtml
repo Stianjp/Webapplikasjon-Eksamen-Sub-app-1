@@ -3,9 +3,13 @@
     ViewData["Title"] = "Add Product";
 }
 
+<!-- Add custom CSS for this view only -->
+<link rel="stylesheet" href="~/css/create.css" />
+
 <h2>Create Product</h2>
 
-<div class="">
+<div class="wrapper-box">
+    <p>The product info should be caluclated for every 100 grams</p>
     <form asp-action="Create" method="post">
         <div class="form-group">
             <label asp-for="Name"></label>
@@ -14,11 +18,11 @@
     </div>
     <div class="form-group">
         <label asp-for="Description"></label>
-        <input asp-for="Description" class="form-control" placeholder="Write the type of product"/>
+        <input asp-for="Description" class="form-control" placeholder="Write a description of your product"/>
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Category">Category (Select up to 3)</label>
+        <label asp-for="Category">Category</label>
         <select asp-for="Category" class="form-control" multiple="multiple" required>
             <option value="Meat">Meat</option>
             <option value="Fish">Fish</option>
@@ -32,7 +36,7 @@
     </div>
     <div class="form-group">
         <label asp-for="Calories"></label>
-        <input asp-for="Calories" class="form-control" placeholder="Enter your name"/>
+        <input asp-for="Calories" class="form-control" placeholder="Enter the right value for calories "/>
         <span asp-validation-for="Calories" class="text-danger"></span>
     </div>
     <div class="form-group">
@@ -66,6 +70,7 @@
 
 
     <button type="submit" class="btn btn-primary">Save</button>
+    <hr>
     <a href="@Url.Action("Productsindex", "Products")" class="btn btn-secondary mt-3">Back to Products List</a>
 </form>
 
