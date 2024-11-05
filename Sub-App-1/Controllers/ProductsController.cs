@@ -39,7 +39,6 @@ public class ProductsController : Controller {
     }
 
     // GET: Products/Details/{id} (only FoodProducers and Admins)
-    [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
     public async Task<IActionResult> Details(int id) {
         var product = await _context.Products.FindAsync(id);
 
@@ -182,11 +181,9 @@ public class ProductsController : Controller {
     // Private method to generate category options using TagBuilder
     private string GenerateCategoryOptions(string selectedCategories) {
         // Parse the selected categories into a list
-        var selectedCategoryList = string.IsNullOrEmpty(selectedCategories)
-            ? new List<string>()
-            : selectedCategories.Split(',').ToList();
-
+        var selectedCategoryList = string.IsNullOrEmpty(selectedCategories) ? new List<string>() : selectedCategories.Split(',').ToList();
         var selectList = new TagBuilder("select");
+
         selectList.Attributes.Add("name", "Category");
         selectList.Attributes.Add("id", "Category");
         selectList.Attributes.Add("class", "form-control");
@@ -200,11 +197,9 @@ public class ProductsController : Controller {
             if (selectedCategoryList.Contains(category)) {
                 option.Attributes.Add("selected", "selected");
             }
-
             option.InnerHtml.Append(category);
             selectList.InnerHtml.AppendHtml(option);
         }
-
         // Render the select list to a string
         var writer = new System.IO.StringWriter();
         selectList.WriteTo(writer, HtmlEncoder.Default);
