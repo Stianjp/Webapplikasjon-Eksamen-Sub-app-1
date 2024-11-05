@@ -126,6 +126,7 @@ public class ProductsController : Controller {
                 product.Protein = updatedProduct.Protein;
                 product.Fat = updatedProduct.Fat;
                 product.Carbohydrates = updatedProduct.Carbohydrates;
+                product.ImageUrl = updatedProduct.ImageUrl;
 
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Productsindex));
