@@ -48,18 +48,22 @@
             <span asp-validation-for="Carbohydrates" class="text-danger"></span>
         </div>
         <div class="form-group">
-   <div class="form-group">
+    <div class="form-group">
     <label asp-for="Allergens">Allergens (Select up to 10)</label>
-    <select asp-for="Allergens" class="form-control" multiple="multiple">
-        @foreach (var allergen in ViewBag.AllergenOptions as List<string>)
-        {
-            <option value="@allergen" selected="@(Model?.Allergens?.Contains(allergen) == true ? "selected" : null)">
-                @allergen
-            </option>
-        }
-    </select>
+    @foreach (var allergen in ViewBag.AllergenOptions as List<string>)
+    {
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="SelectedAllergens" value="@allergen"
+               @(Model.Allergens != null && Model.Allergens.Contains(allergen) ? "checked" : "") />
+            <label class="form-check-label">@allergen</label>
+        </div>
+    }
     <span asp-validation-for="Allergens" class="text-danger"></span>
     </div>
+
+
+
+
         <hr>
         <button type="submit" class="btn btn-primary">Save changes</button>
         <a href="@Url.Action("Productsindex", "Products")" class="btn btn-secondary mt-3">Back to Products List</a>

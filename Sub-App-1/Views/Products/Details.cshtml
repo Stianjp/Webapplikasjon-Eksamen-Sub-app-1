@@ -38,21 +38,20 @@
     <p>This product has these allergens:</p>
     <table class="table table-sm table-responsive">
         <tr>
-            <th>Allergens</th>
             <td>
-                @if (Model.Allergens != null && Model.Allergens.Any())
+            @if (!string.IsNullOrWhiteSpace(Model.Allergens))
+            {
+            <ul>
+                @foreach (var allergen in Model.Allergens.Split(','))
                 {
-                    <ul>
-                        @foreach (var allergen in Model.Allergens)
-                        {
-                            <li>@allergen</li>
-                        }
-                    </ul>
+                    <li>@allergen</li>
                 }
-                else
-                {
-                    <p>No allergens specified.</p>
-                }
+            </ul>
+            }
+            else
+{
+    <p>No allergens specified.</p>
+}
             </td>
         </tr>
     </table>
