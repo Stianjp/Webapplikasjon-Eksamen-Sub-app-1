@@ -64,6 +64,21 @@
 
 
 
+         <!-- Nytt felt for bilde-URL -->
+        <div class="form-group">
+            <label asp-for="ImageUrl">Image URL</label>
+            <input asp-for="ImageUrl" class="form-control" placeholder="Enter image URL" />
+            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+        </div>
+
+        <!-- Forhåndsvisning av bildet -->
+        <div class="form-group mt-3">
+            @if (!string.IsNullOrEmpty(Model?.ImageUrl))
+            {
+                <img src="@Model.ImageUrl" alt="Product Image" class="img-fluid" style="max-width: 200px; max-height: 200px;" />
+            }
+        </div>
+
         <hr>
         <button type="submit" class="btn btn-primary">Save changes</button>
         <a href="@Url.Action("Productsindex", "Products")" class="btn btn-secondary mt-3">Back to Products List</a>
