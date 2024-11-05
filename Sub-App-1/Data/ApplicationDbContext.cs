@@ -5,8 +5,7 @@ namespace Sub_App_1.Data {
     using Microsoft.EntityFrameworkCore;  // Dette legger til ToListAsync
 
     public class ApplicationDbContext : IdentityDbContext {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) {
-        }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) {}
 
         public DbSet<Product> Products { get; set; }
     }

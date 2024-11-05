@@ -11,7 +11,7 @@ using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 public class ProductsController : Controller {
-    private readonly ApplicationDbContext _context;
+    private readonly ApplicationDbContext _context; 
 
     // Define the list of available categories
     private readonly List<string> _availableCategories = new List<string> {
