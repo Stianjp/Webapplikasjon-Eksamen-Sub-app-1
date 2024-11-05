@@ -1,0 +1,21 @@
+.wrapper-box{
+    width: 50%;
+    display: flex;
+    font-size: small;
+    margin-top: 40px;
+    border-radius: 8px;
+    background-color: aquamarine;
+}
+
+.wrapper-box{
+    width: 50%;
+    font-size: small;
+    display: flex;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: aquamarine;
+}
+
+.buttons{
+    margin-left:5px ;
+}
