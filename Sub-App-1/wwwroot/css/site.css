@@ -93,6 +93,7 @@ a.navbar-brand {
 .text-overlay a {
   color: white;
 }
+<<<<<<< HEAD
 
 .wrapper.box{
   border-radius: 8px;
@@ -100,3 +101,5 @@ a.navbar-brand {
   background-color:rgb(232, 226, 255) ;
 }
 
+=======
+>>>>>>> 44b0c6f (Added sub-item "Add" under Products menu item.)
