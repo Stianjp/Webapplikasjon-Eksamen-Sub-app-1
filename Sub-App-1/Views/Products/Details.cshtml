@@ -1,7 +1,6 @@
 @model Sub_App_1.Models.Product
 
-
-    <h1>@Model.Name</h1>
+<h2>@Model.Name</h2>
     <div class="cointainer-gray style="backround:gray;">
     <p><strong>Category:</strong> @Model.Category</p>
     <p><strong>Description:</strong> @Model.Description</p>
@@ -12,7 +11,7 @@
         <p><strong>Fat:</strong> @Model.Fat g</p>
         <p><strong>Carbohydrates:</strong> @Model.Carbohydrates g</p>
     </div>
-    </div>
+</div>
 
     @if (User.IsInRole(UserRoles.FoodProducer) && Model.ProducerId == User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value)
     {
@@ -24,3 +23,4 @@
 
 
     <a href="@Url.Action("Productsindex", "Products")" class="btn btn-secondary mt-3">Back to Products List</a>
+
