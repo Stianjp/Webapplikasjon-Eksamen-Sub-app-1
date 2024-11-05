@@ -32,7 +32,6 @@ public class Product {
     
     public string Allergens { get; set; }
 
-
     //Behov for kategorier av type mat
     // public string Category {get; set; } // Skal vi bruke en liste med kategorier som er alt satt av oss?
 
@@ -40,8 +39,4 @@ public class Product {
     [JsonIgnore]
     public string? ProducerId { get; set; }
     public IdentityUser? Producer { get; set; }
-
-     // Nytt felt for bilde-URL
-    public string ImageUrl { get; set; }
-
 }
