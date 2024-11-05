@@ -1,10 +1,7 @@
 /* I denne css skal bare global styling ligge. 
 * Her kan en bruke fargene fra customdesign.css eller andre css variabler for en et gjennomgående UI desifgn hvis man vil
 *f.eks. background-color: bg-gray-100; se customdesign.css
-*TO DO
-* Endre på fargen til iconer svg. 
 */
-
 
 * {
   padding: 0;
@@ -76,7 +73,7 @@ a.navbar-brand {
 /* Main innhold styles */
 .main-content {
   margin-left: 240px; /* Forskyver innholdet til siden */
-  padding: 2rem;
+  padding: 1.5rem;
   height: auto;
 }
 
@@ -88,6 +85,8 @@ a.navbar-brand {
   display: grid;
   align-items: center;
 }
+
+
 
 .text-overlay {
   background-color: rgba(73, 73, 73, 0.9); /* Semi-transparent black background */

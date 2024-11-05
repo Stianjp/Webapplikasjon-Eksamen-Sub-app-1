@@ -1,5 +1,67 @@
-/* Additional styling for cards */
+/* Additional styling for table and searchbar */
 
+#bakgrunns-farger{
+    margin: 10px;
+    border-radius: 8px;
+    background-color: rgb(0, 68, 255);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table{ 
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table thead{
+    background-color:#b78f8f;
+}
+
+.table th {
+    font-weight: 500;
+    font-size: 14px;
+    border-bottom: none ;
+}
+
+.table td {
+    font-size: 13px;
+    font-weight: 400;
+
+}
+
+
+.table td a {
+    text-decoration: none;
+    color: black;
+}
+
+.table {
+    border-radius: 10px;
+}
+
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    color: #333;
+    padding: 8px 12px;
+    margin: 0 5px;
+    text-decoration: none;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+}
+
+.pagination a:hover {
+    background-color: #d0d0d0;
+}
+
+/* Buttons */
 .btn-group .btn {
     margin-left: 0.5rem;
 }
