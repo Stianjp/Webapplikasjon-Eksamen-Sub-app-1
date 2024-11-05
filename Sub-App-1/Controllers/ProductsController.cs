@@ -227,7 +227,7 @@ public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Categor
     }
 
     // Private method to generate category options using TagBuilder
-    private string GenerateCategoryOptions(string selectedCategories) {
+    private string GenerateCategoryOptions(string? selectedCategories) {
         var selectedCategoryList = string.IsNullOrEmpty(selectedCategories) ? new List<string>() : selectedCategories.Split(',').ToList();
         var selectList = new TagBuilder("select");
 

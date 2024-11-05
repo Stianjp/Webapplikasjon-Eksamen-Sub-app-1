@@ -10,27 +10,27 @@ public class Product {
     public int Id { get; set; } // Primary Key
 
     [Required]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     [Required]
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
-    public string Category { get; set; }
+    public string? Category { get; set; }
 
     // Nutritional Information
     [Required]
-    public double Calories { get; set; } // kcal per 100g
+    public double? Calories { get; set; } // kcal per 100g
 
     [Required]
-    public double Protein { get; set; } // grams per 100g
+    public double? Protein { get; set; } // grams per 100g
 
     [Required]
-    public double Carbohydrates { get; set; } // grams per 100g
+    public double? Carbohydrates { get; set; } // grams per 100g
 
     [Required]
-    public double Fat { get; set; } // grams per 100g
+    public double? Fat { get; set; } // grams per 100g
     
-    public string Allergens { get; set; }
+    public string? Allergens { get; set; }
 
 
     //Behov for kategorier av type mat
