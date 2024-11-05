@@ -15,16 +15,8 @@ public class HomeController : Controller {
 
     public IActionResult Index() {
         if (User.Identity != null && User.Identity.IsAuthenticated) {
-            // Redirect users based on their roles
-            if (User.IsInRole(UserRoles.FoodProducer)) {
-                return RedirectToAction("Dashboard", "FoodProducer");
-            } else if (User.IsInRole(UserRoles.Administrator)) {
-                return RedirectToAction("Dashboard", "FoodProducer"); // can be the same as food producer
-            } else if (User.IsInRole(UserRoles.RegularUser)) {
-                return RedirectToAction("Dashboard", "RegularUser");
-            }
+            return RedirectToAction("Productsindex", "Products");
         }
-        // General home page for users who are not logged in
         return View();
     }
 

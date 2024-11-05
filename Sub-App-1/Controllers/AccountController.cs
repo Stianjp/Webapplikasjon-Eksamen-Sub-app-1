@@ -28,23 +28,21 @@ public class AccountController : Controller {
         if (result.Succeeded) {
             // Get the user and their roles after successful login
             var user = await _userManager.FindByNameAsync(username);
-            var roles = await _userManager.GetRolesAsync(user);
+            if(user != null) {
+                var roles = await _userManager.GetRolesAsync(user);
 
-            // Redirect users based on their roles
-            if (roles.Contains(UserRoles.FoodProducer)) {
-                return RedirectToAction("Dashboard", "FoodProducer");
+                // Check if the user has any roles
+                if (roles.Any()) {
+                    // redirect to the products page if the user has a role
+                    return RedirectToAction("Productsindex", "Products");
+                } else {
+                    // eedirect to the home page if the user has no roles
+                    return RedirectToAction("Index", "Home");
+                }
+            } else {
+                return RedirectToAction("Index", "Home");
             }
-            else if (roles.Contains(UserRoles.Administrator)) {
-                return RedirectToAction("Dashboard", "FoodProducer");
-            }
-            else if (roles.Contains(UserRoles.RegularUser)) {
-                return RedirectToAction("Dashboard", "RegularUser");
-            }
-
-            // Default redirection for other roles or guest users
-            return RedirectToAction("Index", "Home");
         }
-
         // If login failed, show an error message
         ViewBag.Error = "Invalid username or password.";
         return View("Index");
@@ -181,12 +179,5 @@ public class AccountController : Controller {
             ModelState.AddModelError(string.Empty, error.Description);
         }
         return View("DeleteAccount");
-    }
-
-    // /Account/BrowseAsGuest
-    public IActionResult BrowseAsGuest() {
-        // todo ..
-        // continue browsing without an account
-        return RedirectToAction("Index", "Home");
     }
 }

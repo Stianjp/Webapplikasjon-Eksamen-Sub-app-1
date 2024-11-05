@@ -25,11 +25,6 @@
             <span class="navbar-brand text-dark">FoodStack</span> <!-- todo: logo -->
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
-                <li class="nav-item">
-                    <a class="nav-link" asp-controller="Home" asp-action="Index">
-                        <img src="~/icons/gauge-solid.svg" alt="Dashboard Icon"> Dashboard
-                    </a>
-                </li>
                 @if (User.Identity != null && User.Identity.IsAuthenticated) {
                     <!-- If user is authenticated, show active links -->
                     <li class="nav-item">
