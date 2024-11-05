@@ -98,4 +98,9 @@ a.navbar-brand {
   color: white;
 }
 
+.wrapper-box{
+  border-radius: 8px;
+  padding: 5px;
+  background-color:rgb(232, 226, 255) ;
+}
 
