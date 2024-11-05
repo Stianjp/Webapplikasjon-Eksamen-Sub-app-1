@@ -15,11 +15,13 @@ public class ProductsController : Controller {
 
     // Define the list of available categories
     private readonly List<string> _availableCategories = new List<string> {
-        "Category1",
-        "Category2",
-        "Category3",
-        "Category4",
-        "Category5"
+        "Meat",
+        "Fish",
+        "Vegetable",
+        "Fruit",
+        "Pasta",
+        "Legume",
+        "Drink"
     };
 
     public ProductsController(ApplicationDbContext context) {

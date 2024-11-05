@@ -19,11 +19,12 @@
     <div class="form-group">
         <label asp-for="Category">Category (Select up to 3)</label>
         <select asp-for="Category" class="form-control" multiple="multiple" required>
-            <option value="Category1">Category1</option>
-            <option value="Category2">Category2</option>
-            <option value="Category3">Category3</option>
-            <option value="Category4">Category4</option>
-            <option value="Category5">Category5</option>
+            <option value="Fish">Fish</option>
+            <option value="Vegetable">Vegetable</option>
+            <option value="Fruit">Fruit</option>
+            <option value="Pasta">Pasta</option>
+            <option value="Legume">Legume</option>
+            <option value="Drink">Drink</option>
         </select>
         <span asp-validation-for="Category" class="text-danger"></span>
     </div>
