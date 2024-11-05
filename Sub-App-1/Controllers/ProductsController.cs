@@ -34,6 +34,17 @@ public class ProductsController : Controller {
         "Fish",
         "Sesame"
     };
+    private readonly List<string> _availabeAllergens = new List<string>{
+        "Milk",
+        "Egg",
+        "Peanut",
+        "Soy",
+        "Wheat",
+        "Tree Nut",
+        "Shellfish",
+        "Fish",
+        "Sesame"
+    };
 
     public ProductsController(ApplicationDbContext context) {
         _context = context;
@@ -65,9 +76,13 @@ public class ProductsController : Controller {
     public IActionResult Create()
     {
         ViewBag.AllergenOptions = _availabeAllergens;
+    public IActionResult Create()
+    {
+        ViewBag.AllergenOptions = _availabeAllergens;
         ViewBag.CategoryOptions = GenerateCategoryOptions(null);
         return View();
     }
+
 
 
     // POST: Products/Create
@@ -99,7 +114,36 @@ public async Task<IActionResult> Create([Bind("Name,Description,Category,Calorie
         return View(product);
     }
 }
+[HttpPost]
+[ValidateAntiForgeryToken]
+[Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
+public async Task<IActionResult> Create([Bind("Name,Description,Category,Calories,Protein,Fat,Carbohydrates,Allergens")] Product product)
+{
+    try
+    {
+        if (ModelState.IsValid)
+        {
+            product.ProducerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            _context.Add(product);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Productsindex));
+        }
+        // Regenerer allergen- og kategori-alternativer hvis model state er ugyldig
+        ViewBag.AllergenOptions = _availabeAllergens;
+        ViewBag.CategoryOptions = GenerateCategoryOptions(product.Category);
+        return View(product);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error: {ex.Message}");
+        // Regenerer allergen- og kategori-alternativer i tilfelle feil
+        ViewBag.AllergenOptions = _availabeAllergens;
+        ViewBag.CategoryOptions = GenerateCategoryOptions(product.Category);
+        return View(product);
+    }
+}
 
+   // GET: Products/Edit/{id} (only FoodProducers and Admins can edit products)
    // GET: Products/Edit/{id} (only FoodProducers and Admins can edit products)
     [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
     public async Task<IActionResult> Edit(int id)
@@ -108,9 +152,13 @@ public async Task<IActionResult> Create([Bind("Name,Description,Category,Calorie
 
         if (product == null)
         {
+        if (product == null)
+        {
             return NotFound();
         }
 
+        if (!IsAdmin() && product.ProducerId != User.FindFirstValue(ClaimTypes.NameIdentifier))
+        {
         if (!IsAdmin() && product.ProducerId != User.FindFirstValue(ClaimTypes.NameIdentifier))
         {
             return Forbid(); // Return 403 Forbidden instead of NotFound
@@ -118,9 +166,12 @@ public async Task<IActionResult> Create([Bind("Name,Description,Category,Calorie
 
         // Send allergener og kategori-alternativer til viewet
         ViewBag.AllergenOptions = _availabeAllergens;
+        // Send allergener og kategori-alternativer til viewet
+        ViewBag.AllergenOptions = _availabeAllergens;
         ViewBag.CategoryOptions = GenerateCategoryOptions(product.Category);
         return View(product);
     }
+
 
 
     // POST: Products/Edit/{id}
@@ -139,7 +190,15 @@ public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Categor
     {
         return NotFound();
     }
+    if (product == null)
+    {
+        return NotFound();
+    }
 
+    if (!IsAdmin() && product.ProducerId != User.FindFirstValue(ClaimTypes.NameIdentifier))
+    {
+        return Forbid();
+    }
     if (!IsAdmin() && product.ProducerId != User.FindFirstValue(ClaimTypes.NameIdentifier))
     {
         return Forbid();
@@ -157,8 +216,7 @@ public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Categor
             product.Protein = updatedProduct.Protein;
             product.Fat = updatedProduct.Fat;
             product.Carbohydrates = updatedProduct.Carbohydrates;
-            product.Allergens = updatedProduct.Allergens;                product.ImageUrl = updatedProduct.ImageUrl;
-
+            product.Allergens = updatedProduct.Allergens;
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Productsindex));
         }
