@@ -2,7 +2,6 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="content">
     @if(User.Identity != null && User.Identity.IsAuthenticated) {
 
         @* Redirect logged-in users to their specific dashboard *@
@@ -19,6 +18,8 @@
 
     } else {
 
+        
+
         @* Display a message for non-authenticated users *@
         <!-- Bilde av dashboard for vanlig bruker må fikses på av front-end -->
        <div class="background-not-logged-in">
@@ -28,4 +29,4 @@
         </div>
 
     }  
-</div>
+ 
