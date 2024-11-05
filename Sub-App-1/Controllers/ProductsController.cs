@@ -157,7 +157,8 @@ public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Categor
             product.Protein = updatedProduct.Protein;
             product.Fat = updatedProduct.Fat;
             product.Carbohydrates = updatedProduct.Carbohydrates;
-            product.Allergens = updatedProduct.Allergens;
+            product.Allergens = updatedProduct.Allergens;                product.ImageUrl = updatedProduct.ImageUrl;
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Productsindex));
         }
