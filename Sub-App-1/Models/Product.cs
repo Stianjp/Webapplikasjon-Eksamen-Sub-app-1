@@ -39,4 +39,7 @@ public class Product {
     public string? ProducerId { get; set; }
     public IdentityUser? Producer { get; set; }
 
+     // Nytt felt for bilde-URL
+    public string ImageUrl { get; set; }
+
 }
