@@ -1,9 +1,11 @@
 /* Global reset */
+/* Global reset */
 * {
   padding: 0;
   margin: 0;
 }
 
+/* Navbar */
 /* Navbar */
 a.navbar-brand {
   white-space: normal;
@@ -13,12 +15,16 @@ a.navbar-brand {
 }
 
 .navbar {
+.navbar {
   width: 100%;
   position: fixed;
   z-index: 1030;
 }
 
 /* Sidebar styles */
+.sidebar {
+  width: 240px;
+  height: 100vh;
 .sidebar {
   width: 240px;
   height: 100vh;
@@ -47,8 +53,26 @@ a.navbar-brand {
 /* Navigation link styles */
 .nav .nav-link {
   color: #212529; /* Standard text color */
+.sidebar img {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
 }
 
+/* Main content styles */
+.main-content {
+  margin-left: 240px; /* Shift content to the side */
+  padding: 1.5rem;
+  height: auto;
+}
+
+/* Navigation link styles */
+.nav .nav-link {
+  color: #212529; /* Standard text color */
+}
+
+/* Hover effect on nav-link */
+.nav .nav-link:hover {
 /* Hover effect on nav-link */
 .nav .nav-link:hover {
   background-color: #2e8b57; /* Dark green background on hover */
@@ -59,12 +83,14 @@ a.navbar-brand {
 
 /* Active nav-link */
 .nav .nav-link.active, .nav .show > .nav-link {
+.nav .nav-link.active, .nav .show > .nav-link {
   background-color: #28a745; /* Green background for active link */
   color: #fff !important; /* White text for active link */
   border-radius: 4px;
 }
 
 /* Hover on active nav-link */
+.nav .nav-link.active:hover, .nav .show > .nav-link:hover {
 .nav .nav-link.active:hover, .nav .show > .nav-link:hover {
   background-color: #1c6f3b; /* Darker green on hover for active link */
   color: #fff !important;
