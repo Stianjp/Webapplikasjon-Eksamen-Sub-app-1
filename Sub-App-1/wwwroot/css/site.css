@@ -1,15 +1,10 @@
-/* I denne css skal bare global styling ligge. 
-* Her kan en bruke fargene fra customdesign.css eller andre css variabler for en et gjennomgående UI desifgn hvis man vil
-*f.eks. background-color: bg-gray-100; se customdesign.css
-*/
-
+/* Global reset */
 * {
   padding: 0;
   margin: 0;
 }
 
-/*Navbar */
-
+/* Navbar */
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -17,32 +12,45 @@ a.navbar-brand {
   text-decoration: none;
 }
 
-.navbar{
+.navbar {
   width: 100%;
   position: fixed;
   z-index: 1030;
 }
 
-
 /* Sidebar styles */
-.sidebar{
-  width: 240px; 
-  height: 100vh; 
+.sidebar {
+  width: 240px;
+  height: 100vh;
   position: fixed;
   top: 0;
-  bottom:0;
+  bottom: 0;
 }
 
 .sidebar li {
   padding: 10px;
 }
 
-.nav-link {
-  color: #212529; /* Standard tekstfarge */
+.sidebar img {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
 }
 
-/* Regular hover on nav-link */
-.nav-link:hover {
+/* Main content styles */
+.main-content {
+  margin-left: 240px; /* Shift content to the side */
+  padding: 1.5rem;
+  height: auto;
+}
+
+/* Navigation link styles */
+.nav .nav-link {
+  color: #212529; /* Standard text color */
+}
+
+/* Hover effect on nav-link */
+.nav .nav-link:hover {
   background-color: #2e8b57; /* Dark green background on hover */
   color: #ffffff; /* White text on hover */
   border-radius: 4px;
@@ -50,31 +58,18 @@ a.navbar-brand {
 }
 
 /* Active nav-link */
-.nav-link.active {
+.nav .nav-link.active, .nav .show > .nav-link {
   background-color: #28a745; /* Green background for active link */
-  color: #fff; /* White text for active link */
+  color: #fff !important; /* White text for active link */
   border-radius: 4px;
 }
 
 /* Hover on active nav-link */
-.nav-link.active:hover {
+.nav .nav-link.active:hover, .nav .show > .nav-link:hover {
   background-color: #1c6f3b; /* Darker green on hover for active link */
-  color: #fff;
+  color: #fff !important;
   border-radius: 4px;
   transition: background-color 0.3s, color 0.3s;
-}
-
-.sidebar img{
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
-}
-
-/* Main innhold styles */
-.main-content {
-  margin-left: 240px; /* Forskyver innholdet til siden */
-  padding: 1.5rem;
-  height: auto;
 }
 
 /* Not logged in styles */
@@ -94,8 +89,7 @@ a.navbar-brand {
   text-align: center;
   height: 100vh;
 }
+
 .text-overlay a {
   color: white;
 }
-
-
