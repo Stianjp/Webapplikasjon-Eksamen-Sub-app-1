@@ -5,8 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Text.Json.Serialization;
 
 
-public class Product
-{
+public class Product {
     [Key]
     public int Id { get; set; } // Primary Key
 
