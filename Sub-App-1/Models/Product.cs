@@ -30,7 +30,7 @@ public class Product {
     [Required]
     public double Fat { get; set; } // grams per 100g
     
-    public string Allergens { get; set; }
+    public List<string>? Allergens { get; set; }
 
 
     //Behov for kategorier av type mat

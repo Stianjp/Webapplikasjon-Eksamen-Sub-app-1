@@ -23,17 +23,17 @@ public class ProductsController : Controller {
         "Legume",
         "Drink"
     };
-    private readonly List<string> _availabeAllergens = new List<string>{
-        "Milk",
-        "Egg",
-        "Peanut",
-        "Soy",
-        "Wheat",
-        "Tree Nut",
-        "Shellfish",
-        "Fish",
-        "Sesame"
-    };
+    private readonly List<string> _availableAllergens = new List<string>{
+    "Milk",
+    "Egg",
+    "Peanut",
+    "Soy",
+    "Wheat",
+    "Tree Nut",
+    "Shellfish",
+    "Fish",
+    "Sesame"
+};
 
     public ProductsController(ApplicationDbContext context) {
         _context = context;
@@ -64,41 +64,31 @@ public class ProductsController : Controller {
     [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
     public IActionResult Create()
     {
-        ViewBag.AllergenOptions = _availabeAllergens;
-        ViewBag.CategoryOptions = GenerateCategoryOptions(null);
+        ViewBag.CategoryOptions = _availableCategories;
+        ViewBag.AllergenOptions = _availableAllergens;
         return View();
     }
 
 
-    // POST: Products/Create
-[HttpPost]
+    [HttpPost]
 [ValidateAntiForgeryToken]
 [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
-public async Task<IActionResult> Create([Bind("Name,Description,Category,Calories,Protein,Fat,Carbohydrates,Allergens")] Product product)
+public async Task<IActionResult> Create(Product product, List<string> SelectedAllergens)
 {
-    try
+    if (ModelState.IsValid)
     {
-        if (ModelState.IsValid)
-        {
-            product.ProducerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            _context.Add(product);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Productsindex));
-        }
-        // Regenerer allergen- og kategori-alternativer hvis model state er ugyldig
-        ViewBag.AllergenOptions = _availabeAllergens;
-        ViewBag.CategoryOptions = GenerateCategoryOptions(product.Category);
-        return View(product);
+        product.Allergens = SelectedAllergens; // Lagre valgte allergener som en liste
+        product.ProducerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        _context.Add(product);
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Productsindex));
     }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Error: {ex.Message}");
-        // Regenerer allergen- og kategori-alternativer i tilfelle feil
-        ViewBag.AllergenOptions = _availabeAllergens;
-        ViewBag.CategoryOptions = GenerateCategoryOptions(product.Category);
-        return View(product);
-    }
+    
+    ViewBag.CategoryOptions = _availableCategories;
+    ViewBag.AllergenOptions = _availableAllergens;
+    return View(product);
 }
+
 
    // GET: Products/Edit/{id} (only FoodProducers and Admins can edit products)
     [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
@@ -118,7 +108,7 @@ public async Task<IActionResult> Create([Bind("Name,Description,Category,Calorie
 
         // Send allergener og kategori-alternativer til viewet
         ViewBag.AllergenOptions = _availabeAllergens;
-        ViewBag.CategoryOptions = GenerateCategoryOptions(product.Category);
+        ViewBag.CategoryOptions = _availableCategories;
         return View(product);
     }
 
@@ -175,7 +165,7 @@ public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Categor
     }
     // Regenerer allergen- og kategori-alternativer hvis model state er ugyldig
     ViewBag.AllergenOptions = _availabeAllergens;
-    ViewBag.CategoryOptions = GenerateCategoryOptions(updatedProduct.Category);
+    ViewBag.CategoryOptions = _availableCategories;
     return View(updatedProduct);
 }
 
