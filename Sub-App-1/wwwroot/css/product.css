@@ -1,9 +1,19 @@
 /* Additional styling for table and searchbar */
 
+.search{
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+}
+
+.info-text{
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
 #bakgrunns-farger{
     border-radius: 8px;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
-    align-items: center;
 }
 
 .table{ 
@@ -14,29 +24,26 @@
 }
 
 .table thead{
-    border-radius: 20px;
     color: white;
     background-color:#348a50;
 }
 
 .table th {
     font-weight: 500;
-    font-size: 14px;
+    font-size: 15px;
     border-bottom: none ;
 }
 
 .table td {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 400;
 
 }
-
 
 .table td a {
     text-decoration: none;
     color: black;
 }
-
 
 
 /* Pagination */
