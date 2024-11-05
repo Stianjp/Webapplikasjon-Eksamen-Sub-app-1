@@ -1,9 +1,9 @@
 /* Additional styling for table and searchbar */
 
 #bakgrunns-farger{
-    margin: 10px;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+    align-items: center;
 }
 
 .table{ 
@@ -14,7 +14,8 @@
 }
 
 .table thead{
-    background-color:#b78f8f;
+    color: white;
+    background-color:#348a50;
 }
 
 .table th {
