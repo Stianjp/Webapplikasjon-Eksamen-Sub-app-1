@@ -29,6 +29,9 @@ public class Product {
 
     [Required]
     public double Fat { get; set; } // grams per 100g
+    
+    public string Allergens { get; set; }
+
 
     //Behov for kategorier av type mat
     // public string Category {get; set; } // Skal vi bruke en liste med kategorier som er alt satt av oss?
