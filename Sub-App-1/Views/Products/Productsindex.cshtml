@@ -9,7 +9,7 @@
         <h1 class="display-4">@ViewData["Title"]</h1>
         @if (User.IsInRole(UserRoles.FoodProducer) || User.IsInRole(UserRoles.Administrator)) {
             <a class="btn btn-success d-flex align-items-center" asp-action="Create">
-                <img src="~/icons/pluss-solid.svg" style="height: 1.5rem; margin-right: 0.5rem;" />
+                <img src="~/icons/plus-solid.svg" style="height: 1.5rem; margin-right: 0.5rem;" />
                 Add New Product
             </a>
         }
@@ -21,7 +21,7 @@
     </div>
 
 <div id="bakgrunns-farger">
-    <table class="table rounded-2 table-striped align-items-center">
+    <table class="table rounded-2 table-responsiv">
     <thead>
         <tr>
             <th scope="col">Name</th>

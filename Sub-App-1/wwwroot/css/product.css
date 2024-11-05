@@ -7,13 +7,14 @@
 }
 
 .table{ 
+    background-color: #f4f8fe;
     border-collapse: separate;
     border-spacing: 0;
-    border-radius: 8px;
     overflow: hidden;
 }
 
 .table thead{
+    border-radius: 20px;
     color: white;
     background-color:#348a50;
 }
@@ -36,9 +37,6 @@
     color: black;
 }
 
-.table {
-    border-radius: 10px;
-}
 
 
 /* Pagination */
