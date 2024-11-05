@@ -54,6 +54,7 @@
                 <td>@item.Protein</td>
                 <td>@item.Fat</td>
                 <td>@item.Carbohydrates</td>
+                
                 @if ((User.IsInRole(UserRoles.FoodProducer) && item.ProducerId == User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value) || User.IsInRole(UserRoles.Administrator)) {
                     <td>
                         <a class="btn btn-sm btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
