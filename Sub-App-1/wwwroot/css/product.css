@@ -33,6 +33,10 @@
     font-size: 15px;
     border-bottom: none ;
 }
+.table thead th a{
+    color: white;
+    text-decoration: none;
+}
 
 .table td {
     font-size: 15px;
