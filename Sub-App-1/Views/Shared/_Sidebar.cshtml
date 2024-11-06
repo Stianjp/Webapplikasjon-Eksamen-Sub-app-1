@@ -44,19 +44,10 @@
 
         <!-- Privacy Menu Item -->
         <li class="nav-item">
-            @if (User.Identity != null && User.Identity.IsAuthenticated)
-            {
-                <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Privacy" ? "active" : "")"
-                   asp-controller="Home" asp-action="Privacy">
-                    <img src="~/icons/bowl-food-solid.svg" alt="Privacy Icon"> Privacy
-                </a>
-            }
-            else
-            {
-                <a class="nav-link disabled" aria-disabled="true">
-                    <img src="~/icons/bowl-food-solid.svg" alt="Privacy Icon"> Privacy
-                </a>
-            }
+            <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Privacy" ? "active" : "")"
+                asp-controller="Home" asp-action="Privacy">
+                <img src="~/icons/bowl-food-solid.svg" alt="Privacy Icon"> Privacy
+            </a>
         </li>
     </ul>
 
