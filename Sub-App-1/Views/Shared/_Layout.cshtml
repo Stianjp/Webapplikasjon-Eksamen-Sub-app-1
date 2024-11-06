@@ -1,5 +1,4 @@
-﻿@using Sub_App_1.Models
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -20,103 +19,36 @@
     }
 </head>
 <body>
-    <header>
-        <!-- Sidebar -->
-        <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-light text-dark shadow-sm">
-            <span class="navbar-brand text-dark">FoodStack</span> <!-- todo: logo -->
-            <hr>
-            <ul class="nav nav-pills flex-column mb-auto">
-                <!-- Products Menu Item -->
-                <li class="nav-item">
-                    @if (User.Identity != null && User.Identity.IsAuthenticated) {
-                        <!-- Products link with active class -->
-                        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Products" ? "active" : "")" asp-controller="Products" asp-action="Productsindex">
-                            <img src="~/icons/bowl-food-solid.svg" alt="Products Icon" /> Products
-                        </a>
-
-                        <!-- "Add" submenu, only visible on Products page and for Admin/FoodProducer -->
-                        @if (ViewContext.RouteData.Values["controller"]?.ToString() == "Products" && (User.IsInRole(UserRoles.Administrator) || User.IsInRole(UserRoles.FoodProducer))) {
-                            <ul class="nav flex-column ms-3">
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-controller="Products" asp-action="Create">
-                                        <img src="~/icons/plus-solid.svg" alt="Add Icon" /> Add
-                                    </a>
-                                </li>
-                            </ul>
-                        }
-                    } else {
-                        <!-- Disabled Products link for unauthenticated users -->
-                        <a class="nav-link disabled" aria-disabled="true">
-                            <img src="~/icons/bowl-food-solid.svg" alt="Products Icon"> Products
-                        </a>
-                    }
-                </li>
-
-                <!-- Account Menu Item -->
-                <li class="nav-item">
-                    <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Account" ? "active" : "")" asp-controller="Account" asp-action="Index">
-                        <img src="~/icons/gear-solid.svg" alt="Account Icon"> Account
-                    </a>
-                </li>
-
-                <!-- Privacy Menu Item -->
-                <li class="nav-item">
-                    @if (User.Identity != null && User.Identity.IsAuthenticated) {
-                        <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Privacy" ? "active" : "")" asp-controller="Home" asp-action="Privacy">
-                            <img src="~/icons/bowl-food-solid.svg" alt="Privacy Icon"> Privacy
-                        </a>
-                    } else {
-                        <a class="nav-link disabled" aria-disabled="true">
-                            <img src="~/icons/bowl-food-solid.svg" alt="Privacy Icon"> Privacy
-                        </a>
-                    }
-                </li>
-            </ul>
-             
-            <!-- Log in/Logout button -->
-            <hr>
-            <div class="logout">
-                @if (User.Identity != null && !User.Identity.IsAuthenticated) {
-                    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
-                    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
-                    var isOnLoginPage = (currentController == "Account" && currentAction == "Index");
-                    
-                    <form asp-controller="Account" asp-action="Index" method="get">
-                        <button type="submit" class="btn btn-success @(isOnLoginPage ? "active-login" : "")" @(isOnLoginPage ? "disabled" : "")>
-                            <img src="~/icons/right-to-bracket-solid.svg" alt="Login Icon"/> Log in
-                        </button>
-                    </form>
-                } else { 
-                    <!-- Log out button -->
-                    @if (User.Identity != null && User.Identity.IsAuthenticated) {
-                        <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
-                            @Html.AntiForgeryToken()
-                            <button type="submit" class="btn btn-danger" id="logoutButton">
-                                <img src="~/icons/right-to-bracket-solid.svg" alt="Logout Icon" /> Logout
-                            </button>
-                        </form>
-                    }
-                }
-            </div>
+    <!-- Navbar for smaller screens -->
+    <nav class="navbar navbar-light bg-light d-lg-none">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">FoodStack</a>
+                <button class="btn btn-primary" onclick="window.location.href='@Url.Action("Menu", "Home")'">
+                    Menu
+                </button>
         </div>
-    </header>
-    
+    </nav>
+
+    <!-- Sidebar for Large Screens -->
+    <div class="sidebar d-none d-lg-flex flex-column flex-shrink-0 p-3 bg-light text-dark shadow-sm">
+        @Html.Partial("_Sidebar")
+    </div>
+
     <!-- Main content -->
     <div class="main-content">
         <div id="margin">
              @RenderBody()
         </div>
     </div>
-    
-    <!-- Scripts -->
+
+    <!-- Include Scripts -->
+    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="..." crossorigin="anonymous"></script>
+    <!-- Bootstrap Bundle JS (includes Popper) -->
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+    <!-- Your custom JS -->
     <script src="~/js/site.js" asp-append-version="true"></script>
-    
-    @section Scripts {
-        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
-        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
-    }
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

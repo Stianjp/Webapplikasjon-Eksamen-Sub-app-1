@@ -1,0 +1,92 @@
+<div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-light text-dark shadow-sm">
+    <span class="navbar-brand text-dark">FoodStack</span> <!-- TODO: Add logo -->
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+        <!-- Products Menu Item -->
+        <li class="nav-item">
+            @if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                <!-- Products link with active class -->
+                <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Products" ? "active" : "")"
+                   asp-controller="Products" asp-action="Productsindex">
+                    <img src="~/icons/bowl-food-solid.svg" alt="Products Icon" /> Products
+                </a>
+
+                <!-- "Add" submenu, only visible on Products page and for Admin/FoodProducer -->
+                @if (ViewContext.RouteData.Values["controller"]?.ToString() == "Products" &&
+                     (User.IsInRole(UserRoles.Administrator) || User.IsInRole(UserRoles.FoodProducer)))
+                {
+                    <ul class="nav flex-column ms-3">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Products" asp-action="Create">
+                                <img src="~/icons/plus-solid.svg" alt="Add Icon" /> Add
+                            </a>
+                        </li>
+                    </ul>
+                }
+            }
+            else
+            {
+                <!-- Disabled Products link for unauthenticated users -->
+                <a class="nav-link disabled" aria-disabled="true">
+                    <img src="~/icons/bowl-food-solid.svg" alt="Products Icon"> Products
+                </a>
+            }
+        </li>
+
+        <!-- Account Menu Item -->
+        <li class="nav-item">
+            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Account" ? "active" : "")"
+               asp-controller="Account" asp-action="Index">
+                <img src="~/icons/gear-solid.svg" alt="Account Icon"> Account
+            </a>
+        </li>
+
+        <!-- Privacy Menu Item -->
+        <li class="nav-item">
+            @if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Privacy" ? "active" : "")"
+                   asp-controller="Home" asp-action="Privacy">
+                    <img src="~/icons/bowl-food-solid.svg" alt="Privacy Icon"> Privacy
+                </a>
+            }
+            else
+            {
+                <a class="nav-link disabled" aria-disabled="true">
+                    <img src="~/icons/bowl-food-solid.svg" alt="Privacy Icon"> Privacy
+                </a>
+            }
+        </li>
+    </ul>
+
+    <!-- Log in/Logout button -->
+    <hr>
+    <div class="logout">
+        @if (User.Identity != null && User.Identity.IsAuthenticated)
+        {
+            <!-- Log out button -->
+            <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-danger" id="logoutButton">
+                    <img src="~/icons/right-to-bracket-solid.svg" alt="Logout Icon" /> Logout
+                </button>
+            </form>
+        }
+        else
+        {
+            <!-- Log in button -->            
+            var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+            var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+            var isOnLoginPage = (currentController == "Account" && currentAction == "Index");
+            var loginButtonClass = "btn btn-success" + (isOnLoginPage ? " active-login" : "");
+            var loginButtonDisabled = isOnLoginPage ? "disabled" : "";
+            
+            <form asp-controller="Account" asp-action="Index" method="get">
+                <button type="submit" class="@loginButtonClass" @loginButtonDisabled>
+                    <img src="~/icons/right-to-bracket-solid.svg" alt="Login Icon"/> Log in
+                </button>
+            </form>
+        }
+    </div>
+</div>

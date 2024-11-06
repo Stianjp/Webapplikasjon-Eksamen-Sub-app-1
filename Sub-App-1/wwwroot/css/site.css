@@ -1,32 +1,31 @@
 /* Global reset */
 * {
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
-
-/* Navbar */
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
-  text-decoration: none;
-}
-
-
+/* Navbar Styles */
 .navbar {
   width: 100%;
   position: fixed;
   z-index: 1030;
 }
 
-/* Sidebar styles */
+.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+  text-decoration: none;
+}
+
+/* Sidebar Styles */
 .sidebar {
   width: 240px;
   height: 100vh;
   position: fixed;
   top: 0;
-  bottom: 0;
+  left: 0;
+  display: block; /* Show sidebar by default */
 }
 
 .sidebar li {
@@ -39,20 +38,23 @@ a.navbar-brand {
   margin-right: 10px;
 }
 
-/* Main content styles */
+/* Main Content Styles */
 .main-content {
-  margin-left: 240px; /* Shift content to the side */
+  margin-left: 240px; /* Width of the sidebar */
   padding: 1.5rem;
   height: auto;
 }
 
-/* Navigation link styles */
+/* Menu Button */
+.menu-button {
+  display: none; /* Hidden by default */
+}
+
+/* Navigation Link Styles */
 .nav .nav-link {
   color: #212529; /* Standard text color */
 }
 
-
-/* Hover effect on nav-link */
 .nav .nav-link:hover {
   background-color: #2e8b57; /* Dark green background on hover */
   color: #ffffff; /* White text on hover */
@@ -60,14 +62,12 @@ a.navbar-brand {
   transition: background-color 0.3s, color 0.3s;
 }
 
-/* Active nav-link */
 .nav .nav-link.active {
   background-color: #28a745; /* Green background for active link */
-  color: #fff !important; /* White text for active link */
+  color: #fff !important;
   border-radius: 4px;
 }
 
-/* Hover on active nav-link */
 .nav .nav-link.active:hover {
   background-color: #1c6f3b; /* Darker green on hover for active link */
   color: #fff !important;
@@ -75,18 +75,18 @@ a.navbar-brand {
   transition: background-color 0.3s, color 0.3s;
 }
 
-/* Not logged in styles */
+/* Not Logged-In Styles */
 .background-not-logged-in {
   background-image: url('/Pictures/Dashboardeksempel.png');
-  background-size: 100%;
-  height: 100%; /* Full viewport height */
+  background-size: cover;
+  height: 100vh; /* Full viewport height */
   display: grid;
   align-items: center;
 }
 
 .text-overlay {
   background-color: rgba(73, 73, 73, 0.9); /* Semi-transparent black background */
-  color: white;
+  color: #fff;
   padding: 50px;
   border-radius: 8px;
   text-align: center;
@@ -94,15 +94,75 @@ a.navbar-brand {
 }
 
 .text-overlay a {
-  color: white;
+  color: #fff;
 }
 
-/*Main content wrapper style*/
-
-.wrapper-box{
+/* Wrapper Box Style */
+.wrapper-box {
   width: 70%;
   height: auto;
-  border-radius: 8px;
   padding: 10px;
-  background-color:rgb(216, 233, 252) ;
+  border-radius: 8px;
+  background-color: rgb(216, 233, 252);
 }
+
+/* Menu Page Sidebar Content */
+.menu-page .sidebar-content {
+  width: 100%;
+  padding: 1rem;
+}
+
+/* Responsive Adjustments */
+
+/* Hide sidebar and show menu button on screens smaller than 992px */
+@media (max-width: 991.98px) {
+  .sidebar {
+    display: none;
+  }
+  .main-content {
+    margin-left: 0; /* Remove left margin */
+  }
+  .menu-button {
+    display: block; /* Show menu button */
+  }
+}
+
+/* Ensure correct display on large screens */
+@media (min-width: 992px) {
+  .sidebar {
+    display: block; /* Show sidebar */
+  }
+  .main-content {
+    margin-left: 240px; /* Width of the sidebar */
+  }
+  .menu-button {
+    display: none; /* Hide menu button */
+  }
+}
+
+/* Custom Utility Classes (from custom_layout.css) */
+
+/* Sidebar Background */
+.bg-gray-200 {
+  background-color: #E2E7F0;
+}
+
+/* Navbar Background */
+.bg-gray-100 {
+  background-color: #EDF0F7;
+}
+
+/* Text Colors */
+.bg-text-dark {
+  color: #2D3648;
+}
+
+.bg-text-light {
+  color: #fff;
+}
+
+/* Primary Color (Commented Out)
+.bg-green-600 {
+  background-color: #27A74B;
+}
+*/

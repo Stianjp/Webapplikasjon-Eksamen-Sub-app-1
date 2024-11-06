@@ -14,6 +14,11 @@ public class HomeController : Controller
         _logger = logger;
     }
 
+    public IActionResult Menu()
+    {
+        return View();
+    }
+
     public IActionResult Index()
     {
         if (User.Identity != null && User.Identity.IsAuthenticated)
