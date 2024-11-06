@@ -184,17 +184,22 @@ namespace Sub_App_1.Controllers
             // Set ProducerId before ModelState validation
             updatedProduct.ProducerId = product.ProducerId;
             ModelState.Remove("ProducerId");
+            ModelState.Remove("Producer");
 
             // Handle CategoryList
             if (updatedProduct.CategoryList == null || !updatedProduct.CategoryList.Any())
             {
                 ModelState.AddModelError("CategoryList", "Please select at least one category.");
             }
+            else
+            {
+                // Set Category from CategoryList
+                updatedProduct.Category = string.Join(",", updatedProduct.CategoryList);
+                ModelState.Remove("Category"); // Remove ModelState error for Category
+            }
 
             // Save selected allergens as a comma-separated string
             updatedProduct.Allergens = SelectedAllergens != null ? string.Join(",", SelectedAllergens) : null;
-
-            // Remove 'Allergens' from ModelState since we're setting it manually
             ModelState.Remove("Allergens");
 
             if (ModelState.IsValid)
@@ -245,7 +250,6 @@ namespace Sub_App_1.Controllers
             ViewBag.CategoryOptions = _availableCategories;
             return View(updatedProduct);
         }
-
 
         // GET: Products/Delete/{id} (only FoodProducers and Admins can delete products)
         [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
