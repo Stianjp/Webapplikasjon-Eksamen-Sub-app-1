@@ -85,7 +85,7 @@
                        asp-action="Details"
                        asp-route-id="@item.Id">@item.Name</a>
                 </td>
-                <td>@item.Category</td>
+                <td>@string.Join(", ", item.Category)</td>
                 <td>@item.Description</td>
                 <td>@item.Calories</td>
                 <td>@item.Protein</td>
