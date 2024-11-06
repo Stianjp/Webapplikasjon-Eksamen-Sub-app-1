@@ -1,28 +1,26 @@
 @model IEnumerable<Sub_App_1.Models.Product>
 
-
 @{
     ViewData["Title"] = "Products";
 }
 <link rel="stylesheet" href="~/css/product.css" asp-append-version="true" />
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="display-4">@ViewData["Title"]</h1>
-        @if (User.IsInRole(UserRoles.FoodProducer) || User.IsInRole(UserRoles.Administrator)) {
-            <a class="btn btn-success d-flex align-items-center" asp-action="Create">
-                <img src="~/icons/plus-solid.svg" style="height: 1.5rem; margin-right: 0.5rem;" />
-                Add New Product
-            </a>
-        }
-    </div>
-    
-     <div class="search d-flex justify-content-between align-items-center mb-3">
-        <input type="text" id="searchInput" class="form-control" placeholder="Search for a product...">
-        <button class="btn btn-primary d-flex">Search</button>
-    </div>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+    @if (User.IsInRole(UserRoles.FoodProducer) || User.IsInRole(UserRoles.Administrator)) {
+        <a class="btn btn-success d-flex align-items-center" asp-action="Create">
+            <img src="~/icons/plus-solid.svg" style="height: 1.5rem; margin-right: 0.5rem;" />
+            Add Product
+        </a>
+    }
+</div>
+    <div class="search d-flex justify-content-between align-items-center mb-3">
+    <input type="text" id="searchInput" class="form-control" placeholder="Search for a product...">
+    <button class="btn btn-primary d-flex">Search</button>
+</div>
 
-    <div class="info-text">
-        <p>The nutritional values below are based on 100 grams of the product</p>
-    </div>
+<div class="info-text">
+    <p>The nutritional values below are based on 100 grams of the product</p>
+</div>
 
 <div id="bakgrunns-farger">
     <table class="table rounded-2 table-responsiv table-hover">
@@ -71,7 +69,6 @@
                 <span>@(ViewData["CurrentDirection"]?.ToString() == "asc" ? "▲" : "▼")</span>
             }
         </th>
-            
             @if (User.IsInRole(UserRoles.FoodProducer) || User.IsInRole(UserRoles.Administrator)) {
                 <th scope="col">Actions</th>
             }
@@ -79,13 +76,13 @@
     </thead>
     <tbody>
         @foreach (var item in Model) {
-            <tr onclick="window.location.href='@Url.Action("Details", "Products", new { id = item.Id });" style="cursor: pointer;">
+            <tr onclick="window.location.href='@Url.Action("Details", "Products", new { id = item.Id })';" style="cursor: pointer;">
                 <td>
                     <a asp-controller="Products"
                        asp-action="Details"
                        asp-route-id="@item.Id">@item.Name</a>
                 </td>
-                <td>@string.Join(", ", item.Category)</td>
+                <td>@(item.CategoryList != null ? string.Join(", ", item.CategoryList) : "No Categories")</td>
                 <td>@item.Description</td>
                 <td>@item.Calories</td>
                 <td>@item.Protein</td>
@@ -102,20 +99,42 @@
         }
     </tbody>
     </table>
-
 </div>
 
  <!-- Pagination -->
-    <div class="pagination">
-        <a href="#">1</a>
-        <a href="#">2</a>
-        <a href="#">3</a>
-        <a href="#">4</a>
-        <a href="#">5</a>
-    </div>
-
-
+<div class="pagination">
+    <a href="#">1</a>
+    <a href="#">2</a>
+    <a href="#">3</a>
+    <a href="#">4</a>
+    <a href="#">5</a>
+</div>
 
 @section Scripts {
-    <!-- This section is for loading any custom JavaScript if needed later -->
+    <!-- Search functionality -->
+    <!-- Possible to do server-side without JS, but yeah just not a good idea other than for SEO and to drop JS necessity-->
+    <script>
+        document.getElementById('searchInput').addEventListener('keyup', function () {
+            var filter = this.value.toUpperCase();
+            var table = document.querySelector('#bakgrunns-farger table');
+            var trs = table.getElementsByTagName('tr');
+
+            for (var i = 1; i < trs.length; i++) { // Start from 1 to skip header row
+                var tds = trs[i].getElementsByTagName('td');
+                var found = false;
+                for (var j = 0; j < tds.length; j++) {
+                    if (tds[j]) {
+                        var txtValue = tds[j].textContent || tds[j].innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                trs[i].style.display = found ? '' : 'none';
+            }
+        });
+    </script>
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
