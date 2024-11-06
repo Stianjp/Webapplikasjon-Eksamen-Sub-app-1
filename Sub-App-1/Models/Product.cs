@@ -10,14 +10,14 @@ public class Product
     public int Id { get; set; } // Primary Key
 
     [Required]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     [Required]
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     // Store categories as a comma-separated string
     [Required]
-    public string Category { get; set; }
+    public string? Category { get; set; }
 
     // Not mapped property for handling categories as a list
     [NotMapped]
@@ -40,13 +40,13 @@ public class Product
     [Required]
     public double Fat { get; set; } // grams per 100g
 
-    public string Allergens { get; set; }
+    public string? Allergens { get; set; }
 
     // Foreign Key to the producer
     [Required]
     [ForeignKey("Producer")]
-    public string ProducerId { get; set; }
+    public string? ProducerId { get; set; }
 
     // Remove [Required] attribute from Producer
-    public IdentityUser Producer { get; set; }
+    public IdentityUser? Producer { get; set; }
 }
