@@ -1,39 +1,41 @@
 @model IEnumerable<Sub_App_1.Models.UserWithRolesViewModel>
 
+<h2 class="my-4">User Manager</h2>
 
-    <h2 class="my-4">User Manager</h2>
+<!-- Success / Error Messages -->
+@if(ViewBag.Message != null)
+{
+    <div class="alert alert-success">@ViewBag.Message</div>
+}
+@if(ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
 
-    <!-- Success / Error Messages -->
-    @if(ViewBag.Message != null) {
-        <div class="alert alert-success">@ViewBag.Message</div>
-    }
-    @if(ViewBag.Error != null) {
-        <div class="alert alert-danger">@ViewBag.Error</div>
-    }
-
-    <table class="table table-striped table-bordered">
-        <thead class="thead-dark">
+<table class="table table-striped table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>Username</th>
+            <th>Roles</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
             <tr>
-                <th>Username</th>
-                <th>Roles</th>
-                <th>Actions</th>
+                <td>@user.Username</td>
+                <td>
+                    @foreach (var role in user.Roles)
+                    {
+                        <span class="badge bg-info">@role</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="EditUser" asp-route-id="@user.UserId" class="btn btn-sm btn-primary">Edit Roles</a>
+                    <a asp-action="DeleteUser" asp-route-id="@user.UserId" class="btn btn-sm btn-danger">Delete</a>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var user in Model) {
-                <tr>
-                    <td>@user.Username</td>
-                    <td>
-                        @foreach (var role in user.Roles) {
-                            <span class="badge bg-info">@role</span>
-                        }
-                    </td>
-                    <td>
-                        <a asp-action="EditUser" asp-route-id="@user.UserId" class="btn btn-sm btn-primary">Edit Roles</a>
-                        <a asp-action="DeleteUser" asp-route-id="@user.UserId" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
+        }
+    </tbody>
+</table>

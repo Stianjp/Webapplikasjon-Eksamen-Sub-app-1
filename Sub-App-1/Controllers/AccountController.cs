@@ -109,7 +109,7 @@ public class AccountController : Controller
             }
             else
             {
-                if (await _userRepository.IsInRoleAsync(user, role))
+                if (await _userRepository.RoleExistsAsync(role))
                 {
                     await _userRepository.AddToRoleAsync(user, role);
                 }

@@ -9,30 +9,38 @@ public static class DBInit
 {
     public static async Task SeedAsync(IApplicationBuilder app)
     {
-        using var serviceScope = app.ApplicationServices.CreateScope();
-        var context = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-        var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
-
-        context.Database.EnsureCreated();
-
-        // Seed roles and admin user
-        await EnsureRolesExistAsync(roleManager);
-        await EnsureAdminUserExistsAsync(userManager);
-
-        // seed products
-        /*if (!context.Products.Any())
+        try
         {
-            var products = new List<Product>
-            {
-                new Product { Name = "Apple", Category = "Fruit", Calories = 52 },
-                new Product { Name = "Banana", Category = "Fruit", Calories = 96 },
-                // Add more products as needed
-            };
+            using var serviceScope = app.ApplicationServices.CreateScope();
+            var context = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
-            context.Products.AddRange(products);
-            context.SaveChanges();
-        }*/
+            context.Database.EnsureCreated();
+
+            // Seed roles and admin user
+            await EnsureRolesExistAsync(roleManager);
+            await EnsureAdminUserExistsAsync(userManager);
+
+            // seed products
+            /*if (!context.Products.Any())
+            {
+                var products = new List<Product>
+                {
+                    new Product { Name = "Apple", Category = "Fruit", Calories = 52 },
+                    new Product { Name = "Banana", Category = "Fruit", Calories = 96 },
+                    // Add more products as needed
+                };
+
+                context.Products.AddRange(products);
+                context.SaveChanges();
+            }*/
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred during seeding: {ex.Message}");
+            throw;
+        }
     }
 
     private static async Task EnsureRolesExistAsync(RoleManager<IdentityRole> roleManager)

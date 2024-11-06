@@ -85,9 +85,30 @@ public class AdminController : Controller
         return RedirectToAction("UserManager");
     }
 
-    // POST /Admin/DeleteUser/{id}
-    [HttpPost]
+    // GET /Admin/DeleteUser/{id}
+    [HttpGet]
     public async Task<IActionResult> DeleteUser(string id)
+    {
+        var user = await _userRepository.FindByIdAsync(id);
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        var model = new UserWithRolesViewModel
+        {
+            UserId = user.Id,
+            Username = user.UserName,
+            Roles = await _userRepository.GetRolesAsync(user)
+        };
+
+        return View(model);
+    }
+
+    // POST /Admin/DeleteUser
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteUserConfirmed(string id)
     {
         var user = await _userRepository.FindByIdAsync(id);
         if (user == null)
@@ -98,13 +119,14 @@ public class AdminController : Controller
         var result = await _userRepository.DeleteUserAsync(user);
         if (result.Succeeded)
         {
-            ViewBag.Message = "User deleted successfully!";
+            TempData["Message"] = "User deleted successfully!";
         }
         else
         {
-            ViewBag.Error = "Error deleting user.";
+            TempData["Error"] = "Error deleting user.";
         }
 
         return RedirectToAction("UserManager");
     }
-}   
+
+}

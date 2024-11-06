@@ -21,5 +21,6 @@ namespace Sub_App_1.DAL.Interfaces
         Task<List<IdentityUser>> GetAllUsersAsync();
         Task<List<IdentityRole>> GetAllRolesAsync();
         Task<IdentityUser> FindByIdAsync(string userId);
+        Task<bool> RoleExistsAsync(string roleName);
     }
 }

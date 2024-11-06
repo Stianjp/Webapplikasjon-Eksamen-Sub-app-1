@@ -96,4 +96,9 @@ public class UserRepository : IUserRepository
     {
         return await _userManager.FindByIdAsync(userId);
     }
+
+    public async Task<bool> RoleExistsAsync(string roleName)
+    {
+        return await _roleManager.RoleExistsAsync(roleName);
+    }
 }
