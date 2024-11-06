@@ -23,14 +23,14 @@
     <nav class="navbar navbar-light bg-light d-lg-none">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">FoodStack</a>
-                <button class="btn btn-primary" onclick="window.location.href='@Url.Action("Menu", "Home")'">
-                    Menu
-                </button>
+            <button class="btn btn-primary" onclick="window.location.href='@Url.Action("Menu", "Home")'">
+                Menu
+            </button>
         </div>
     </nav>
 
     <!-- Sidebar for Large Screens -->
-    <div class="sidebar d-none d-lg-flex flex-column flex-shrink-0 p-3 bg-light text-dark shadow-sm">
+    <div class="sidebar-wrapper d-none d-lg-flex">
         @Html.Partial("_Sidebar")
     </div>
 
@@ -41,12 +41,8 @@
         </div>
     </div>
 
-    <!-- Include Scripts -->
-    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="..." crossorigin="anonymous"></script>
-    <!-- Bootstrap Bundle JS (includes Popper) -->
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
-    <!-- Your custom JS -->
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
