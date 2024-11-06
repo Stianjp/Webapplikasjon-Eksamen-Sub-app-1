@@ -1,17 +1,18 @@
-    namespace Sub_App_1.Controllers;
 
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
-    using Sub_App_1.Data;
-    using Sub_App_1.Models;
-    using System.Security.Claims;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc.Rendering;
-    using System.Text.Encodings.Web;
-    using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using System.Text.Encodings.Web;
+using Sub_App_1.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Sub_App_1.DAL.Interfaces;
 
-    public class ProductsController : Controller {
-        private readonly ApplicationDbContext _context; 
+namespace Sub_App_1.Controllers
+{
+    public class ProductsController : Controller
+    {
+        private readonly IProductRepository _productRepository;
 
         // Define the list of available categories
         private readonly List<string> _availableCategories = new List<string> {
@@ -37,25 +38,30 @@
             "None"
         };
 
-        public ProductsController(ApplicationDbContext context) {
-            _context = context;
+        public ProductsController(IProductRepository productRepository)
+        {
+            _productRepository = productRepository;
         }
 
-        private bool IsAdmin() {
+        private bool IsAdmin()
+        {
             return User.IsInRole(UserRoles.Administrator);
         }
 
         // GET: Products (available to all, including not logged in users)
-        public async Task<IActionResult> Productsindex() {
-            var products = await _context.Products.ToListAsync();
+        public async Task<IActionResult> Productsindex()
+        {
+            var products = await _productRepository.GetAllProductsAsync();
             return View(products);
         }
 
         // GET: Products/Details/{id} (only FoodProducers and Admins)
-        public async Task<IActionResult> Details(int id) {
-            var product = await _context.Products.FindAsync(id);
+        public async Task<IActionResult> Details(int id)
+        {
+            var product = await _productRepository.GetProductByIdAsync(id);
 
-            if (product == null) {
+            if (product == null)
+            {
                 Console.WriteLine($"Error: Not found");
                 return NotFound();
             }
@@ -64,7 +70,8 @@
 
         // GET: Products/Create (only FoodProducers and Admins can create products)
         [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
-        public IActionResult Create() {
+        public IActionResult Create()
+        {
             ViewBag.AllergenOptions = _availableAllergens;
             ViewBag.CategoryOptions = GenerateCategoryOptions(null);
             return View(new Product());
@@ -74,46 +81,67 @@
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
-        public async Task<IActionResult> Create([Bind("Name,Description,Category,Calories,Protein,Fat,Carbohydrates")] Product product, List<string> SelectedAllergens) {
-            try {
-                if (ModelState.IsValid) {
-                    // Lagre valgte allergener som kommaseparert streng
-                    product.Allergens = SelectedAllergens != null ? string.Join(",", SelectedAllergens) : null;
+        public async Task<IActionResult> Create([Bind("Name,Description,Category,Calories,Protein,Fat,Carbohydrates,Allergens")] Product product, List<string> SelectedAllergens)
+        {
+            // debug
+            Console.WriteLine("Create POST action invoked");
+
+            try
+            {
+                // Save selected allergens as a comma-separated string
+                product.Allergens = SelectedAllergens != null ? string.Join(",", SelectedAllergens) : null;
+
+                // Remove 'Allergens' from ModelState since we're setting it manually
+                ModelState.Remove("Allergens");
+
+                if (ModelState.IsValid)
+                {
                     product.ProducerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                    _context.Add(product);
-                    await _context.SaveChangesAsync();
+
+                    // Log the ProducerId
+                    Console.WriteLine($"ProducerId: {product.ProducerId}");
+
+                    if (string.IsNullOrEmpty(product.ProducerId))
+                    {
+                        return BadRequest("Producer ID is invalid.");
+                    }
+
+                    await _productRepository.CreateProductAsync(product);
                     return RedirectToAction(nameof(Productsindex));
                 }
 
-                // Regenerer allergen- og kategori-alternativer hvis model state er ugyldig
+                // Regenerate allergen and category options if model state is invalid
                 ViewBag.AllergenOptions = _availableAllergens;
                 ViewBag.CategoryOptions = GenerateCategoryOptions(product.Category);
                 return View(product);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Console.WriteLine($"Error: {ex.Message}");
 
-                // Regenerer allergen- og kategori-alternativer i tilfelle feil
+                // Regenerate allergen and category options in case of error
                 ViewBag.AllergenOptions = _availableAllergens;
                 ViewBag.CategoryOptions = GenerateCategoryOptions(product.Category);
                 return View(product);
             }
         }
-
         // GET: Products/Edit/{id} (only FoodProducers and Admins can edit products)
         [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
-        public async Task<IActionResult> Edit(int id) {
-            var product = await _context.Products.FindAsync(id);
+        public async Task<IActionResult> Edit(int id)
+        {
+            var product = await _productRepository.GetProductByIdAsync(id);
 
-            if (product == null) {
+            if (product == null)
+            {
                 return NotFound();
             }
 
-            if (!IsAdmin() && product.ProducerId != User.FindFirstValue(ClaimTypes.NameIdentifier)) {
+            if (!IsAdmin() && product.ProducerId != User.FindFirstValue(ClaimTypes.NameIdentifier))
+            {
                 return Forbid();
             }
 
-            // Split allergener til liste for sjekkbokser og send alternativer til viewet
+            // Split allergens into a list for checkboxes and send options to the view
             ViewBag.AllergenOptions = _availableAllergens;
             ViewBag.CategoryOptions = GenerateCategoryOptions(product.Category);
             return View(product);
@@ -123,14 +151,14 @@
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Category,Calories,Protein,Fat,Carbohydrates")] Product updatedProduct, List<string> SelectedAllergens)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Category,Calories,Protein,Fat,Carbohydrates,Allergens")] Product updatedProduct, List<string> SelectedAllergens)
         {
             if (id != updatedProduct.Id)
             {
                 return BadRequest();
             }
 
-            var product = await _context.Products.FindAsync(id);
+            var product = await _productRepository.GetProductByIdAsync(id);
 
             if (product == null)
             {
@@ -147,13 +175,13 @@
 
             // Set the Allergens field manually and clear ModelState errors related to it
             ModelState.Remove("Allergens");
-            updatedProduct.Allergens = string.Join(",", SelectedAllergens);
+            updatedProduct.Allergens = SelectedAllergens != null ? string.Join(",", SelectedAllergens) : null;
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    // Oppdater produktets egenskaper
+                    // Update product properties
                     product.Name = updatedProduct.Name;
                     product.Description = updatedProduct.Description;
                     product.Category = updatedProduct.Category;
@@ -163,14 +191,22 @@
                     product.Carbohydrates = updatedProduct.Carbohydrates;
                     product.Allergens = updatedProduct.Allergens;
 
-                    await _context.SaveChangesAsync();
+                    await _productRepository.UpdateProductAsync(product);
                     return RedirectToAction(nameof(Productsindex));
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception ex)
                 {
-                    if (!_context.Products.Any(p => p.Id == id))
+                    Console.WriteLine($"Error: {ex.Message}");
+                    if (ex is DbUpdateConcurrencyException)
                     {
-                        return NotFound();
+                        if (await _productRepository.GetProductByIdAsync(id) == null)
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
                     else
                     {
@@ -179,13 +215,13 @@
                 }
             }
 
-            // Hvis ModelState er ugyldig, logg feil for feilsøking
+            // If ModelState is invalid, log errors for debugging
             foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
             {
                 Console.WriteLine("ModelState Error: " + error.ErrorMessage);
             }
 
-            // Regenerer alternativer hvis ModelState er ugyldig
+            // Regenerate options if ModelState is invalid
             ViewBag.AllergenOptions = _availableAllergens;
             ViewBag.CategoryOptions = GenerateCategoryOptions(updatedProduct.Category);
             return View(updatedProduct);
@@ -193,14 +229,17 @@
 
         // GET: Products/Delete/{id} (only FoodProducers and Admins can delete products)
         [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
-        public async Task<IActionResult> Delete(int id) {
-            var product = await _context.Products.FindAsync(id);
+        public async Task<IActionResult> Delete(int id)
+        {
+            var product = await _productRepository.GetProductByIdAsync(id);
 
-            if (product == null) {
+            if (product == null)
+            {
                 return NotFound();
             }
 
-            if (!IsAdmin() && product.ProducerId != User.FindFirstValue(ClaimTypes.NameIdentifier)) {
+            if (!IsAdmin() && product.ProducerId != User.FindFirstValue(ClaimTypes.NameIdentifier))
+            {
                 return Forbid();
             }
             return View(product);
@@ -210,24 +249,33 @@
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
-        public async Task<IActionResult> DeleteConfirmed(int id) {
-            var product = await _context.Products.FindAsync(id);
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var product = await _productRepository.GetProductByIdAsync(id);
 
-            if (product == null) {
+            if (product == null)
+            {
                 return NotFound();
             }
 
-            if (!IsAdmin() && product.ProducerId != User.FindFirstValue(ClaimTypes.NameIdentifier)) {
+            if (!IsAdmin() && product.ProducerId != User.FindFirstValue(ClaimTypes.NameIdentifier))
+            {
                 return Forbid();
             }
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
+
+            var success = await _productRepository.DeleteProductAsync(id);
+
+            if (!success)
+            {
+                return BadRequest("Unable to delete product.");
+            }
 
             return RedirectToAction(nameof(Productsindex));
         }
 
         // Private method to generate category options using TagBuilder
-        private string GenerateCategoryOptions(string? selectedCategories) {
+        private string GenerateCategoryOptions(string? selectedCategories)
+        {
             var selectedCategoryList = string.IsNullOrEmpty(selectedCategories) ? new List<string>() : selectedCategories.Split(',').ToList();
             var selectList = new TagBuilder("select");
 
@@ -237,11 +285,13 @@
             selectList.Attributes.Add("multiple", "multiple");
             selectList.Attributes.Add("required", "required");
 
-            foreach (var category in _availableCategories) {
+            foreach (var category in _availableCategories)
+            {
                 var option = new TagBuilder("option");
                 option.Attributes.Add("value", category);
 
-                if (selectedCategoryList.Contains(category)) {
+                if (selectedCategoryList.Contains(category))
+                {
                     option.Attributes.Add("selected", "selected");
                 }
                 option.InnerHtml.Append(category);
@@ -253,7 +303,9 @@
             return writer.ToString();
         }
 
-        public IActionResult Index(string sortOrder, string currentSort, string sortDirection) {
+        // GET: Products/Index with sorting functionality
+        public async Task<IActionResult> Index(string sortOrder, string currentSort, string sortDirection)
+        {
             ViewData["CurrentSort"] = sortOrder;
             ViewData["CurrentDirection"] = sortDirection == "asc" ? "desc" : "asc";
 
@@ -264,32 +316,37 @@
             ViewData["FatSortParam"] = "Fat";
             ViewData["CarbohydratesSortParam"] = "Carbohydrates";
 
-            var products = from p in _context.Products select p;
+            var products = await _productRepository.GetAllProductsAsync();
 
-            switch (sortOrder) {
+            // Convert to IQueryable for sorting
+            IQueryable<Product> productsQuery = products.AsQueryable();
+
+            switch (sortOrder)
+            {
                 case "Name":
-                    products = sortDirection == "desc" ? products.OrderByDescending(p => p.Name) : products.OrderBy(p => p.Name);
+                    productsQuery = sortDirection == "desc" ? productsQuery.OrderByDescending(p => p.Name) : productsQuery.OrderBy(p => p.Name);
                     break;
                 case "Category":
-                    products = sortDirection == "desc" ? products.OrderByDescending(p => p.Category) : products.OrderBy(p => p.Category);
+                    productsQuery = sortDirection == "desc" ? productsQuery.OrderByDescending(p => p.Category) : productsQuery.OrderBy(p => p.Category);
                     break;
                 case "Calories":
-                    products = sortDirection == "desc" ? products.OrderByDescending(p => p.Calories) : products.OrderBy(p => p.Calories);
+                    productsQuery = sortDirection == "desc" ? productsQuery.OrderByDescending(p => p.Calories) : productsQuery.OrderBy(p => p.Calories);
                     break;
                 case "Protein":
-                    products = sortDirection == "desc" ? products.OrderByDescending(p => p.Protein) : products.OrderBy(p => p.Protein);
+                    productsQuery = sortDirection == "desc" ? productsQuery.OrderByDescending(p => p.Protein) : productsQuery.OrderBy(p => p.Protein);
                     break;
                 case "Fat":
-                    products = sortDirection == "desc" ? products.OrderByDescending(p => p.Fat) : products.OrderBy(p => p.Fat);
+                    productsQuery = sortDirection == "desc" ? productsQuery.OrderByDescending(p => p.Fat) : productsQuery.OrderBy(p => p.Fat);
                     break;
                 case "Carbohydrates":
-                    products = sortDirection == "desc" ? products.OrderByDescending(p => p.Carbohydrates) : products.OrderBy(p => p.Carbohydrates);
+                    productsQuery = sortDirection == "desc" ? productsQuery.OrderByDescending(p => p.Carbohydrates) : productsQuery.OrderBy(p => p.Carbohydrates);
                     break;
                 default:
-                    products = products.OrderBy(p => p.Name);
+                    productsQuery = productsQuery.OrderBy(p => p.Name);
                     break;
             }
 
-            return View("ProductsIndex", products.ToList());
+            return View("ProductsIndex", productsQuery.ToList());
         }
     }
+}
