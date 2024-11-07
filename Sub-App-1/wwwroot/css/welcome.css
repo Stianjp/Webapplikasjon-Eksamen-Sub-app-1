@@ -3,7 +3,7 @@
 /* Styles for the welcome container */
 .welcome-container {
     margin: 50px auto;
-    max-width: 600px;
+    max-width: 350px;
   }
   
   .jumbotron {
@@ -14,23 +14,30 @@
     text-align: center;
     box-shadow: var(--shadow-sm);
   }
-  
-  
+
   .jumbotron .lead {
-    font-size: 1.25rem;
+    margin-top: 2rem;
+    color: var(--text-primary);
+    font-size: 1.25mrem;
     font-weight: 300;
-    margin-bottom: 3rem ;
+    margin-bottom: 3rem;
   }
+
+  .jumbotron .second-color{
+    font-weight: 200;
+    color: var(--text-secondary);
+  }
+  
   
   .jumbotron hr.my-4 {
     border-top: 1px solid var(--border-color);
   }
   
   .jumbotron img {
-    width: 25px;
-    height: 25px;
     margin-right: 0.5rem;
   }
+
+  
   
   
   

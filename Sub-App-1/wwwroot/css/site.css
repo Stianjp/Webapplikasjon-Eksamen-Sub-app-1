@@ -8,9 +8,15 @@
 
 body {
   color: var(--text-primary);
-  line-height: 1.5rem;
 }
 
+hr{
+  color: var(--border-color);
+}
+img{
+  width: 24px;
+  height: 24px;
+}
 
 /* Navbar Styles */
 .navbar {
@@ -30,6 +36,8 @@ body {
 
 /* Sidebar Styles */
 .sidebar {
+  background-color: var(--bg-sidebar);
+  box-shadow: var(--shadow-sm);
   width: 240px;
   height: 100vh;
   position: fixed;
@@ -43,8 +51,6 @@ body {
 }
 
 .sidebar img {
-  width: 24px;
-  height: 24px;
   margin-right: 10px;
 }
 
@@ -65,6 +71,24 @@ body {
 .menu-button {
   display: none; /* Hidden by default */
 }
+
+/* Button primary */
+.btn-success{
+  background-color: var(--primary-green);
+  color: var(--text-white);
+  border: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Button primary:hover */
+.btn-success:hover{
+  background-color: var(--primary-green-hover);
+  color: var(--text-white);
+  border: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+
 
 /* Navigation Link Styles */
 .nav .nav-link {
@@ -97,7 +121,7 @@ body {
   width: 70%;
   height: auto;
   padding: 10px;
-  border-radius: 8px;
+  border-radius: var(--border-radius-sm);
   background-color:var(--bg-primary);
   box-shadow: var(--shadow-sm);
 }
