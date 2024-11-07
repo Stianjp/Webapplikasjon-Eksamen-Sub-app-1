@@ -4,8 +4,6 @@ using Moq;
 using Sub_App_1.Controllers;
 using Sub_App_1.DAL.Interfaces;
 using Sub_App_1.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Xunit;
 
 // Alias for SignInResult from Identity
