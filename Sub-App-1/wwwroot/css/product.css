@@ -1,58 +1,64 @@
 /* Additional styling for table and searchbar */
-@import 'variables.css';
 
 .search{
-    border-radius: 8px;
-    padding: 10px;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
 }
 
-.info-text{
-    margin-top: 2rem;
+p {
+    margin-top: 300px;
     margin-bottom: 1rem;
 }
 
-#bakgrunns-farger{
-    border-radius: 8px;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
-}
-
-.table{ 
-    background-color: #f4f8fe;
-    border-collapse: separate;
-    border-spacing: 0;
+.table-responsive {
+    background-color: var(--input-bg);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
     overflow: hidden;
 }
 
-.table thead{
-    color: white;
-    background-color:#348a50;
+
+.table {
+    width: 100%;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
 }
 
-.table th {
-    font-weight: 500;
-    font-size: 15px;
-    border-bottom: none ;
+.table thead {
+    background-color: var(--primary-green);
 }
-.table thead th a{
-    color: white;
+
+.table thead th {
+    font-weight: 600;
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--border-color);
+    padding: 1rem;
+    white-space: nowrap;
+}
+
+.table tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--input-border);
+}
+
+/* Table Hover Effects */
+.table-hover tbody tr:hover {
+    background-color: var(--nav-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Link Styling */
+.text-decoration-none{
     text-decoration: none;
+    color: var(--text-primary) !important;
 }
 
-.table td {
-    font-size: 15px;
-    font-weight: 400;
-
+.text-decoration-none:hover {
+    color: var(--primary-green) !important;
 }
-
-.table td a {
-    text-decoration: none;
-    color: black;
-}
-
 
 /* Buttons */
-
 .btn-group .btn {
     margin-left: 0.5rem;
 }

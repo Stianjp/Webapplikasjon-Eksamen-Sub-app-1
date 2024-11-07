@@ -1,8 +1,6 @@
 /* Account Page Styles */
-.container {
-    max-width: 900px;
-    padding: 15px; /* Adds padding to prevent content touching edges */
-}
+@import 'variables.css';
+
 
 .card {
     margin-bottom: 30px;
@@ -16,28 +14,9 @@
 
 .form-control:focus {
     box-shadow: none;
-    border-color: #28a745;
+    border-color: var(--input-focus);
 }
 
-.btn-primary, .btn-success {
-    transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth hover transition */
-}
-
-.btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-}
-
-.btn-success {
-    background-color: #28a745;
-    border-color: #28a745;
-}
-
-.btn-primary:hover, .btn-success:hover {
-    background-color: darken(#007bff, 10%);
-    border-color: darken(#007bff, 10%);
-    opacity: 1; /* Keep hover color strong for better accessibility */
-}
 
 .alert ul {
     margin-bottom: 0;
