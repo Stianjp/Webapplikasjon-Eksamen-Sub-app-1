@@ -28,11 +28,11 @@
 
     <div class="welcome-container">
         <div class="jumbotron">
-            <h1> Welcome, @userName!</h1>
+            <h2> Welcome, @userName!</h2>
             <p class="lead"> @roleMessage</p>
             <hr class="my-4">
             <p>Get started by exploring our products.</p>
-            <a class="btn btn-success btn-lg" href="@Url.Action("Productsindex", "Products")" role="button">
+            <a class="btn btn-success" href="@Url.Action("Productsindex", "Products")" role="button">
                 <img src="~/icons/arrow-right-solid.svg" alt="Go to products"> View Products
             </a>
         </div>
@@ -43,11 +43,11 @@ else
     <!-- Unauthenticated User Content -->
     <div class="welcome-container">
         <div class="jumbotron">
-            <h1>Welcome to FoodStack!</h1>
+            <h2>Welcome to FoodStack!</h2>
             <p class="lead">Discover a variety of food products and their nutritional information.</p>
             <hr class="my-4">
             <p>You need to log in to access the full features of our application.</p>
-            <a class="btn btn-success btn-lg" href="@Url.Action("Index", "Account")" role="button">
+            <a class="btn btn-success btn" href="@Url.Action("Index", "Account")" role="button">
                 <img src="~/icons/arrow-right-solid.svg" alt="Go to register form"> Log in or Register
             </a>
         </div>
