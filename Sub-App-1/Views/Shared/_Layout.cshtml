@@ -20,7 +20,7 @@
     <nav class="navbar navbar-light bg-light d-lg-none">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">FoodStack</a>
-            <button class="btn btn-primary" onclick="window.location.href='@Url.Action("Menu", "Home")'">
+            <button class="btn btn-primary" onclick="window.location.href='@Url.Action("Menu", "Home")">
                 Menu
             </button>
         </div>
@@ -33,9 +33,7 @@
 
     <!-- Main content -->
     <div class="main-content">
-        <div id="margin">
-             @RenderBody()
-        </div>
+        @RenderBody()
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="..." crossorigin="anonymous"></script>

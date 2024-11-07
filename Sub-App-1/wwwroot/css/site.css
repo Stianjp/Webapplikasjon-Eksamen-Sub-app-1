@@ -33,15 +33,21 @@
 }
 
 .sidebar img {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   margin-right: 10px;
 }
+
+/* Center the logout button */
+.logout {
+  text-align: center;
+}
+
 
 /* Main Content Styles */
 .main-content {
   margin-left: 240px; /* Width of the sidebar */
-  padding: 1.5rem;
+  padding: 2rem;
   height: auto;
 }
 
@@ -75,27 +81,6 @@
   transition: background-color 0.3s, color 0.3s;
 }
 
-/* Not Logged-In Styles */
-.background-not-logged-in {
-  background-image: url('/Pictures/Dashboardeksempel.png');
-  background-size: cover;
-  height: 100vh; /* Full viewport height */
-  display: grid;
-  align-items: center;
-}
-
-.text-overlay {
-  background-color: rgba(73, 73, 73, 0.9); /* Semi-transparent black background */
-  color: #fff;
-  padding: 50px;
-  border-radius: 8px;
-  text-align: center;
-  height: 100vh;
-}
-
-.text-overlay a {
-  color: #fff;
-}
 
 /* Wrapper Box Style */
 .wrapper-box {
@@ -161,16 +146,9 @@
   color: #fff;
 }
 
-/* Primary Color (Commented Out)
-.bg-green-600 {
-  background-color: #27A74B;
-}
-*/
 
-/* Center the logout button */
-.logout {
-  text-align: center;
-}
+
+
 
 
 /* Menu.cshtml | perhaps make its own css file */
@@ -208,31 +186,11 @@
 
 /* Ensure images are appropriately sized */
 .menu-page .sidebar img {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   margin-right: 10px;
 }
 
-/* Styles for the welcome container | Home/Index */
-/*.welcome-container {
-  text-align: center;
-  margin-top: 50px;
-}
-
-.welcome-container h1 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-}
-
-.welcome-container p {
-  font-size: 1.25rem;
-  margin-bottom: 30px;
-}
-
-.welcome-container .btn {
-  padding: 12px 24px;
-  font-size: 1.25rem;
-}*/
 /* Styles for the welcome container */
 .welcome-container {
   margin: 50px auto;
@@ -267,5 +225,13 @@
 
 .jumbotron i {
   margin-right: 0.5rem;
+}
+
+/* Generell img size for icons in buttons not in menu */
+
+.btn img {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
 }
 

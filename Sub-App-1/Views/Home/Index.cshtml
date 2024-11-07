@@ -7,7 +7,7 @@
     <!-- Authenticated User Content -->
     var userName = User.Identity.Name;
 
-    // Determine the user's role
+    <!--Determine the user's role -->
     string roleMessage = "";
     if (User.IsInRole(UserRoles.Administrator))
     {
@@ -28,12 +28,12 @@
 
     <div class="welcome-container">
         <div class="jumbotron">
-            <h1 class="display-4">Welcome, @userName!</h1>
-            <p class="lead">@roleMessage</p>
+            <h1> Welcome, @userName!</h1>
+            <p class="lead"> @roleMessage</p>
             <hr class="my-4">
             <p>Get started by exploring our products.</p>
-            <a class="btn btn-primary btn-lg" href="@Url.Action("Productsindex", "Products")" role="button">
-                <i class="fas fa-utensils"></i> View Products
+            <a class="btn btn-primary btn-lg d-flex" href="@Url.Action("Productsindex", "Products")" role="button">
+                <img src="~/icons/arrow-right-solid.svg" alt="Go to products"> View Products
             </a>
         </div>
     </div>
@@ -48,7 +48,7 @@ else
             <hr class="my-4">
             <p>You need to log in to access the full features of our application.</p>
             <a class="btn btn-success btn-lg" href="@Url.Action("Index", "Account")" role="button">
-                <i class="fas fa-sign-in-alt"></i> Log in or Register
+                <img src="~/icons/arrow-right-solid.svg" alt="Go to register form"> Log in or Register
             </a>
         </div>
     </div>
