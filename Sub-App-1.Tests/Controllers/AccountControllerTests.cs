@@ -140,6 +140,10 @@ namespace Sub_App_1.Tests.Controllers
                 .Setup(repo => repo.FindByNameAsync(username))
                 .ReturnsAsync(new IdentityUser { UserName = username });
 
+            _userRepositoryMock
+                .Setup(repo => repo.DeleteUserAsync(It.IsAny<IdentityUser>()))
+                .ReturnsAsync(IdentityResult.Success);  // Ensures DeleteUserAsync returns immediately
+
             // Act
             var result = await _controller.Register(username, password, confirmPassword, unauthorizedRole) as ViewResult;
 
