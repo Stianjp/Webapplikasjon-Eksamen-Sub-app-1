@@ -52,4 +52,40 @@ public class ProductRepository : IProductRepository
     {
         return await _context.Products.Where(p => p.ProducerId == producerId).ToListAsync();
     }
+
+    public async Task<IEnumerable<string>> GetAllCategoriesAsync()
+    {
+        // Load products from the database and switch to in-memory processing
+        var products = await _context.Products.AsNoTracking().ToListAsync();
+
+        // Process categories in memory to avoid translation issues
+        var categories = products
+            .SelectMany(p => p.CategoryList)
+            .Distinct()
+            .OrderBy(c => c)
+            .ToList();
+
+        return categories;
+    }
+
+    public async Task<IEnumerable<Product>> GetProductsByCategoryAsync(string category)
+    {
+        return await _context.Products
+                             .Where(p => p.CategoryList.Contains(category))
+                             .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Product>> GetSortedProductsAsync(string sortBy)
+    {
+        IQueryable<Product> query = _context.Products;
+
+        query = sortBy.ToLower() switch
+        {
+            "name" => query.OrderBy(p => p.Name),
+            "calories" => query.OrderBy(p => p.Calories),
+            _ => query // No sorting if sortBy is unrecognized
+        };
+
+        return await query.ToListAsync();
+    }
 }

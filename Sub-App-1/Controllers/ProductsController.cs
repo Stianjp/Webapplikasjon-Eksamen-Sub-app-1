@@ -374,7 +374,7 @@ public class ProductsController : Controller
 
     // GET: Products/UserProducts
     [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
-    public async Task<IActionResult> UserProducts()
+    public async Task<IActionResult> UserProducts(string category)
     {
         string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -382,21 +382,22 @@ public class ProductsController : Controller
         {
             return BadRequest("User ID is invalid.");
         }
+        // Retrieve products associated with the current producer
+        var products = await _productRepository.GetProductsByProducerIdAsync(currentUserId);
 
-        IEnumerable<Product> products;
+        // Filter products by category if a category is selected
+        if (!string.IsNullOrEmpty(category))
+        {
+            products = products.Where(p => p.CategoryList.Contains(category));
+        }
 
-        if (User.IsInRole(UserRoles.Administrator))
-        {
-            // Administrator sees all products
-            products = await _productRepository.GetAllProductsAsync();
-        }
-        else
-        {
-            // Food Producer sees their own products
-            products = await _productRepository.GetProductsByProducerIdAsync(currentUserId);
-        }
+        // Retrieve distinct categories from all products by this producer
+        var allCategories = await _productRepository.GetAllCategoriesAsync();
+        var categories = allCategories.OrderBy(c => c).ToList();
+
+        ViewBag.Categories = categories;
+        ViewBag.SelectedCategory = category;
 
         return View(products);
     }
-
 }
