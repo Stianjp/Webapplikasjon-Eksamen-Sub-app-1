@@ -371,4 +371,32 @@ public class ProductsController : Controller
 
         return View("ProductsIndex", productsQuery.ToList());
     }
+
+    // GET: Products/UserProducts
+    [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
+    public async Task<IActionResult> UserProducts()
+    {
+        string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (string.IsNullOrEmpty(currentUserId))
+        {
+            return BadRequest("User ID is invalid.");
+        }
+
+        IEnumerable<Product> products;
+
+        if (User.IsInRole(UserRoles.Administrator))
+        {
+            // Administrator sees all products
+            products = await _productRepository.GetAllProductsAsync();
+        }
+        else
+        {
+            // Food Producer sees their own products
+            products = await _productRepository.GetProductsByProducerIdAsync(currentUserId);
+        }
+
+        return View(products);
+    }
+
 }

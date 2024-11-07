@@ -15,21 +15,41 @@
                 @if (User.Identity != null && User.Identity.IsAuthenticated)
                 {
                     <!-- Products link with active class -->
-                    <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Products" ? "active" : "")"
-                    asp-controller="Products" asp-action="Productsindex">
-                        <img src="~/icons/bowl-food-solid.svg" alt="Products Icon" /> Products
+                    <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Products" && ViewContext.RouteData.Values["action"]?.ToString() == "Productsindex" ? "active" : "")"
+                       asp-controller="Products" asp-action="Productsindex">
+                        <i class="fas fa-box-open"></i> Products
                     </a>
 
-                    <!-- "Add" submenu, only visible on Products page and for Admin/FoodProducer -->
-                    @if (ViewContext.RouteData.Values["controller"]?.ToString() == "Products" &&
-                        (User.IsInRole(UserRoles.Administrator) || User.IsInRole(UserRoles.FoodProducer)))
+                    <!-- Submenu for Admin/FoodProducer/RegularUser -->
+                    @if (User.IsInRole(UserRoles.Administrator) || User.IsInRole(UserRoles.FoodProducer) || User.IsInRole(UserRoles.RegularUser)) 
                     {
                         <ul class="nav flex-column ms-3">
+                            <!-- "View All" submenu -->
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Products" asp-action="Create">
-                                    <img src="~/icons/plus-solid.svg" alt="Add Icon" /> Add
+                                <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Productsindex" ? "active" : "")"
+                                asp-controller="Products" asp-action="Productsindex">
+                                    <i class="fas fa-eye"></i> View All
                                 </a>
                             </li>
+                            
+                            @if(!User.IsInRole(UserRoles.RegularUser)) 
+                            {
+                                <!-- "My Products" submenu -->
+                                <li class="nav-item">
+                                    <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "UserProducts" ? "active" : "")"
+                                    asp-controller="Products" asp-action="UserProducts">
+                                        <i class="fas fa-list-alt"></i> My Products
+                                    </a>
+                                </li>
+                                
+                                <!-- "Add" submenu -->
+                                <li class="nav-item">
+                                    <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Create" ? "active" : "")"
+                                    asp-controller="Products" asp-action="Create">
+                                        <i class="fas fa-plus-circle"></i> Add
+                                    </a>
+                                </li>
+                            }
                         </ul>
                     }
                 }
@@ -37,7 +57,7 @@
                 {
                     <!-- Disabled Products link for unauthenticated users -->
                     <a class="nav-link disabled" aria-disabled="true">
-                        <img src="~/icons/bowl-food-solid.svg" alt="Products Icon"> Products
+                        <i class="fas fa-box-open"></i> Products
                     </a>
                 }
             </li>

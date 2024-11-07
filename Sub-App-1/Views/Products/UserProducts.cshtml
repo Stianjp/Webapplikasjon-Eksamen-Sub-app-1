@@ -1,0 +1,57 @@
+@model IEnumerable<Sub_App_1.Models.Product>
+
+@{
+    ViewData["Title"] = "My Products";
+}
+
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-5 fw-bold">@ViewData["Title"]</h1>
+        <a class="btn btn-success d-flex align-items-center px-3 py-2" asp-action="Create">
+            <i class="fas fa-plus-circle me-2"></i> Add Product
+        </a>
+    </div>
+
+    <div id="product-list" class="table-responsive">
+        <table class="table table-striped table-hover align-middle shadow-sm">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Calories (kcal)</th>
+                    <th scope="col">Protein (g)</th>
+                    <th scope="col">Fat (g)</th>
+                    <th scope="col">Carbohydrates (g)</th>
+                    <th scope="col" class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <a class="text-decoration-none fw-semibold" asp-controller="Products"
+                               asp-action="Details"
+                               asp-route-id="@item.Id">@item.Name</a>
+                        </td>
+                        <td>@(item.CategoryList != null ? string.Join(", ", item.CategoryList) : "No Categories")</td>
+                        <td>@item.Description</td>
+                        <td>@item.Calories</td>
+                        <td>@item.Protein</td>
+                        <td>@item.Fat</td>
+                        <td>@item.Carbohydrates</td>
+                        <td class="text-center">
+                            <a class="btn btn-sm btn-outline-primary me-1 d-inline-flex align-items-center" asp-action="Edit" asp-route-id="@item.Id">
+                                <i class="fas fa-edit me-1"></i> Edit
+                            </a>
+                            <a class="btn btn-sm btn-outline-danger d-inline-flex align-items-center" asp-action="Delete" asp-route-id="@item.Id">
+                                <i class="fas fa-trash me-1"></i> Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
