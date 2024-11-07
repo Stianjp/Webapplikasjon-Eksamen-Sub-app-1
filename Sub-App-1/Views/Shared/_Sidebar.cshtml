@@ -1,8 +1,15 @@
 <div class="sidebar-content">
     <div class="sidebar d-flex flex-column flex-shrink-0 p-3 bg-light text-dark shadow-sm">
-        <span class="navbar-brand text-dark">FoodStack</span> <!-- TODO: Add logo -->
+        <span class="navbar-brand text-dark">FoodStack</span>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
+            <!-- Home Menu Item TODO: ICON -->
+            <li class="nav-item">
+                <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")"
+                   asp-controller="Home" asp-action="Index"> Home
+                </a>
+            </li>
+            
             <!-- Products Menu Item -->
             <li class="nav-item">
                 @if (User.Identity != null && User.Identity.IsAuthenticated)

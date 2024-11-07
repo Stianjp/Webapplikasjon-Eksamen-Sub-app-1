@@ -167,6 +167,12 @@
 }
 */
 
+/* Center the logout button */
+.logout {
+  text-align: center;
+}
+
+
 /* Menu.cshtml | perhaps make its own css file */
 /* Adjust sidebar when on the Menu page */
 .menu-page .sidebar-content .sidebar {
@@ -206,3 +212,60 @@
   height: 24px;
   margin-right: 10px;
 }
+
+/* Styles for the welcome container | Home/Index */
+/*.welcome-container {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.welcome-container h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.welcome-container p {
+  font-size: 1.25rem;
+  margin-bottom: 30px;
+}
+
+.welcome-container .btn {
+  padding: 12px 24px;
+  font-size: 1.25rem;
+}*/
+/* Styles for the welcome container */
+.welcome-container {
+  margin: 50px auto;
+  max-width: 800px;
+}
+
+.jumbotron {
+  background-color: #f8f9fa;
+  padding: 2rem 2rem;
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+.jumbotron .display-4 {
+  font-size: 2.5rem;
+  font-weight: 300;
+}
+
+.jumbotron .lead {
+  font-size: 1.25rem;
+  font-weight: 300;
+}
+
+.jumbotron hr.my-4 {
+  border-top: 1px solid #dee2e6;
+}
+
+.jumbotron .btn {
+  padding: 0.75rem 1.25rem;
+  font-size: 1.25rem;
+}
+
+.jumbotron i {
+  margin-right: 0.5rem;
+}
+

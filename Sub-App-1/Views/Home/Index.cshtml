@@ -2,31 +2,54 @@
     ViewData["Title"] = "Home Page";
 }
 
-    @if(User.Identity != null && User.Identity.IsAuthenticated) {
+@if (User.Identity != null && User.Identity.IsAuthenticated)
+{
+    <!-- Authenticated User Content -->
+    var userName = User.Identity.Name;
 
-        @* Redirect logged-in users to their specific dashboard *@
-        <!-- Add more content for logged-in users here (TODO: FRONT END) egen view basert på user -->
+    // Determine the user's role
+    string roleMessage = "";
+    if (User.IsInRole(UserRoles.Administrator))
+    {
+        roleMessage = "As an administrator, you have full access to manage products and users.";
+    }
+    else if (User.IsInRole(UserRoles.FoodProducer))
+    {
+        roleMessage = "As a food producer, you can add and manage your products.";
+    }
+    else if (User.IsInRole(UserRoles.RegularUser))
+    {
+        roleMessage = "As a user, you can view all products and their nutritional information.";
+    }
+    else
+    {
+        roleMessage = "Welcome to our application!";
+    }
 
-        <!-- dette vil ligge i en av views avhenging av bruker -->
-        @*<h2>Welcome, @User.Identity.Name!</h2>
-        <p>You are logged in.</p>
-        <button class="btn btn-success text-light" asp-action="Productsindex"><img src="~/icons/pluss-solid.svg">Add new product</button>
-        <form asp-action="Logout" method="post"><button type="submit" class="btn btn-danger">Logout</button></form> *@
-        
-        <!-- Add more content for logged-in users here (TODO: FRONT END) egen view basert på user -->
-
-
-    } else {
-
-        
-
-        @* Display a message for non-authenticated users *@
-        <!-- Bilde av dashboard for vanlig bruker må fikses på av front-end -->
-       <div class="background-not-logged-in">
-            <div class="text-overlay">
-                <h1>Hello there!</h1>
-                <p>You need to login to use this web application. <a asp-area="" asp-controller="Account" asp-action="Index">Click here to login or register.</a></p></div>
+    <div class="welcome-container">
+        <div class="jumbotron">
+            <h1 class="display-4">Welcome, @userName!</h1>
+            <p class="lead">@roleMessage</p>
+            <hr class="my-4">
+            <p>Get started by exploring our products.</p>
+            <a class="btn btn-primary btn-lg" href="@Url.Action("Productsindex", "Products")" role="button">
+                <i class="fas fa-utensils"></i> View Products
+            </a>
         </div>
-
-    }  
- 
+    </div>
+}
+else
+{
+    <!-- Unauthenticated User Content -->
+    <div class="welcome-container">
+        <div class="jumbotron">
+            <h1 class="display-4">Welcome to FoodStack!</h1>
+            <p class="lead">Discover a variety of food products and their nutritional information.</p>
+            <hr class="my-4">
+            <p>You need to log in to access the full features of our application.</p>
+            <a class="btn btn-success btn-lg" href="@Url.Action("Index", "Account")" role="button">
+                <i class="fas fa-sign-in-alt"></i> Log in or Register
+            </a>
+        </div>
+    </div>
+}

@@ -3,93 +3,107 @@
 @{
     ViewBag.Title = "Account";
 }
+<link rel="stylesheet" href="~/css/account.css" />
 
 <div class="container mt-5">
-    <!-- Error message -->
-    @if(ViewBag.Error != null) {
+    <!-- Error Messages -->
+    @if (ViewBag.Error != null || ViewData.ModelState.Count > 0)
+    {
         <div class="alert alert-danger">
-            @ViewBag.Error
+            @if (ViewBag.Error != null)
+            {
+                <p>@ViewBag.Error</p>
+            }
+            
+            @if (ViewData.ModelState.Count > 0)
+            {
+                <ul class="mb-0">
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
+                </ul>
+            }
         </div>
     }
 
-    <!-- Further detailed error message(s) if any (like too short pwd) -->
-    @if(ViewData.ModelState.Count > 0) {
-        <ul>
-            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors)) {
-                <li>@error.ErrorMessage</li>
+    @if (User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        <!-- Authenticated User Section -->
+        <div class="text-center">
+            <h2>Welcome, @User.Identity.Name!</h2>
+            <p>You are currently logged in.</p>
+            <form asp-action="Logout" method="post">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-danger mt-3">Logout</button>
+            </form>
+            <hr />
+            <a asp-controller="Account" asp-action="ChangePassword" class="btn btn-primary m-2">Change Password</a>
+            <a asp-controller="Account" asp-action="DeleteAccount" class="btn btn-danger m-2">Delete Account</a>
+
+            @if (User.IsInRole(UserRoles.Administrator))
+            {
+                <hr />
+                <h3>Control Panel (Administrator)</h3>
+                <a asp-controller="Admin" asp-action="UserManager" class="btn btn-warning m-2">User Manager</a>
+                <!-- Add more administrative buttons if needed -->
             }
-        </ul>
+        </div>
     }
-
-    @if(User.Identity != null && User.Identity.IsAuthenticated) {
-        <h2>Welcome, @User.Identity.Name!</h2>
-        <p>You are currently logged in.</p>
-        <form asp-action="Logout" method="post"><button type="submit" class="btn btn-danger">Logout</button></form>
-        
-        <hr></hr>
-
-        <a asp-controller="Account" asp-action="ChangePassword" class="btn btn-primary">Change Password</a>
-        <a asp-controller="Account" asp-action="DeleteAccount" class="btn btn-danger">Delete Account</a>
-
-        @if (User.IsInRole(UserRoles.Administrator)) {
-            <hr></hr>
-            <h3>Control Panel (Logged in as role Administrator)</h3>
-            <a asp-controller="Admin" asp-action="UserManager" class="btn btn-warning">User Manager</a>
-            <!-- we can add more administrative buttons here if needed -->
-        }
-    } else {
+    else
+    {
+        <!-- Unauthenticated User Section -->
         <div class="row">
             <!-- Login Section -->
-            <div class="col-md-4 offset-md-1">
-                <h2 class="mb-4">Login</h2>
-                <form asp-action="Login" method="post">
-                    <div class="form-group mb-3">
-                        <label for="username" class="form-label">Username</label>
-                        <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username" required />
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h2 class="card-title mb-4 text-center">Login</h2>
+                        <form asp-action="Login" method="post">
+                            <div class="mb-3">
+                                <label for="login-username" class="form-label">Username</label>
+                                <input type="text" id="login-username" name="username" class="form-control" placeholder="Enter your username" required />
+                            </div>
+                            <div class="mb-3">
+                                <label for="login-password" class="form-label">Password</label>
+                                <input type="password" id="login-password" name="password" class="form-control" placeholder="Enter your password" required />
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Login</button>
+                        </form>
                     </div>
-                    <div class="form-group mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required />
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100">Login</button>
-                </form>
+                </div>
             </div>
 
             <!-- Register Section -->
-            <div class="col-md-4 offset-md-1">
-                <h2 class="mb-4">Register</h2>
-                <form asp-action="Register" method="post">
-                    <div class="form-group mb-3">
-                        <label for="reg-username" class="form-label">Username</label>
-                        <input type="text" id="reg-username" name="username" class="form-control" placeholder="Choose a username" required />
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h2 class="card-title mb-4 text-center">Register</h2>
+                        <form asp-action="Register" method="post">
+                            <div class="mb-3">
+                                <label for="reg-username" class="form-label">Username</label>
+                                <input type="text" id="reg-username" name="username" class="form-control" placeholder="Choose a username" required />
+                            </div>
+                            <div class="mb-3">
+                                <label for="reg-password" class="form-label">Password</label>
+                                <input type="password" id="reg-password" name="password" class="form-control" placeholder="Choose a password" required />
+                            </div>
+                            <div class="mb-3">
+                                <label for="reg-confirm-password" class="form-label">Confirm Password</label>
+                                <input type="password" id="reg-confirm-password" name="confirmPassword" class="form-control" placeholder="Confirm your password" required />
+                            </div>
+                            <div class="mb-3">
+                                <label for="role" class="form-label">Account Type</label>
+                                <select id="role" name="role" class="form-select">
+                                    <option value="@UserRoles.RegularUser">Regular User</option>
+                                    <option value="@UserRoles.FoodProducer">Food Producer</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-success w-100">Register</button>
+                        </form>
                     </div>
-                    <div class="form-group mb-3">
-                        <label for="reg-password" class="form-label">Password</label>
-                        <input type="password" id="reg-password" name="password" class="form-control" placeholder="Choose a password" required />
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="reg-confirm-password" class="form-label">Confirm Password</label>
-                        <input type="password" id="reg-confirm-password" name="confirmPassword" class="form-control" placeholder="Confirm your password" required />
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="role" class="form-label">Account Type</label>
-                        <select id="role" name="role" class="form-control">
-                            <option value="@UserRoles.RegularUser">Regular User</option>
-                            <option value="@UserRoles.FoodProducer">Food Producer</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-success w-100">Register</button>
-                </form>
+                </div>
             </div>
         </div>
-
-        @* TODO: *@
-        @* <div class="row mt-5">
-            <!-- Browse as Guest Section -->
-            <div class="col-md-8 offset-md-2 text-center">
-                <h2>Browse as Guest</h2>
-                <a href="@Url.Action("BrowseAsGuest", "Account")" class="btn btn-outline-secondary mt-3">Browse as Guest</a>
-            </div>
-        </div> *@
     }
 </div>

@@ -1,0 +1,55 @@
+/* Account Page Styles */
+.container {
+    max-width: 900px;
+    padding: 15px; /* Adds padding to prevent content touching edges */
+}
+
+.card {
+    margin-bottom: 30px;
+    border-radius: 0.5rem;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #28a745;
+}
+
+.btn-primary, .btn-success {
+    transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth hover transition */
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-primary:hover, .btn-success:hover {
+    background-color: darken(#007bff, 10%);
+    border-color: darken(#007bff, 10%);
+    opacity: 1; /* Keep hover color strong for better accessibility */
+}
+
+.alert ul {
+    margin-bottom: 0;
+    padding-left: 20px; /* Indents list items */
+}
+
+@media (max-width: 767.98px) {
+    .card-title {
+        font-size: 1.25rem;
+    }
+
+    .container {
+        padding: 10px; /* Adds padding for mobile */
+    }
+}
