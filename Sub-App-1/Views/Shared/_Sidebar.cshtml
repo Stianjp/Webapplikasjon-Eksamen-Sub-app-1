@@ -8,7 +8,7 @@
             <li class="nav-item">
                 <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")"
                    asp-controller="Home" asp-action="Index">
-                   <img src="~/icons/house-solid.svg" alt="Home page"> Home
+                   <img src="~/icons/house-solid.svg" alt="Home page" class="icon"/> Home
                 </a>
             </li>
             
@@ -19,7 +19,7 @@
                     <!-- Products link with active class -->
                     <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Products" && ViewContext.RouteData.Values["action"]?.ToString() == "Productsindex" ? "active" : "")"
                        asp-controller="Products" asp-action="Productsindex">
-                       <img src="~/icons/box-open-solid.svg" alt="Se all products"> Products
+                       <img src="~/icons/box-open-solid.svg" alt="Se all products" class="icon"> Products
                     </a>
 
                     <!-- Submenu for Admin/FoodProducer/RegularUser -->
@@ -30,7 +30,7 @@
                             <li class="nav-item">
                                 <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Productsindex" ? "active" : "")"
                                 asp-controller="Products" asp-action="Productsindex">
-                                     <img src="~/icons/eye-solid.svg" alt="Se all products"> View All
+                                     <img src="~/icons/eye-solid.svg" alt="Se all products" class="icon"> View All
                                 </a>
                             </li>
                             
@@ -40,7 +40,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "UserProducts" ? "active" : "")"
                                     asp-controller="Products" asp-action="UserProducts">
-                                        <img src="~/icons/list-solid.svg" alt="List of my products"> My Products
+                                        <img src="~/icons/list-solid.svg" alt="List of my products" class="icon"> My Products
                                     </a>
                                 </li>
                                 
@@ -48,7 +48,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Create" ? "active" : "")"
                                     asp-controller="Products" asp-action="Create">
-                                       <img src="~/icons/circle-plus-solid.svg" alt="Add a new product"> Add
+                                       <img src="~/icons/circle-plus-solid.svg" alt="Add a new product" class="icon"> Add
                                     </a>
                                 </li>
                             }
@@ -59,7 +59,7 @@
                 {
                     <!-- Disabled Products link for unauthenticated users -->
                     <a class="nav-link disabled" aria-disabled="true">
-                        <img src="~/icons/bowl-food-solid.svg" alt="Products"> Products
+                        <img src="~/icons/bowl-food-solid.svg" alt="Products" class="icon"> Products
                     </a>
                 }
             </li>
@@ -68,7 +68,7 @@
             <li class="nav-item">
                 <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Account" ? "active" : "")"
                 asp-controller="Account" asp-action="Index">
-                    <img src="~/icons/gear-solid.svg" alt="Account Icon"> Account
+                    <img src="~/icons/gear-solid.svg" alt="Account Icon" class="icon"> Account
                 </a>
             </li>
 
@@ -76,7 +76,7 @@
             <li class="nav-item">
                 <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Privacy" ? "active" : "")"
                     asp-controller="Home" asp-action="Privacy">
-                    <img src="~/icons/bowl-food-solid.svg" alt="Privacy Icon"> Privacy
+                    <img src="~/icons/bowl-food-solid.svg" alt="Privacy Icon" class="icon"> Privacy
                 </a>
             </li>
         </ul>
@@ -90,7 +90,7 @@
                 <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
                     @Html.AntiForgeryToken()
                     <button type="submit" class="btn btn-danger" id="logoutButton">
-                        <img src="~/icons/right-to-bracket-solid.svg" alt="Logout Icon" /> Logout
+                        <img src="~/icons/right-to-bracket-solid.svg" alt="Logout Icon" class="icon" /> Logout
                     </button>
                 </form>
             }
@@ -104,8 +104,8 @@
                 var loginButtonDisabled = isOnLoginPage ? "disabled" : "";
                 
                 <form asp-controller="Account" asp-action="Index" method="get">
-                    <button type="submit" class="@loginButtonClass" @loginButtonDisabled>
-                        <img src="~/icons/right-to-bracket-solid.svg" alt="Login Icon"/> Log in
+                    <button class="btn btn-success" type="submit" class="@loginButtonClass" @loginButtonDisabled>
+                        <img src="~/icons/right-to-bracket-solid.svg" alt="Login Icon" class="icon"/> Log in
                     </button>
                 </form>
             }

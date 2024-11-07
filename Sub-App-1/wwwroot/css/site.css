@@ -18,6 +18,7 @@ img{
   height: 24px;
 }
 
+
 /* Navbar Styles */
 .navbar {
   background-color: var(--bg-primary);
@@ -28,6 +29,8 @@ img{
 }
 
 .navbar-brand {
+  font-size: x-large;
+  font-weight: 500;
   white-space: normal;
   text-align: left;
   word-break: break-all;
@@ -54,9 +57,11 @@ img{
   margin-right: 10px;
 }
 
+
+
 /* Center the logout button */
 .logout {
-  text-align: left;
+  text-align: center;
 }
 
 
@@ -72,47 +77,82 @@ img{
   display: none; /* Hidden by default */
 }
 
-/* Button primary */
-.btn-success{
-  background-color: var(--primary-green);
-  color: var(--text-white);
-  border: none;
-  transition: background-color 0.3s, color 0.3s;
+
+/*Buttons, icons and navlinks */
+/* Icon default styles */
+.icon {
+  color: var(--text-primary);
+  width: 24px;
+  height: 24px;
+  transition: all 0.3s ease;
 }
 
-/* Button primary:hover */
-.btn-success:hover{
+/* Button styles */
+
+.btn{
+  color: black;
+  font-weight: 400;
+}
+
+.btn img{
+  margin-right: 10px;
+}
+
+.btn-success {
+  background-color: var(--primary-green);
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-danger{
+  font-weight: 500;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-success:hover {
   background-color: var(--primary-green-hover);
   color: var(--text-white);
-  border: none;
-  transition: background-color 0.3s, color 0.3s;
 }
 
+.btn-danger:hover {
+  color: var(--text-white);
+}
 
+/* Make icon change color when button is hovered */
+.btn-success:hover .icon {
+  filter: brightness(0) invert(1); /* Changes to white */
+}
 
-/* Navigation Link Styles */
+.btn-danger:hover .icon {
+  filter: brightness(0) invert(1); /* Changes to white */
+}
+
+/* Navigation styles */
 .nav .nav-link {
-  color: var(--text-primary); 
+  color: black;
+  transition: all 0.3s ease;
 }
 
 .nav .nav-link:hover {
-  background-color: var(--primary-green-hover); /* Dark green background on hover */
-  color: #ffffff; /* White text on hover */
+  background-color: var(--primary-green-hover);
+  color: #ffffff;
   border-radius: 4px;
-  transition: background-color 0.3s, color 0.3s;
 }
 
+.nav .nav-link:hover .icon {
+  filter: brightness(0) invert(1); /* Changes to white */
+}
+
+/* Active state */
 .nav .nav-link.active {
-  background-color: var(--nav-active); /* Green background for active link */
+  background-color: var(--nav-active);
   color: #ffffff !important;
   border-radius: 4px;
 }
 
-.nav .nav-link.active:hover {
-  background-color: var(--primary-green-hover); /* Darker green on hover for active link */
-  color: #fff !important;
-  border-radius: 4px;
-  transition: background-color 0.3s, color 0.3s;
+.nav .nav-link.active .icon {
+  filter: brightness(0) invert(1); /* White color for active state */
 }
 
 

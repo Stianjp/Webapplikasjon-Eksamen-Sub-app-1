@@ -11,7 +11,7 @@
     <h1 class="display-4">@ViewData["Title"]</h1>
     @if (User.IsInRole(UserRoles.FoodProducer) || User.IsInRole(UserRoles.Administrator)) {
         <a class="btn btn-success d-flex align-items-center" asp-action="Create">
-            <img src="~/icons/plus-solid.svg" style="height: 1.5rem; margin-right: 0.5rem;" />
+            <img src="~/icons/plus-solid.svg" alt="add new product" class="icon" />
             Add Product
         </a>
     }
@@ -94,8 +94,8 @@
                 
                 @if ((User.IsInRole(UserRoles.FoodProducer) && item.ProducerId == User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value) || User.IsInRole(UserRoles.Administrator)) {
                     <td>
-                        <a class="btn btn-sm btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                        <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                     </td>
                 }
             </tr>
