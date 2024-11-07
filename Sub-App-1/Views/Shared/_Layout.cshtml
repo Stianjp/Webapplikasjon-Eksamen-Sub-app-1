@@ -8,11 +8,22 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/variables.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/menu.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/css/welcome.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/css/product.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/css/create.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/css/details.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/css/account.css" asp-append-version="true"/>
+    
+    <!-- Page-specific styles -->
+    @if (ViewData["Title"]?.ToString() == "Products") {
+        <link rel="stylesheet" href="~/css/pages/product.css" asp-append-version="true" />
+    }
+    @if (ViewData["Title"]?.ToString() == "Details") {
+        <link rel="stylesheet" href="~/css/pages/details.css" asp-append-version="true" />
+    }
+    @if (ViewData["Title"]?.ToString() == "Add Product") {
+        <link rel="stylesheet" href="~/css/pages/create.css" asp-append-version="true" />
+    }
+    @if (ViewData["Title"]?.ToString() == "Account") {
+        <link rel="stylesheet" href="~/css/pages/account.css" asp-append-version="true" />
+    }
 </head>
 <body>
     <!-- Navbar for smaller screens -->
@@ -27,7 +38,7 @@
 
     <!-- Sidebar for Large Screens -->
     <div class="sidebar-wrapper d-none d-lg-flex">
-        <div class="menu-page">
+        <div>
             @Html.Partial("_Sidebar")
         </div>
     </div
