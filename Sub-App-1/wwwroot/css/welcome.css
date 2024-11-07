@@ -3,14 +3,13 @@
 /* Styles for the welcome container */
 .welcome-container {
     margin: 50px auto;
-    max-width: 800px;
-    background-color: var(--bg-primary);
+    max-width: 600px;
   }
   
   .jumbotron {
     background-color: var(--bg-primary);
     padding: 2rem 2rem;
-    border-radius: 0.5rem;
+    border-color:var(--border-color);
     text-align: center;
     box-shadow: var(--shadow-sm);
   }
@@ -23,7 +22,7 @@
   }
   
   .jumbotron hr.my-4 {
-    border-top:1px solid var(--border-color);
+    border-top: 1px solid var(--border-color);
   }
   
   .jumbotron img {

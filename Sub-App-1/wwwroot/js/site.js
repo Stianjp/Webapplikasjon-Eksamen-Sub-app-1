@@ -10,7 +10,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     navLinks.forEach(function (link) {
         if (link.getAttribute("href") === currentUrl) {
-            link.classList.add("bg-success", "text-light", "active");
+            link.classList.add("active");
+            link.style.backgroundColor = 'var(--primary-green)'; // Using the css variabels and custom styles.
+            link.style.color = 'var(--text-light)'; // Using the css variabels and custom styles.
         }
     });
 });

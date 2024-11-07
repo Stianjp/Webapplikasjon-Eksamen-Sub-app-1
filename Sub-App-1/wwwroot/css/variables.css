@@ -14,7 +14,12 @@
     --text-white: #FFFFFF; /*White for buttons */
   
     /* Border Colors */
-    --border-color: #c6dbf6;  /* Used for input fields, separators */
+    --border-color: #92abcd;  /* Used for input fields, separators */
+
+    /* New border radius variables */
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
   
     /* Status Colors */
     --success-green: #37B24D;  /* Save/success actions */
@@ -24,13 +29,14 @@
     --input-bg: #FFFFFF;
     --input-border: #E2E8F0;
     --input-focus: #37B24D;
+    --input-placeholder: #A0AEC0;
     
     /* Navigation Colors */
     --nav-active: #37B24D;    /* Active navigation item */
     --nav-hover: #F7FAFC;     /* Hover state for nav items */
   
     /* Shadow */
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
     --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05);
   }
   
