@@ -1,4 +1,5 @@
 /* Additional styling for table and searchbar */
+@import 'variables.css';
 
 .search{
     border-radius: 8px;

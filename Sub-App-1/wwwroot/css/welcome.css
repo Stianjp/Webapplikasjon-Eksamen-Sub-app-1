@@ -1,0 +1,37 @@
+@import 'variables.css';
+
+/* Styles for the welcome container */
+.welcome-container {
+    margin: 50px auto;
+    max-width: 800px;
+    background-color: var(--bg-primary);
+  }
+  
+  .jumbotron {
+    background-color: var(--bg-primary);
+    padding: 2rem 2rem;
+    border-radius: 0.5rem;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  
+  .jumbotron .lead {
+    font-size: 1.25rem;
+    font-weight: 300;
+    margin-bottom: 3rem ;
+  }
+  
+  .jumbotron hr.my-4 {
+    border-top:1px solid var(--border-color);
+  }
+  
+  .jumbotron img {
+    width: 25px;
+    height: 25px;
+    margin-right: 0.5rem;
+  }
+  
+  
+  
+  

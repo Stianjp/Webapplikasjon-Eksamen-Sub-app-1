@@ -5,7 +5,10 @@ using Sub_App_1.DAL;
 using Sub_App_1.DAL.Interfaces;
 using Sub_App_1.DAL.Repositories;
 
+
 var builder = WebApplication.CreateBuilder(args);
+
+
 
 // Use Serilog for logging.
 Log.Logger = new LoggerConfiguration()

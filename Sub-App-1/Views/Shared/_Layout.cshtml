@@ -6,17 +6,17 @@
     <title>@ViewData["Title"] - Sub_App_1</title>
     <link rel="icon" type="image/png" href="~/favicon.png" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-eOJMYsd53ii+scO/bJGFsi/C7xI29rX2MTUez4k2eXZp+IcUkkL6tKkqgE3nS0Y8" crossorigin="anonymous"/>
-
-    <!-- Conditional CSS for Products Page -->  
-    @if (ViewData["Title"]?.ToString() == "Products") {
-        <link rel="stylesheet" href="~/css/product.css" asp-append-version="true" />
-    }
+    <link rel="stylesheet" href="~/css/variables.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/welcome.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/product.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/create.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/details.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/account.css" asp-append-version="true"/>
 </head>
 <body>
     <!-- Navbar for smaller screens -->
-    <nav class="navbar navbar-light bg-light d-lg-none">
+    <nav class="navbar navbar d-lg-none">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">FoodStack</a>
             <button class="btn btn-primary" onclick="window.location.href='@Url.Action("Menu", "Home")">
@@ -35,7 +35,6 @@
         @RenderBody()
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="..." crossorigin="anonymous"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 

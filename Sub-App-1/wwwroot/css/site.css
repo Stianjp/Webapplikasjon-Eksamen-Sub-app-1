@@ -1,39 +1,5 @@
 /* Global reset and css */
-  :root {
-    /* Brand Colors */
-    --primary-green: #37B24D;  /* Used in active nav, buttons */
-    --primary-green-hover: #2f9641;  /* Darker shade for hover states */
-  
-    /* Background Colors */
-    --bg-primary: #EDF0F7;     /* Main background */
-    --bg-sidebar: #F8F9FA;    /* Sidebar background */
-  
-    /* Text Colors */
-    --text-primary: #2D3748;   /* Main text color - dark navy */
-    --text-secondary: #718096; /* Secondary text - used in some labels */
-    --text-light: #A0AEC0;    /* Lighter text for less emphasis */
-    --text-white: ##FFFFFF; /*White for buttons */
-  
-    /* Border Colors */
-    --border-color: #E2E8F0;  /* Used for input fields, separators */
-  
-    /* Status Colors */
-    --success-green: #37B24D;  /* Save/success actions */
-    --danger-red: #FF6B6B;    /* Delete/remove actions */
-    
-    /* Component Specific */
-    --input-bg: #FFFFFF;
-    --input-border: #E2E8F0;
-    --input-focus: #37B24D;
-    
-    /* Navigation Colors */
-    --nav-active: #37B24D;    /* Active navigation item */
-    --nav-hover: #F7FAFC;     /* Hover state for nav items */
-  
-    /* Shadow */
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05);
-  }
+@import 'variables.css';
 
 * {
   margin: 0;
@@ -41,7 +7,7 @@
 }
 
 body {
-  font-size: 14px;
+  color: var(--text-primary);
   line-height: 1.5rem;
 }
 
@@ -49,6 +15,8 @@ body {
 
 /* Navbar Styles */
 .navbar {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   width: 100%;
   position: fixed;
   z-index: 1030;
@@ -208,37 +176,4 @@ body {
   height: 20px;
   margin-right: 10px;
 }
-
-/* Styles for the welcome container */
-.welcome-container {
-  margin: 50px auto;
-  max-width: 800px;
-}
-
-.jumbotron {
-  background-color: var(--bg-primary);
-  padding: 2rem 2rem;
-  border-radius: 0.5rem;
-  text-align: center;
-  box-shadow: var(--shadow-sm);
-}
-
-
-.jumbotron .lead {
-  font-size: 1.25rem;
-  font-weight: 300;
-  margin-bottom: 3rem ;
-}
-
-.jumbotron hr.my-4 {
-  border-top:1px solid var(--border-color);
-}
-
-.jumbotron img {
-  width: 25px;
-  height: 25px;
-  margin-right: 0.5rem;
-}
-
-
 
