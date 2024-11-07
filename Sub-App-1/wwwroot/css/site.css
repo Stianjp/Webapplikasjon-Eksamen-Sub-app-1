@@ -1,34 +1,48 @@
 /* Global reset and css */
+  :root {
+    /* Brand Colors */
+    --primary-green: #37B24D;  /* Used in active nav, buttons */
+    --primary-green-hover: #2f9641;  /* Darker shade for hover states */
+  
+    /* Background Colors */
+    --bg-primary: #EDF0F7;     /* Main background */
+    --bg-sidebar: #F8F9FA;    /* Sidebar background */
+  
+    /* Text Colors */
+    --text-primary: #2D3748;   /* Main text color - dark navy */
+    --text-secondary: #718096; /* Secondary text - used in some labels */
+    --text-light: #A0AEC0;    /* Lighter text for less emphasis */
+    --text-white: ##FFFFFF; /*White for buttons */
+  
+    /* Border Colors */
+    --border-color: #E2E8F0;  /* Used for input fields, separators */
+  
+    /* Status Colors */
+    --success-green: #37B24D;  /* Save/success actions */
+    --danger-red: #FF6B6B;    /* Delete/remove actions */
+    
+    /* Component Specific */
+    --input-bg: #FFFFFF;
+    --input-border: #E2E8F0;
+    --input-focus: #37B24D;
+    
+    /* Navigation Colors */
+    --nav-active: #37B24D;    /* Active navigation item */
+    --nav-hover: #F7FAFC;     /* Hover state for nav items */
+  
+    /* Shadow */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05);
+  }
+
 * {
   margin: 0;
   padding: 0;
 }
 
 body {
-  color: #2D3648;  
   font-size: 14px;
   line-height: 1.5rem;
-}
-
-/* Custom colors and design preferences based on design manual/figma prototype made */
-
-/* sidebar */
-.bg-gray-200 {
-    background-color: #E2E7F0; 
-  }
-
-/* navbar */
-.bg-gray-100 {
-    background-color: #EDF0F7;
-}
-
-/* text-farge */
-.bg-text-dark {
-  color: #2D3648; 
-}
-
-.bg-text-light{
-  color:white;
 }
 
 -------------------
@@ -87,24 +101,24 @@ body {
 
 /* Navigation Link Styles */
 .nav .nav-link {
-  color: #212529; /* Standard text color */
+  color: var(--text-primary); 
 }
 
 .nav .nav-link:hover {
-  background-color: #2e8b57; /* Dark green background on hover */
+  background-color: var(--primary-green-hover); /* Dark green background on hover */
   color: #ffffff; /* White text on hover */
   border-radius: 4px;
   transition: background-color 0.3s, color 0.3s;
 }
 
 .nav .nav-link.active {
-  background-color: #28a745; /* Green background for active link */
-  color: #fff !important;
+  background-color: var(--nav-active); /* Green background for active link */
+  color: #ffffff !important;
   border-radius: 4px;
 }
 
 .nav .nav-link.active:hover {
-  background-color: #1c6f3b; /* Darker green on hover for active link */
+  background-color: var(--primary-green-hover); /* Darker green on hover for active link */
   color: #fff !important;
   border-radius: 4px;
   transition: background-color 0.3s, color 0.3s;
@@ -117,7 +131,8 @@ body {
   height: auto;
   padding: 10px;
   border-radius: 8px;
-  background-color: rgb(216, 233, 252);
+  background-color:var(--bg-primary);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Menu Page Sidebar Content */
@@ -201,11 +216,11 @@ body {
 }
 
 .jumbotron {
-  background-color: #f8f9fa;
+  background-color: var(--bg-primary);
   padding: 2rem 2rem;
   border-radius: 0.5rem;
   text-align: center;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 
 
@@ -216,7 +231,7 @@ body {
 }
 
 .jumbotron hr.my-4 {
-  border-top: 1px solid #dee2e6;
+  border-top:1px solid var(--border-color);
 }
 
 .jumbotron img {
