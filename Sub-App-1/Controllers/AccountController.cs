@@ -31,7 +31,7 @@ public class AccountController : Controller
             var user = await _userRepository.FindByNameAsync(username);
             if (user != null)
             {
-                var roles = await _userRepository.GetRolesAsync(user);
+                var roles = await _userRepository.GetRolesAsync(user) ?? new List<string>();
 
                 // Check if the user has any roles
                 if (roles.Any())

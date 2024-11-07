@@ -5,7 +5,6 @@ using Sub_App_1.Controllers;
 using Sub_App_1.DAL.Interfaces;
 using Sub_App_1.Models;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -51,7 +50,7 @@ namespace Sub_App_1.Tests.Controllers
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal("Productsindex", result.ActionName);
+            Assert.Equal("Productsindex", result!.ActionName);
             Assert.Equal("Products", result.ControllerName);
         }
 
@@ -81,7 +80,7 @@ namespace Sub_App_1.Tests.Controllers
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal("Index", result.ActionName);
+            Assert.Equal("Index", result!.ActionName);
             Assert.Equal("Home", result.ControllerName);
         }
 
@@ -100,7 +99,7 @@ namespace Sub_App_1.Tests.Controllers
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal("Index", result.ViewName);
+            Assert.Equal("Index", result!.ViewName);
             Assert.Equal("Invalid username or password.", result.ViewData["Error"]);
         }
 
@@ -119,7 +118,7 @@ namespace Sub_App_1.Tests.Controllers
 
             // Assert
             Assert.NotNull(result);
-            Assert.True(result.ViewData.ModelState.ContainsKey(string.Empty));
+            Assert.True(result!.ViewData.ModelState.ContainsKey(string.Empty));
             Assert.Contains("cannot be null or empty", result.ViewData.ModelState[string.Empty].Errors.First().ErrorMessage);
         }
 
@@ -146,7 +145,7 @@ namespace Sub_App_1.Tests.Controllers
 
             // Assert
             Assert.NotNull(result);
-            Assert.True(result.ViewData.ModelState.ContainsKey(string.Empty));
+            Assert.True(result!.ViewData.ModelState.ContainsKey(string.Empty));
             Assert.Equal("Error during registration.", result.ViewData["Error"]);
         }
 
@@ -165,8 +164,90 @@ namespace Sub_App_1.Tests.Controllers
 
             // Assert
             Assert.NotNull(result);
-            Assert.True(result.ViewData.ModelState.ContainsKey(string.Empty));
+            Assert.True(result!.ViewData.ModelState.ContainsKey(string.Empty));
             Assert.Contains("Passwords do not match", result.ViewData.ModelState[string.Empty].Errors.First().ErrorMessage);
+        }
+
+        // Null reference test: Login with null user
+        [Fact]
+        public async Task Login_WithNullUser_ReturnsHomeIndex()
+        {
+            // Arrange
+            var username = "testuser";
+            var password = "ValidPassword123";
+
+            _userRepositoryMock
+                .Setup(repo => repo.LoginAsync(username, password))
+                .ReturnsAsync(IdentitySignInResult.Success);
+
+            _userRepositoryMock
+                .Setup(repo => repo.FindByNameAsync(username))
+                .ReturnsAsync((IdentityUser)null); // Simulate null user
+
+            // Act
+            var result = await _controller.Login(username, password) as RedirectToActionResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal("Index", result!.ActionName);
+            Assert.Equal("Home", result.ControllerName);
+        }
+
+        // Null reference test: Login with null roles
+        [Fact]
+        public async Task Login_WithNullRoles_ReturnsHomeIndex()
+        {
+            // Arrange
+            var username = "testuser";
+            var password = "ValidPassword123";
+            var user = new IdentityUser { UserName = username };
+
+            _userRepositoryMock
+                .Setup(repo => repo.LoginAsync(username, password))
+                .ReturnsAsync(IdentitySignInResult.Success);
+
+            _userRepositoryMock
+                .Setup(repo => repo.FindByNameAsync(username))
+                .ReturnsAsync(user);
+
+            _userRepositoryMock
+                .Setup(repo => repo.GetRolesAsync(user))
+                .ReturnsAsync((IList<string>)null); // Simulate null roles
+
+            // Act
+            var result = await _controller.Login(username, password) as RedirectToActionResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal("Index", result!.ActionName);
+            Assert.Equal("Home", result.ControllerName);
+        }
+
+        // Null reference test: Register with null user
+        [Fact]
+        public async Task Register_WithNullUser_ReturnsError()
+        {
+            // Arrange
+            var username = "testuser";
+            var password = "ValidPassword123";
+            var confirmPassword = "ValidPassword123";
+            var role = UserRoles.RegularUser;
+
+            _userRepositoryMock
+                .Setup(repo => repo.RegisterAsync(username, password))
+                .ReturnsAsync(IdentityResult.Success);
+
+            _userRepositoryMock
+                .Setup(repo => repo.FindByNameAsync(username))
+                .ReturnsAsync((IdentityUser)null); // Simulate null user after registration
+
+            // Act
+            var result = await _controller.Register(username, password, confirmPassword, role) as ViewResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.True(result!.ViewData.ModelState.ContainsKey(string.Empty));
+            Assert.Equal("Error during registration.", result.ViewData["Error"]);
         }
     }
 }
