@@ -7,7 +7,8 @@
             <!-- Home Menu Item TODO: ICON -->
             <li class="nav-item">
                 <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")"
-                   asp-controller="Home" asp-action="Index"> Home
+                   asp-controller="Home" asp-action="Index">
+                   <img src="~/icons/house-solid.svg" alt="Home page"> Home
                 </a>
             </li>
             
@@ -18,7 +19,7 @@
                     <!-- Products link with active class -->
                     <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Products" && ViewContext.RouteData.Values["action"]?.ToString() == "Productsindex" ? "active" : "")"
                        asp-controller="Products" asp-action="Productsindex">
-                        <i class="fas fa-box-open"></i> Products
+                       <img src="~/icons/box-open-solid.svg" alt="Se all products"> Products
                     </a>
 
                     <!-- Submenu for Admin/FoodProducer/RegularUser -->
@@ -29,7 +30,7 @@
                             <li class="nav-item">
                                 <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Productsindex" ? "active" : "")"
                                 asp-controller="Products" asp-action="Productsindex">
-                                    <i class="fas fa-eye"></i> View All
+                                     <img src="~/icons/eye-solid.svg" alt="Se all products"> View All
                                 </a>
                             </li>
                             
@@ -39,7 +40,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "UserProducts" ? "active" : "")"
                                     asp-controller="Products" asp-action="UserProducts">
-                                        <i class="fas fa-list-alt"></i> My Products
+                                        <img src="~/icons/list-solid.svg" alt="List of my products"> My Products
                                     </a>
                                 </li>
                                 
@@ -47,7 +48,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Create" ? "active" : "")"
                                     asp-controller="Products" asp-action="Create">
-                                        <i class="fas fa-plus-circle"></i> Add
+                                       <img src="~/icons/circle-plus-solid.svg" alt="Add a new product"> Add
                                     </a>
                                 </li>
                             }
@@ -58,7 +59,7 @@
                 {
                     <!-- Disabled Products link for unauthenticated users -->
                     <a class="nav-link disabled" aria-disabled="true">
-                        <i class="fas fa-box-open"></i> Products
+                        <img src="~/icons/bowl-food-solid.svg" alt="Products"> Products
                     </a>
                 }
             </li>
