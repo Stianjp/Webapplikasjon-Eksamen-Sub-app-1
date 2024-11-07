@@ -1,8 +1,37 @@
-/* Global reset */
+/* Global reset and css */
 * {
   margin: 0;
   padding: 0;
 }
+
+body {
+  color: #2D3648;  
+  font-size: 14px;
+  line-height: 1.5rem;
+}
+
+/* Custom colors and design preferences based on design manual/figma prototype made */
+
+/* sidebar */
+.bg-gray-200 {
+    background-color: #E2E7F0; 
+  }
+
+/* navbar */
+.bg-gray-100 {
+    background-color: #EDF0F7;
+}
+
+/* text-farge */
+.bg-text-dark {
+  color: #2D3648; 
+}
+
+.bg-text-light{
+  color:white;
+}
+
+-------------------
 
 /* Navbar Styles */
 .navbar {
@@ -125,32 +154,6 @@
   }
 }
 
-/* Custom Utility Classes (from custom_layout.css) */
-
-/* Sidebar Background */
-.bg-gray-200 {
-  background-color: #E2E7F0;
-}
-
-/* Navbar Background */
-.bg-gray-100 {
-  background-color: #EDF0F7;
-}
-
-/* Text Colors */
-.bg-text-dark {
-  color: #2D3648;
-}
-
-.bg-text-light {
-  color: #fff;
-}
-
-
-
-
-
-
 /* Menu.cshtml | perhaps make its own css file */
 /* Adjust sidebar when on the Menu page */
 .menu-page .sidebar-content .sidebar {
@@ -202,36 +205,25 @@
   padding: 2rem 2rem;
   border-radius: 0.5rem;
   text-align: center;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
 }
 
-.jumbotron .display-4 {
-  font-size: 2.5rem;
-  font-weight: 300;
-}
 
 .jumbotron .lead {
   font-size: 1.25rem;
   font-weight: 300;
+  margin-bottom: 3rem ;
 }
 
 .jumbotron hr.my-4 {
   border-top: 1px solid #dee2e6;
 }
 
-.jumbotron .btn {
-  padding: 0.75rem 1.25rem;
-  font-size: 1.25rem;
-}
-
-.jumbotron i {
+.jumbotron img {
+  width: 25px;
+  height: 25px;
   margin-right: 0.5rem;
 }
 
-/* Generell img size for icons in buttons not in menu */
 
-.btn img {
-  width: 25px;
-  height: 25px;
-  margin-right: 10px;
-}
 
