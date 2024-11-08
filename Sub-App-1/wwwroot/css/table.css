@@ -1,15 +1,4 @@
-/* Additional styling for table and searchbar */
-
-.search{
-    margin-top: 2rem;
-}
-
-p {
- 
-    margin-bottom: 1rem;
-}
-
-.table-responsive {
+.table-responsiv {
     background-color: var(--input-bg);
     border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow-md);
@@ -62,4 +51,3 @@ p {
 .btn-group .btn {
     margin-left: 0.5rem;
 }
-
