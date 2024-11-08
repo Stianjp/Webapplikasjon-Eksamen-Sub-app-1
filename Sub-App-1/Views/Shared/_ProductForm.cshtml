@@ -62,6 +62,7 @@
 
         <div class="form-group">
             <label>Allergens</label>
+            <div class="allergens-grid">
             @foreach (var allergen in ViewBag.AllergenOptions)
             {
                 bool isChecked = Model.SelectedAllergens?.Contains(allergen) ?? false;
@@ -72,6 +73,7 @@
                     <label class="form-check-label" for="allergen_@allergen">@allergen</label>
                 </div>
             }
+            </div>
         </div>
 
         <hr>
