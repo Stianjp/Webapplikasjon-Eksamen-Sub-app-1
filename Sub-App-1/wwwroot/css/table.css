@@ -1,52 +1,59 @@
-.table-responsiv {
-    background-color: var(--input-bg);
-    border-radius: var(--border-radius-lg);
-    box-shadow: var(--shadow-md);
+.table-responsive {
     overflow: hidden;
 }
 
 
 .table {
-    width: 100%;
     color: var(--text-primary);
     margin-bottom: 1rem;
+    background-color: var(--input-border);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
 }
 
 .table thead {
     background-color: var(--primary-green);
-    border-radius: var(--border-radius-lg);
+    border-radius: var(--border-radius-md);
 }
 
 .table thead th {
+    padding: 0.8rem;
+    text-decoration: none;
     font-weight: 600;
-    color: var(--text-primary);
-    border-bottom: 2px solid var(--border-color);
-    padding: 1rem;
+    color: var(--text-white);
+    border-bottom:none ;
     white-space: nowrap;
 }
 
 .table tbody td {
-    padding: 1rem;
+    padding: 0.8rem;
     vertical-align: middle;
     border-bottom: 1px solid var(--input-border);
 }
 
 /* Table Hover Effects */
-.table-hover tbody tr:hover {
+.table tbody tr:hover {
     background-color: var(--nav-hover);
     transform: translateY(-1px);
     box-shadow: var(--shadow-sm);
 }
 
 /* Link Styling */
-.text-decoration-none{
+.table thead th a {
+    text-decoration: none;
+    color: var(--text-white);
+}
+
+.table thead th a:hover {
     text-decoration: none;
     color: var(--text-primary) !important;
 }
 
-.text-decoration-none:hover {
-    color: var(--primary-green) !important;
+.table tbody a{
+    text-decoration: none;
+    color: var(--text-primary);
 }
+
 
 /* Buttons */
 .btn-group .btn {

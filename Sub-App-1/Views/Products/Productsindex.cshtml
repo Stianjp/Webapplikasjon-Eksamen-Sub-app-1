@@ -4,12 +4,10 @@
     ViewData["Title"] = "Products";
 }
 
-
-
  <div class="d-flex justify-content-between mb-3">
             <h1>@ViewData["Title"]</h1>
             @if (User.IsInRole(UserRoles.FoodProducer) || User.IsInRole(UserRoles.Administrator)) {
-                <a class="btn btn-success d-flex align-items-center" asp-action="Create">
+                <a class="btn btn-success d-flex" asp-action="Create">
                     <img src="~/icons/plus-solid.svg" alt="add new product" class="icon" />
                     Add Product
                 </a>

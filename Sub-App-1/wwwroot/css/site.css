@@ -10,9 +10,10 @@ body {
   color: var(--text-primary);
 }
 
-hr{
+hr {
   color: var(--border-color);
 }
+
 img{
   width: 24px;
   height: 24px;
