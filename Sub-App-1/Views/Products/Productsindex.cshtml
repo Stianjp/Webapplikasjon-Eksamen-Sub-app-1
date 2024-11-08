@@ -4,6 +4,8 @@
     ViewData["Title"] = "Products";
 }
 
+
+
  <div class="d-flex justify-content-between mb-3">
             <h1>@ViewData["Title"]</h1>
             @if (User.IsInRole(UserRoles.FoodProducer) || User.IsInRole(UserRoles.Administrator)) {

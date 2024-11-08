@@ -14,6 +14,7 @@
 
 .table thead {
     background-color: var(--primary-green);
+    border-radius: var(--border-radius-lg);
 }
 
 .table thead th {

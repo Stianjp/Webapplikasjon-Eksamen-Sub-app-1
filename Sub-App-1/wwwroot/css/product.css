@@ -5,61 +5,8 @@
 }
 
 p {
- 
     margin-bottom: 1rem;
 }
 
-.table-responsive {
-    background-color: var(--input-bg);
-    border-radius: var(--border-radius-lg);
-    box-shadow: var(--shadow-md);
-    overflow: hidden;
-}
 
-
-.table {
-    width: 100%;
-    color: var(--text-primary);
-    margin-bottom: 1rem;
-}
-
-.table thead {
-    background-color: var(--primary-green);
-}
-
-.table thead th {
-    font-weight: 600;
-    color: var(--text-primary);
-    border-bottom: 2px solid var(--border-color);
-    padding: 1rem;
-    white-space: nowrap;
-}
-
-.table tbody td {
-    padding: 1rem;
-    vertical-align: middle;
-    border-bottom: 1px solid var(--input-border);
-}
-
-/* Table Hover Effects */
-.table-hover tbody tr:hover {
-    background-color: var(--nav-hover);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-sm);
-}
-
-/* Link Styling */
-.text-decoration-none{
-    text-decoration: none;
-    color: var(--text-primary) !important;
-}
-
-.text-decoration-none:hover {
-    color: var(--primary-green) !important;
-}
-
-/* Buttons */
-.btn-group .btn {
-    margin-left: 0.5rem;
-}
 
