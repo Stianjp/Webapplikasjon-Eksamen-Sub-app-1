@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sub_App_1.DAL.Interfaces;
 using Sub_App_1.Models;
+using Sub_App_1.ViewModels;
 
 [Authorize(Roles = UserRoles.Administrator)]
 public class AdminController : Controller
