@@ -1,3 +1,4 @@
+
 .table-responsive {
     overflow: hidden;
 }
@@ -9,6 +10,7 @@
     background-color: var(--bg-primary);
     border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow-md);
+    
 }
 
 .table thead {
@@ -28,12 +30,12 @@
 .table tbody td {
     padding: 0.8rem;
     vertical-align: middle;
-    border-bottom: 1px solid var(--input-border);
+
 }
 
 /* Table Hover Effects */
 .table tbody tr:hover {
-    background-color: var(--nav-hover);
+    background-color: white;
     transform: translateY(-1px);
     box-shadow: var(--shadow-sm);
 }

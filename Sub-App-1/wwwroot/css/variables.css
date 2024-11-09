@@ -11,7 +11,7 @@
   
     /* Background Colors */
     --bg-primary: #EDF0F7;     /* Main background */
-    --bg-sidebar: #F8F9FA;    /* Sidebar background */
+    --bg-sidebar: #e1ebf5;    /* Sidebar background */
   
     /* Text Colors */
     --text-primary: #2D3748;   /* Main text color - dark navy */
@@ -20,7 +20,7 @@
     --text-white: #FFFFFF; /*White for buttons */
   
     /* Border Colors */
-    --border-color: #92abcd;  /* Used for input fields, separators */
+    --border-color: #c8d9f1;  /* Used for input fields, separators */
 
     /* New border radius variables */
     --border-radius-sm: 4px;

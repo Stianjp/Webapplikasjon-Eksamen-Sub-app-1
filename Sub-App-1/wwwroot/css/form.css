@@ -16,7 +16,7 @@ label {
 /* Input field styling */
 .form-control {
     width: 100%;
-    padding: 0.75rem;
+    padding: 0.5rem;
     border: 1px solid var(--input-border);
     border-radius: var(--border-radius-sm);
     font-size: 1rem;
@@ -32,7 +32,7 @@ label {
 .form-control:focus {
     outline: none;
     border-color: var(--input-focus);
-    box-shadow: 0 0 0 3px rgba(55, 178, 77, 0.1);
+    box-shadow: var(--shadow-sm);
 }
 
 /* Multiple select styling */
@@ -79,7 +79,7 @@ select[multiple] {
 .form-actions{
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 1;
     margin-top: 2rem;
     margin-bottom: 1rem;
 }
@@ -87,15 +87,6 @@ select[multiple] {
 .form-actions .btn{
     margin: 0;
 }
-
-
-/* Horizontal rule styling */
-hr {
-    margin: 2rem 0;
-    border: none;
-    border-top: 1px solid var(--border-color);
-}
-
 
 
 /* Allergen grid container */

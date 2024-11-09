@@ -4,12 +4,14 @@
 .welcome-container {
     margin: 50px auto;
     max-width: 350px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
   }
   
   .jumbotron {
     background-color: var(--bg-primary);
     padding: 2rem 2rem;
-    border-radius: var(--border-radius-md);
+    border-radius: var(--border-radius-sm);
     border-color:var(--border-color);
     text-align: center;
     box-shadow: var(--shadow-sm);

@@ -4,9 +4,12 @@
     margin-top: 2rem;
 }
 
-p {
+p .info {
+    margin-top: 2rem;
+    width: 70%;
     margin-bottom: 1rem;
 }
+
 
 
 

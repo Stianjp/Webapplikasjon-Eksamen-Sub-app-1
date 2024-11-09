@@ -4,18 +4,18 @@
     ViewData["Title"] = "Products";
 }
 
- <div class="d-flex justify-content-between mb-3">
+ <div class=" justify-content-between mb-3">
             <h1>@ViewData["Title"]</h1>
             @if (User.IsInRole(UserRoles.FoodProducer) || User.IsInRole(UserRoles.Administrator)) {
-                <a class="btn btn-primary d-flex" asp-action="Create">
+                <a class="btn btn-primary" asp-action="Create">
                     <img src="~/icons/plus-solid.svg" alt="add new product" class="icon" />
                     Add Product
                 </a>
             }
  </div>
 
- <p class="info-text ">
-    Welcome to FoodStack's product catalog. This page gives you a comprehensive view of all registered food products in our database. Each product displays essential information including nutritional content (calories, protein, fat, and carbohydrates), categorization, and allergen details. 
+ <p class="info">
+    Welcome to the product catalog. This page gives you a comprehensive view of all registered food products in our database. Each product displays essential information including nutritional content (calories, protein, fat, and carbohydrates), categorization, and allergen details. 
     Use the search function to find specific products, or click on any item for detailed information.
 </p>
 
@@ -23,13 +23,13 @@
 <div class="search-container">
     <div class="search d-flex justify-content-between align-items-center mb-3">
         <input type="text" id="searchInput" class="form-control" placeholder="Search for a product...">
-        <button class="btn btn-success d-flex">Search</button>
+        <button class="btn btn-success btn-lg d-flex">Search</button>
     </div>
 <div>
 
 <hr>
 
-<div class="info-text">
+<div class="tag-info">
     <p>The nutritional values below are based on 100 grams of the product</p>
 </div>
 

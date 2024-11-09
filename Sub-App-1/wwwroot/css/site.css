@@ -11,7 +11,8 @@ body {
 }
 
 hr {
-  color: var(--border-color);
+  margin: 2rem 0;
+  border-top: 1px solid var(--border-color);
 }
 
 img{
@@ -89,7 +90,6 @@ img{
 }
 
 /* Button styles that is manipiluted from the boostrap colors se variables.css */
-
 .btn{
   color: black;
   font-weight: 500;
@@ -222,7 +222,6 @@ a.btn-primary:hover img {
 
 
 
-
 /* Navigation styles */
 .nav .nav-link {
   color: black;
@@ -255,9 +254,11 @@ a.btn-primary:hover img {
 .wrapper-box {
   width: 70%;
   height: auto;
-  padding: 10px;
+  padding: 2rem;
+  background-color: var(--bg-sidebar);
   border-radius: var(--border-radius-sm);
-  background-color:var(--bg-primary);
+  border: 1px solid var(--border-color) ;
+  background-color: var(--bg-primary);
   box-shadow: var(--shadow-sm);
 }
 
