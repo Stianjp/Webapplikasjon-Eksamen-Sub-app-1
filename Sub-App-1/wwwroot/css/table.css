@@ -6,16 +6,15 @@
 
 .table {
     color: var(--text-primary);
-    margin-bottom: 1rem;
-    background-color: var(--bg-primary);
-    border-radius: var(--border-radius-lg);
+    background-color: var(--bg-sidebar);
+    border-radius: var(--border-radius-sm);
     box-shadow: var(--shadow-md);
     
 }
 
 .table thead {
     background-color: var(--primary-green);
-    border-radius: var(--border-radius-md);
+    border-radius: var(--border-radius-sm);
 }
 
 .table thead th {
@@ -23,7 +22,7 @@
     text-decoration: none;
     font-weight: 600;
     color: var(--text-white);
-    border-bottom:none ;
+    border-bottom: none;
     white-space: nowrap;
 }
 
@@ -33,12 +32,7 @@
 
 }
 
-/* Table Hover Effects */
-.table tbody tr:hover {
-    background-color: white;
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-sm);
-}
+
 
 /* Link Styling */
 .table thead th a {

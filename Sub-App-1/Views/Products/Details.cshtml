@@ -2,12 +2,12 @@
 @model Sub_App_1.Models.Product
 
 @{
-    ViewData["Title"] = "Product Details";
+    ViewData["Title"] = "Product details";
 }
 
-<h1>@ViewData["Title"]= @Model.Name</h1>
+<h1>@ViewData["Title"] @Model.Name</h1>
 
-    <div class="d-flex justify-content-between">
+    <div class="d-flex">
         @if ((User.IsInRole(UserRoles.FoodProducer) && Model.ProducerId == User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier)) || User.IsInRole(UserRoles.Administrator))
         {
 
@@ -18,15 +18,11 @@
         }
     </div>
 
-      <div class="Goback-section">
-        <a href="@Url.Action("Productsindex", "Products")" class="btn btn-secondary">
-           Back to Products List
-        </a>
-    </div>
+    <hr>
 
-        <div class="product-section">
-            <h3>Product information</h3>
-            <table class="table">
+        <div class="product-section mt-3">
+            <h5>Product information</h5>
+            <table class="table table-responsive table-hover">
                 <tbody>
                     <tr>
                         <th scope="row">Name</th>
@@ -56,10 +52,12 @@
             </table>
         </div>
 
-        <div class="nutritonal-section">
-            <h3>Nutritional Values</h3>
+        <hr>
+
+        <div class="nutritonal-section mt-3">
+            <h5>Nutritional Values</h5>
              <p>Nutrient Amount per 100g</p>
-                <table class="table">
+                <table class="table table-responsive table-hover">
                     <tbody>
                         <tr>
                             <th scope="row">Calories</th>
@@ -81,8 +79,10 @@
                 </table>
         </div>
 
-        <div class="allergens-section">
-            <h3>Allergens</h3>
+        <hr>
+
+        <div class="allergens-section mt-3">
+            <h5>Allergens</h5>
                 @if (!string.IsNullOrEmpty(Model.Allergens))
                 {
                     foreach (var allergen in Model.Allergens.Split(','))
@@ -95,5 +95,11 @@
                     <span class="text-muted">No Allergens</span>
                 }
         </div>
+        </div>
+
+     <div class="Goback-section d-flex">
+        <a href="@Url.Action("Productsindex", "Products")" class="btn btn-secondary">
+           Back to Products List
+        </a>
     </div>
 
