@@ -88,31 +88,48 @@ img{
   transition: all 0.3s ease;
 }
 
-/* Button styles */
+/* Button styles that is manipiluted from the boostrap colors se variables.css */
 
 .btn{
   color: black;
-  font-weight: 400;
+  font-weight: 500;
 }
-
 .btn img{
   margin-right: 10px;
 }
-
 .btn-success {
   background-color: var(--primary-green);
   border: none;
   transition: all 0.3s ease;
 }
-
 .btn-danger{
-  font-weight: 500;
+  border: none;
+  transition: all 0.3s ease;
+}
+.btn-secondery {
+  border: none;
+  transition: all 0.3s ease;
+}
+.btn-primary {
+  background-color: var(--secondery-blue);
+  border: none;
+  transition: all 0.3s ease;
+}
+.btn-warning{
+  background-color: var(--other-yellow);
   border: none;
   transition: all 0.3s ease;
 }
 
+/*Behov for å legge til hover farger for alle buttons */
+
 .btn-success:hover {
   background-color: var(--primary-green-hover);
+  color: var(--text-white);
+}
+
+.btn-primary:hover {
+  background-color: var(--secondery-blue-hover);
   color: var(--text-white);
 }
 

@@ -54,8 +54,11 @@
     color: var(--text-primary);
 }
 
+.table a:hover {
+    color: var(--primary-green-hover) !important;
+}
 
 /* Buttons */
-.btn-group .btn {
-    margin-left: 0.5rem;
+.btn:hover{
+    color: var(--text-white);
 }

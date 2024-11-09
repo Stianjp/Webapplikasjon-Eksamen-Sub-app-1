@@ -1,6 +1,6 @@
 @model IEnumerable<Sub_App_1.Models.Product>
 
-<table class="table table-sm table-responsive table-hover">
+<table class="table table-responsive table-hover">
     <thead>
         <tr>
             <th scope="col">
@@ -68,8 +68,8 @@
                 
                 @if ((User.IsInRole(UserRoles.FoodProducer) && item.ProducerId == User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value) || User.IsInRole(UserRoles.Administrator)) {
                     <td>
-                        <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                        <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                     </td>
                 }
             </tr>

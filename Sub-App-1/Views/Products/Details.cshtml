@@ -5,61 +5,98 @@
     ViewData["Title"] = "Product Details";
 }
 
-<h2>Product Details</h2>
+<h2>@ViewData["Title"] = "Produc @Model.Name"</h2>
 
-<div class="wrapper-box">
-    <dl class="row">
-        <dt class="col-sm-3">Name</dt>
-        <dd class="col-sm-9">@Model.Name</dd>
 
-        <dt class="col-sm-3">Description</dt>
-        <dd class="col-sm-9">@Model.Description</dd>
+<div class="action-buttons">
+    <div class="d-flex justify-content-between mb-4">
+        @if ((User.IsInRole(UserRoles.FoodProducer) && Model.ProducerId == User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier)) || User.IsInRole(UserRoles.Administrator))
+        {
+            <div class="action-buttons">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary me-2"> Edit
+                </a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger"> Delete
+                </a>
+            </div>
+        }
+    </div>
 
-        <dt class="col-sm-3">Categories</dt>
-        <dd class="col-sm-9">
-            @if (Model.CategoryList != null && Model.CategoryList.Any())
-            {
-                @string.Join(", ", Model.CategoryList)
-            }
-            else
-            {
-                <span>No Categories</span>
-            }
-        </dd>
-
-        <dt class="col-sm-3">Calories (kcal)</dt>
-        <dd class="col-sm-9">@Model.Calories</dd>
-
-        <dt class="col-sm-3">Protein (g)</dt>
-        <dd class="col-sm-9">@Model.Protein</dd>
-
-        <dt class="col-sm-3">Fat (g)</dt>
-        <dd class="col-sm-9">@Model.Fat</dd>
-
-        <dt class="col-sm-3">Carbohydrates (g)</dt>
-        <dd class="col-sm-9">@Model.Carbohydrates</dd>
-
-        <dt class="col-sm-3">Allergens</dt>
-        <dd class="col-sm-9">
-            @if (!string.IsNullOrEmpty(Model.Allergens))
-            {
-                @Model.Allergens.Replace(",", ", ")
-            }
-            else
-            {
-                <span>No Allergens</span>
-            }
-        </dd>
-    </dl>
-
-    @if ((User.IsInRole(UserRoles.FoodProducer) && Model.ProducerId == User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier)) || User.IsInRole(UserRoles.Administrator))
-    {
-        <div class="btn-group" role="group">
-            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
-            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+        <div class="product-section">
+            <h3 class="mb-3">Product information</h3>
+            <table class="table details-table">
+                <tbody>
+                    <tr>
+                        <th scope="row">Name</th>
+                        <td>@Model.Name</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Description</th>
+                        <td>@Model.Description</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Categories</th>
+                        <td>
+                            @if (Model.CategoryList != null && Model.CategoryList.Any())
+                            {
+                                foreach (var category in Model.CategoryList)
+                                {
+                                    <span class="badge me-1">@category</span>
+                                }
+                            }
+                            else
+                            {
+                                <span class="text-muted">No Categories</span>
+                            }
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-    }
 
-    <hr />
-    <a href="@Url.Action("Productsindex", "Products")" class="btn btn-secondary mt-3">Back to Products List</a>
+        <div class="nutritonal-section">
+            <h3 class="mb-3">Nutritional Values</h3>
+             <p>Nutrient Amount per 100g</p>
+                <table class="table nutrition-table">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Calories</th>
+                            <td>@Model.Calories kcal</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Protein</th>
+                            <td>@Model.Protein g</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Fat</th>
+                            <td>@Model.Fat g</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Carbohydrates</th>
+                            <td>@Model.Carbohydrates g</td>
+                        </tr>
+                    </tbody>
+                </table>
+        </div>
+
+        <div class="allergens-section">
+            <h3 class="mb-3">Allergens</h3>
+                @if (!string.IsNullOrEmpty(Model.Allergens))
+                {
+                    foreach (var allergen in Model.Allergens.Split(','))
+                    {
+                        <span class="badge bg-danger me-2 mb-2">@allergen.Trim()</span>
+                    }
+                }
+                else
+                {
+                    <span class="text-muted">No Allergens</span>
+                }
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="@Url.Action("Productsindex", "Products")" class="btn-secondary">
+            <i class="bi bi-arrow-left"></i> Back to Products List
+        </a>
+    </div>
 </div>
