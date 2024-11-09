@@ -82,6 +82,7 @@
 
         <!-- Log in/Logout button -->
         <hr>
+        
         <div class="logout">
             @if (User.Identity != null && User.Identity.IsAuthenticated)
             {
@@ -102,7 +103,6 @@
                 var loginButtonClass = "btn btn-success" + (isOnLoginPage ? " active-login" : "");
                 var loginButtonDisabled = isOnLoginPage ? "disabled" : "";
                 
-                <hr>
 
                 <form asp-controller="Account" asp-action="Index" method="get">
                     <button class="btn btn-primary" type="submit" class="@loginButtonClass" @loginButtonDisabled>

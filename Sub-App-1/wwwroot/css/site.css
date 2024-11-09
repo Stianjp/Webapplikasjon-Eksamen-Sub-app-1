@@ -156,11 +156,10 @@ a.btn {
   align-items: center;
   text-decoration: none;
   font-weight: 500;
-  border-radius: var(--border-radius-md);
+  border-radius: var(--border-radius-sm);
   transition: all 0.2s ease-in-out;
   border: none;
   cursor: pointer;
-  padding: 0.5rem 1rem;
   color: var(--text-white);
 }
 
@@ -183,6 +182,16 @@ a.btn-success:hover {
   transform: translateY(-1px);
 }
 
+a.btn-primary {
+  background-color: var(--secondery-blue);
+  color: var(--text-white);
+}
+
+a.btn-primary:hover {
+  background-color: var(--secondery-blue-hover);
+  transform: translateY(-1px);
+}
+
 /* Icon handling for anchor buttons */
 a.btn img {
   width: 1rem;
@@ -201,15 +210,16 @@ a.btn-success:hover img {
   transform: translateX(2px);
 }
 
-/* Responsive styles */
-@media (max-width: 768px) {
-  a.btn {
-      width: 100%;
-      justify-content: center;
-      text-align: center;
-      padding: 0.75rem 1rem;
-  }
+a.btn-primary img {
+  filter: brightness(0) invert(1);
 }
+
+/* Hover animation for icon */
+a.btn-primary:hover img {
+  transform: translateX(2px);
+}
+
+
 
 
 
@@ -280,3 +290,12 @@ a.btn-success:hover img {
   }
 }
 
+/* Responsive styles a.btn */
+@media (max-width: 768px) {
+  a.btn {
+      width: 100%;
+      justify-content: center;
+      text-align: center;
+      padding: 0.75rem 1rem;
+  }
+}
