@@ -1,15 +1,19 @@
 /* Additional styling for table and searchbar */
 
-.search{
-    margin-top: 2rem;
-    padding: 5px;
-   
+
+.search {
+    background-color: var(--bg-primary);
+    border-radius: var(--border-radius-sm);
+    box-shadow:var(--shadow-sm);
+    padding: 1rem;
 }
 
-p .info {
+.info {
+    margin-bottom: 2rem;
+}
+
+.tag-info {
     margin-top: 2rem;
-    width: 70%;
-    margin-bottom: 1rem;
 }
 
 
