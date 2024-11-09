@@ -5,25 +5,28 @@
     ViewData["Title"] = "Product Details";
 }
 
-<h2>@ViewData["Title"]= @Model.Name"</h2>
+<h1>@ViewData["Title"]= @Model.Name</h1>
 
-
-<div class="action-buttons">
     <div class="d-flex justify-content-between">
         @if ((User.IsInRole(UserRoles.FoodProducer) && Model.ProducerId == User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier)) || User.IsInRole(UserRoles.Administrator))
         {
-            <div class="action-buttons">
+
                 <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary me-2"> Edit
                 </a>
                 <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger"> Delete
                 </a>
-            </div>
         }
+    </div>
+
+      <div class="Goback-section">
+        <a href="@Url.Action("Productsindex", "Products")" class="btn btn-secondary">
+           Back to Products List
+        </a>
     </div>
 
         <div class="product-section">
             <h3>Product information</h3>
-            <table class="table details-table">
+            <table class="table">
                 <tbody>
                     <tr>
                         <th scope="row">Name</th>
@@ -40,7 +43,7 @@
                             {
                                 foreach (var category in Model.CategoryList)
                                 {
-                                    <span class="badge me-1">@category</span>
+                                    <span class="badge bg-primary me-1">@category</span>
                                 }
                             }
                             else
@@ -56,7 +59,7 @@
         <div class="nutritonal-section">
             <h3>Nutritional Values</h3>
              <p>Nutrient Amount per 100g</p>
-                <table class="table nutrition-table">
+                <table class="table">
                     <tbody>
                         <tr>
                             <th scope="row">Calories</th>
@@ -84,7 +87,7 @@
                 {
                     foreach (var allergen in Model.Allergens.Split(','))
                     {
-                        <span class="badge bg-danger me-2 mb-2">@allergen.Trim()</span>
+                        <span class="badge bg-success me-2 mb-2">@allergen.Trim()</span>
                     }
                 }
                 else
@@ -94,9 +97,3 @@
         </div>
     </div>
 
-    <div class="Goback-section">
-        <a href="@Url.Action("Productsindex", "Products")" class="btn btn-secondary">
-           Back to Products List
-        </a>
-    </div>
-</div>

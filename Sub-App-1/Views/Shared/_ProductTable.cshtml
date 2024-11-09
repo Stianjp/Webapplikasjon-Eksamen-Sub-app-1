@@ -55,7 +55,7 @@
         @foreach (var item in Model) {
             <tr onclick="window.location.href='@Url.Action("Details", "Products", new { id = item.Id });" style="cursor: pointer;">
                 <td>
-                    <a asp-controller="Products"
+                    <a id="link" asp-controller="Products"
                        asp-action="Details"
                        asp-route-id="@item.Id">@item.Name</a>
                 </td>
@@ -83,7 +83,7 @@
     <script>
         document.getElementById('searchInput').addEventListener('keyup', function () {
             var filter = this.value.toUpperCase();
-            var table = document.querySelector('#bakgrunns-farger table');
+            var table = document.querySelector('table');
             var trs = table.getElementsByTagName('tr');
 
             for (var i = 1; i < trs.length; i++) { // Start from 1 to skip header row

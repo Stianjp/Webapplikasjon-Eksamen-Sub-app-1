@@ -56,7 +56,4 @@
     color: var(--text-primary);
 }
 
-.table a:hover {
-    color: var(--primary-green-hover) !important;
-}
 
