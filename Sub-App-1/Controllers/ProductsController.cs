@@ -76,7 +76,7 @@ public IActionResult Create()
     {
         ProducerId = User.FindFirstValue(ClaimTypes.NameIdentifier)
     };
-    return View("ProductForm", viewModel);
+    return View(viewModel);
 }
 
 
@@ -99,6 +99,9 @@ public async Task<IActionResult> Create(ProductFormViewModel viewModel)
         if (viewModel.CategoryList == null || !viewModel.CategoryList.Any())
         {
             ModelState.AddModelError("CategoryList", "Please select at least one category.");
+             ViewBag.AllergenOptions = _availableAllergens;
+            ViewBag.CategoryOptions = _availableCategories;
+            return View(viewModel);
         }
 
         if (ModelState.IsValid)
@@ -124,6 +127,7 @@ public async Task<IActionResult> Create(ProductFormViewModel viewModel)
     catch (Exception ex)
     {
         Console.WriteLine($"Error: {ex}");
+        ModelState.AddModelError("", "An error occurred while creating the product.");
         ViewBag.AllergenOptions = _availableAllergens;
         ViewBag.CategoryOptions = _availableCategories;
         return View(viewModel);
@@ -146,10 +150,10 @@ public async Task<IActionResult> Edit(int id)
         return Forbid();
     }
 
+    var viewModel = ProductFormViewModel.FromProduct(product);
     ViewBag.AllergenOptions = _availableAllergens;
     ViewBag.CategoryOptions = _availableCategories;
-    var viewModel = ProductFormViewModel.FromProduct(product);
-    return View("ProductForm", viewModel);
+    return View(viewModel);
 }
 
 // POST: Products/Edit/{id}
@@ -179,6 +183,9 @@ public async Task<IActionResult> Edit(int id, ProductFormViewModel viewModel)
     if (viewModel.CategoryList == null || !viewModel.CategoryList.Any())
     {
         ModelState.AddModelError("CategoryList", "Please select at least one category.");
+        ViewBag.AllergenOptions = _availableAllergens;
+        ViewBag.CategoryOptions = _availableCategories;
+        return View(viewModel);
     }
 
     if (ModelState.IsValid)
@@ -189,31 +196,27 @@ public async Task<IActionResult> Edit(int id, ProductFormViewModel viewModel)
             await _productRepository.UpdateProductAsync(product);
             return RedirectToAction(nameof(Productsindex));
         }
-        catch (Exception ex)
+        catch (DbUpdateConcurrencyException)
         {
-            Console.WriteLine($"Error: {ex.Message}");
-            if (ex is DbUpdateConcurrencyException)
+            if (await _productRepository.GetProductByIdAsync(id) == null)
             {
-                if (await _productRepository.GetProductByIdAsync(id) == null)
-                {
-                    return NotFound();
-                }
-                throw;
+                return NotFound();
             }
             throw;
         }
-    }
-
-    // Log ModelState errors
-    foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-    {
-        Console.WriteLine("ModelState Error: " + error.ErrorMessage);
+        catch (Exception ex)
+        {
+            // Log the error
+            Console.WriteLine($"Error updating product: {ex}");
+            ModelState.AddModelError("", "An error occurred while updating the product.");
+        }
     }
 
     ViewBag.AllergenOptions = _availableAllergens;
     ViewBag.CategoryOptions = _availableCategories;
     return View(viewModel);
 }
+
 
 
     // GET: Products/Delete/{id} (only FoodProducers and Admins can delete products)

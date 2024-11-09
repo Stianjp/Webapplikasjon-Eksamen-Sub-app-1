@@ -3,6 +3,22 @@
 <div class="wrapper-box">
     <form asp-action="@(Model.IsEdit ? "Edit" : "Create")" method="post">
         @Html.AntiForgeryToken()
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger">
+                <strong>Error!</strong> Please correct the following errors:
+                <ul>
+                    @foreach (var modelState in ViewData.ModelState.Values)
+                    {
+                        foreach (var error in modelState.Errors)
+                        {
+                            <li>@error.ErrorMessage</li>
+                        }
+                    }
+                </ul>
+            </div>
+        }
         
         @if (Model.IsEdit)
         {
