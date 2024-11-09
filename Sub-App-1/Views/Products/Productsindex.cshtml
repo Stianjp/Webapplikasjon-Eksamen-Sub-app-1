@@ -4,24 +4,24 @@
     ViewData["Title"] = "Products";
 }
 
- <div class=" justify-content-between mb-3">
-            <h1>@ViewData["Title"]</h1>
+ <div class=" justify-content-between">
+        <h1>@ViewData["Title"]</h1>
             @if (User.IsInRole(UserRoles.FoodProducer) || User.IsInRole(UserRoles.Administrator)) {
-                <a class="btn btn-primary" asp-action="Create">
+                <a class="btn btn-primary mt-3" asp-action="Create">
                     <img src="~/icons/plus-solid.svg" alt="add new product" class="icon" />
-                    Add Product
+                    Add new product
                 </a>
             }
  </div>
 
- <p class="info">
+ <p class="info mt-3">
     Welcome to the product catalog. This page gives you a comprehensive view of all registered food products in our database. Each product displays essential information including nutritional content (calories, protein, fat, and carbohydrates), categorization, and allergen details. 
     Use the search function to find specific products, or click on any item for detailed information.
 </p>
 
 
-<div class="search-container">
-    <div class="search d-flex justify-content-between align-items-center mb-3">
+<div class="search-container mt-3">
+    <div class="search d-flex justify-content-between align-items-center mt-3">
         <input type="text" id="searchInput" class="form-control" placeholder="Search for a product...">
         <button class="btn btn-success btn-lg d-flex">Search</button>
     </div>

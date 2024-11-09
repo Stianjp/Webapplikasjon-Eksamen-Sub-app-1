@@ -68,8 +68,8 @@
                 
                 @if ((User.IsInRole(UserRoles.FoodProducer) && item.ProducerId == User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value) || User.IsInRole(UserRoles.Administrator)) {
                     <td>
-                        <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                        <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a class="btn btn-primary btn-sm link" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a class="btn btn-danger btn-sm link" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                     </td>
                 }
             </tr>
@@ -78,6 +78,5 @@
 </table>
 
 
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

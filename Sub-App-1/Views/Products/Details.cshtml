@@ -5,7 +5,7 @@
     ViewData["Title"] = "Product details";
 }
 
-    <h1>@ViewData["Title"] @Model.Name</h1>
+    <h3>@Model.Name</h3>
 
     <div class="d-flex">
         @if ((User.IsInRole(UserRoles.FoodProducer) && Model.ProducerId == User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier)) || User.IsInRole(UserRoles.Administrator))
