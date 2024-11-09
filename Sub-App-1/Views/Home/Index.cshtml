@@ -39,7 +39,7 @@
             <h6 class="lead"> @roleMessage</h6>
             <hr class="my-4">
             <p class="second-color">Get started by exploring our products.</p>
-            <a class="btn btn-success" href="@Url.Action("Productsindex", "Products")" role="button">
+            <a class="btn btn-primary icon" href="@Url.Action("Productsindex", "Products")" role="button">
                 <img src="~/icons/arrow-right-solid.svg" alt="Go to products"> View Products
             </a>
         </div>
@@ -58,9 +58,9 @@ else
             <hr class="my-4">
             <p class="second-color">You need to log in to access the full features of our application.</p>
             <!-- Behov for en ny hover css for denne type button som er laget i -->
-            <button class="btn btn-success icon" href="@Url.Action("Index", "Account")" role="button">
-                <img src="~/icons/arrow-right-solid.svg" alt="Go to register form" class="icon"> Log in or register
-            </button>
+            <a class="btn btn-primary icon" href="@Url.Action("Index", "Account")" role="button">
+                <img src="~/icons/arrow-right-solid.svg" alt="Go to register form"> Log in or register
+            </a>
         </div>
     </div>
 }

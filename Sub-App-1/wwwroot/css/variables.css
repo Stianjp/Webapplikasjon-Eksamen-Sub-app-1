@@ -2,10 +2,11 @@
     /* Brand Colors */
     --primary-green: #37B24D;  /* Used in active nav, buttons */
     --primary-green-hover: #2f9641;  /* Darker shade for hover states */
-    --secondery-blue: ;
-    --secondery-blue-hover: ;
-    --other-yellow: ;
-    --other-yellow-hover: ;
+    --secondery-blue: #34AFF7 ;
+    --secondery-blue-hover:#138fd6 ;
+    --other-yellow: #FFD43A;
+    --other-yellow-hover: #dcb013;
+    --danger-red: #FF6B6B; 
   
   
     /* Background Colors */
@@ -27,8 +28,8 @@
     --border-radius-lg: 12px;
   
     /* Status Colors */
-    --success-green: #37B24D;  /* Save/success actions */
-    --danger-red: #FF6B6B;    /* Delete/remove actions */
+    --success-green: var(--primary-green);  /* Save/success actions */
+
     
     /* Component Specific */
     --input-bg: #FFFFFF;
@@ -44,7 +45,6 @@
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
     --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05);
 
-  
   
   }
   

@@ -5,11 +5,11 @@
     ViewData["Title"] = "Product Details";
 }
 
-<h2>@ViewData["Title"] = "Produc @Model.Name"</h2>
+<h2>@ViewData["Title"]= @Model.Name"</h2>
 
 
 <div class="action-buttons">
-    <div class="d-flex justify-content-between mb-4">
+    <div class="d-flex justify-content-between">
         @if ((User.IsInRole(UserRoles.FoodProducer) && Model.ProducerId == User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier)) || User.IsInRole(UserRoles.Administrator))
         {
             <div class="action-buttons">
@@ -22,7 +22,7 @@
     </div>
 
         <div class="product-section">
-            <h3 class="mb-3">Product information</h3>
+            <h3>Product information</h3>
             <table class="table details-table">
                 <tbody>
                     <tr>
@@ -54,7 +54,7 @@
         </div>
 
         <div class="nutritonal-section">
-            <h3 class="mb-3">Nutritional Values</h3>
+            <h3>Nutritional Values</h3>
              <p>Nutrient Amount per 100g</p>
                 <table class="table nutrition-table">
                     <tbody>
@@ -79,7 +79,7 @@
         </div>
 
         <div class="allergens-section">
-            <h3 class="mb-3">Allergens</h3>
+            <h3>Allergens</h3>
                 @if (!string.IsNullOrEmpty(Model.Allergens))
                 {
                     foreach (var allergen in Model.Allergens.Split(','))
@@ -94,9 +94,9 @@
         </div>
     </div>
 
-    <div class="mt-4">
-        <a href="@Url.Action("Productsindex", "Products")" class="btn-secondary">
-            <i class="bi bi-arrow-left"></i> Back to Products List
+    <div class="Goback-section">
+        <a href="@Url.Action("Productsindex", "Products")" class="btn btn-secondary">
+           Back to Products List
         </a>
     </div>
 </div>

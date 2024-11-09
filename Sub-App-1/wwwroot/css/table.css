@@ -6,7 +6,7 @@
 .table {
     color: var(--text-primary);
     margin-bottom: 1rem;
-    background-color: var(--input-border);
+    background-color: var(--bg-primary);
     border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow-md);
 }
@@ -58,7 +58,3 @@
     color: var(--primary-green-hover) !important;
 }
 
-/* Buttons */
-.btn:hover{
-    color: var(--text-white);
-}

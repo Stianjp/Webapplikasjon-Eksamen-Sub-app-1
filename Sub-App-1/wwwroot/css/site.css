@@ -146,6 +146,73 @@ img{
   filter: brightness(0) invert(1); /* Changes to white */
 }
 
+
+/*a tag buttons*/
+/* Base styles for anchor buttons */
+a.btn {
+  width: auto;
+  height: auto;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: var(--border-radius-md);
+  transition: all 0.2s ease-in-out;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  color: var(--text-white);
+}
+
+/* Remove default link behaviors */
+a.btn:hover,
+a.btn:focus,
+a.btn:active {
+  text-decoration: none;
+  color: var(--text-white);
+}
+
+/* Success variant specific to anchors */
+a.btn-success {
+  background-color: var(--primary-green);
+  color: var(--text-white);
+}
+
+a.btn-success:hover {
+  background-color: var(--primary-green-hover);
+  transform: translateY(-1px);
+}
+
+/* Icon handling for anchor buttons */
+a.btn img {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  transition: transform 0.2s ease;
+}
+
+/* Make SVG icons white */
+a.btn-success img {
+  filter: brightness(0) invert(1);
+}
+
+/* Hover animation for icon */
+a.btn-success:hover img {
+  transform: translateX(2px);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  a.btn {
+      width: 100%;
+      justify-content: center;
+      text-align: center;
+      padding: 0.75rem 1rem;
+  }
+}
+
+
+
 /* Navigation styles */
 .nav .nav-link {
   color: black;
