@@ -5,7 +5,7 @@
     ViewData["Title"] = "Product details";
 }
 
-<h1>@ViewData["Title"] @Model.Name</h1>
+    <h1>@ViewData["Title"] @Model.Name</h1>
 
     <div class="d-flex">
         @if ((User.IsInRole(UserRoles.FoodProducer) && Model.ProducerId == User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier)) || User.IsInRole(UserRoles.Administrator))
@@ -95,9 +95,9 @@
                     <span class="text-muted">No Allergens</span>
                 }
         </div>
-        </div>
+    
 
-     <div class="Goback-section d-flex">
+    <div class="Goback-section d-flex">
         <a href="@Url.Action("Productsindex", "Products")" class="btn btn-secondary">
            Back to Products List
         </a>

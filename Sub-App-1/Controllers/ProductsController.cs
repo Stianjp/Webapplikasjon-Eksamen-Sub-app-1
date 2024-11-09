@@ -72,8 +72,13 @@ public IActionResult Create()
 {
     ViewBag.AllergenOptions = _availableAllergens;
     ViewBag.CategoryOptions = _availableCategories;
-    return View(new ProductFormViewModel());
+    var viewModel = new ProductFormViewModel
+    {
+        ProducerId = User.FindFirstValue(ClaimTypes.NameIdentifier)
+    };
+    return View("ProductForm", viewModel);
 }
+
 
 // POST: Products/Create
 [HttpPost]
@@ -141,10 +146,10 @@ public async Task<IActionResult> Edit(int id)
         return Forbid();
     }
 
-    var viewModel = ProductFormViewModel.FromProduct(product);
     ViewBag.AllergenOptions = _availableAllergens;
     ViewBag.CategoryOptions = _availableCategories;
-    return View(viewModel);
+    var viewModel = ProductFormViewModel.FromProduct(product);
+    return View("ProductForm", viewModel);
 }
 
 // POST: Products/Edit/{id}
