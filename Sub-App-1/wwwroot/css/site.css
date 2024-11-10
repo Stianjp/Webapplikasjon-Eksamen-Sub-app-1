@@ -1,26 +1,49 @@
-/* Global reset */
+/* Global reset and css */
+@import 'variables.css';
+
 * {
   margin: 0;
   padding: 0;
 }
 
+body {
+  color: var(--text-primary);
+}
+
+hr {
+  margin: 1rem 0;
+  border-top: 1px solid var(--border-color);
+}
+
+img{
+  width: 2rem;
+  height: 2rem;
+}
+
+
 /* Navbar Styles */
 .navbar {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   width: 100%;
   position: fixed;
   z-index: 1030;
 }
 
 .navbar-brand {
+  font-size: x-large;
+  font-weight: 500;
   white-space: normal;
-  text-align: center;
+  text-align: left;
   word-break: break-all;
   text-decoration: none;
 }
 
 /* Sidebar Styles */
 .sidebar {
-  width: 240px;
+  background-color: var(--bg-sidebar);
+  box-shadow: var(--shadow-sm);
+  width: 250px;
   height: 100vh;
   position: fixed;
   top: 0;
@@ -33,10 +56,10 @@
 }
 
 .sidebar img {
-  width: 24px;
-  height: 24px;
   margin-right: 10px;
 }
+
+
 
 /* Center the logout button */
 .logout {
@@ -46,7 +69,7 @@
 
 /* Main Content Styles */
 .main-content {
-  margin-left: 240px; /* Width of the sidebar */
+  margin-left: 250px; /* Width of the sidebar */
   padding: 2rem;
   height: auto;
 }
@@ -56,29 +79,189 @@
   display: none; /* Hidden by default */
 }
 
-/* Navigation Link Styles */
+
+/*Buttons, icons and navlinks */
+/* Icon default styles */
+.icon {
+  color: var(--text-primary);
+  width: 24px;
+  height: 24px;
+  transition: all 0.3s ease;
+}
+
+.logo{
+  width: 100px;
+  height: 100px;
+  justify-content: center; 
+  transition: all 0.3s ease;
+}
+
+/* Button styles that is manipiluted from the boostrap colors se variables.css */
+.btn{
+  color: black;
+  font-weight: 500;
+}
+.btn img{
+  margin-right: 10px;
+}
+.btn-success {
+  background-color: var(--primary-green);
+  border: none;
+  transition: all 0.3s ease;
+}
+.btn-danger{
+  border: none;
+  transition: all 0.3s ease;
+}
+.btn-secondary {
+  background-color: var(--grey-color);
+  border: none;
+  transition: all 0.3s ease;
+}
+.btn-primary {
+  background-color: var(--secondery-blue);
+  border: none;
+  transition: all 0.3s ease;
+}
+.btn-warning{
+  background-color: var(--other-yellow);
+  border: none;
+  transition: all 0.3s ease;
+}
+
+
+/*Behov for å legge til hover farger for alle buttons */
+
+.btn-success:hover {
+  background-color: var(--primary-green-hover);
+  color: var(--text-black);
+}
+
+.btn-primary:hover {
+  background-color: var(--secondery-blue-hover);
+  color: var(--text-black);
+}
+
+.btn-danger:hover {
+  background-color: var(--danger-red);
+  color: var(--text-black);
+}
+
+.btn-secondary:hover {
+  background-color: var(--text-light);
+  color: var(--text-black);
+}
+
+
+
+
+
+/*a tag buttons*/
+/* Base styles for anchor buttons */
+a.btn {
+  width: auto;
+  height: auto;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: var(--border-radius-sm);
+  transition: all 0.2s ease-in-out;
+  border: none;
+  cursor: pointer;
+}
+
+/* Remove default link behaviors */
+a.btn:hover,
+a.btn:focus
+a.btn:active {
+  text-decoration: none;
+}
+
+/* Success variant specific to anchors */
+a.btn-success {
+  background-color: var(--primary-green);
+}
+a.btn-primary {
+  background-color: var(--secondery-blue);
+}
+
+a.btn-secondary {
+  background-color: var(--grey-color);
+}
+
+a.btn-warning {
+  background-color: var(--other-yellow);
+}
+
+
+
+a.btn-success:hover {
+  background-color: var(--primary-green-hover);
+ 
+}
+
+a.btn-primary:hover {
+  background-color: var(--secondery-blue-hover);
+
+}
+
+a.btn-secondary:hover {
+  background-color: var(--text-light);
+  color: var(--text-black);
+}
+
+/* Icon handling for anchor buttons */
+a.btn img {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  transition: transform 0.2s ease;
+}
+
+/* Make SVG icons white */
+
+/* Hover animation for icon */
+a.btn-success:hover img {
+  transform: translateX(2px);
+}
+
+/* Hover animation for icon */
+a.btn-primary:hover img {
+  transform: translateX(2px);
+}
+
+a.btn-danger:hover img {
+  transform: translateX(2px);
+}
+
+
+
+/* Navigation styles */
 .nav .nav-link {
-  color: #212529; /* Standard text color */
+  color: black;
+  transition: all 0.3s ease;
 }
 
 .nav .nav-link:hover {
-  background-color: #2e8b57; /* Dark green background on hover */
-  color: #ffffff; /* White text on hover */
+  background-color: var(--primary-green-hover);
   border-radius: 4px;
-  transition: background-color 0.3s, color 0.3s;
 }
 
+
+.nav .nav-link:hover .icon {
+  transform: translateX(2px);
+}
+
+/* Active state */
 .nav .nav-link.active {
-  background-color: #28a745; /* Green background for active link */
-  color: #fff !important;
+  background-color: var(--nav-active);
   border-radius: 4px;
 }
 
-.nav .nav-link.active:hover {
-  background-color: #1c6f3b; /* Darker green on hover for active link */
-  color: #fff !important;
-  border-radius: 4px;
-  transition: background-color 0.3s, color 0.3s;
+
+.nav .nav-link.active .icon {
+  color: var(--text-black);
 }
 
 
@@ -86,16 +269,14 @@
 .wrapper-box {
   width: 70%;
   height: auto;
-  padding: 10px;
-  border-radius: 8px;
-  background-color: rgb(216, 233, 252);
+  padding: 2rem;
+  background-color: var(--bg-sidebar);
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--border-color) ;
+  background-color: var(--bg-primary);
+  box-shadow: var(--shadow-sm);
 }
 
-/* Menu Page Sidebar Content */
-.menu-page .sidebar-content {
-  width: 100%;
-  padding: 1rem;
-}
 
 /* Responsive Adjustments */
 
@@ -118,120 +299,19 @@
     display: block; /* Show sidebar */
   }
   .main-content {
-    margin-left: 240px; /* Width of the sidebar */
+    margin-left: 250px; /* Width of the sidebar */
   }
   .menu-button {
     display: none; /* Hide menu button */
   }
 }
 
-/* Custom Utility Classes (from custom_layout.css) */
-
-/* Sidebar Background */
-.bg-gray-200 {
-  background-color: #E2E7F0;
+/* Responsive styles a.btn */
+@media (max-width: 768px) {
+  a.btn {
+      width: 100%;
+      justify-content: center;
+      text-align: center;
+      padding: 0.75rem 1rem;
+  }
 }
-
-/* Navbar Background */
-.bg-gray-100 {
-  background-color: #EDF0F7;
-}
-
-/* Text Colors */
-.bg-text-dark {
-  color: #2D3648;
-}
-
-.bg-text-light {
-  color: #fff;
-}
-
-
-
-
-
-
-/* Menu.cshtml | perhaps make its own css file */
-/* Adjust sidebar when on the Menu page */
-.menu-page .sidebar-content .sidebar {
-  width: 100%;
-  position: static; /* Remove fixed positioning */
-  height: auto; /* Let the height be determined by content */
-}
-
-.menu-page .main-content {
-  margin-left: 0;
-}
-
-.menu-page #margin {
-  margin: 0;
-  padding: 0;
-}
-
-/* Hide the navbar on the Menu page if desired */
-.menu-page .navbar {
-  display: none;
-}
-
-/* Adjust navigation styles for better visibility */
-.menu-page .sidebar .nav-link {
-  font-size: 1.2rem;
-  padding: 0.75rem 1rem;
-}
-
-/* Optional: Center the sidebar content */
-.menu-page .sidebar {
-  margin: 0 auto;
-}
-
-/* Ensure images are appropriately sized */
-.menu-page .sidebar img {
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
-}
-
-/* Styles for the welcome container */
-.welcome-container {
-  margin: 50px auto;
-  max-width: 800px;
-}
-
-.jumbotron {
-  background-color: #f8f9fa;
-  padding: 2rem 2rem;
-  border-radius: 0.5rem;
-  text-align: center;
-}
-
-.jumbotron .display-4 {
-  font-size: 2.5rem;
-  font-weight: 300;
-}
-
-.jumbotron .lead {
-  font-size: 1.25rem;
-  font-weight: 300;
-}
-
-.jumbotron hr.my-4 {
-  border-top: 1px solid #dee2e6;
-}
-
-.jumbotron .btn {
-  padding: 0.75rem 1.25rem;
-  font-size: 1.25rem;
-}
-
-.jumbotron i {
-  margin-right: 0.5rem;
-}
-
-/* Generell img size for icons in buttons not in menu */
-
-.btn img {
-  width: 25px;
-  height: 25px;
-  margin-right: 10px;
-}
-

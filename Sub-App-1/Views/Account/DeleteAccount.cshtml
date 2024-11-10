@@ -2,9 +2,10 @@
     ViewBag.Title = "Delete Account";
 }
 
-<div class="container mt-5">
-    <h2>Delete Account</h2>
-    <p>To delete your account, please enter your password for confirmation.</p>
+
+    <h1>@ViewData["Title"]</h1>
+ 
+    <p class="mt-3">To delete your account, please enter your password for confirmation.</p>
 
     <!-- Error message -->
     @if(ViewBag.Error != null) {
@@ -20,4 +21,4 @@
         </div>
         <button type="submit" class="btn btn-danger">Delete Account</button>
     </form>
-</div>
+

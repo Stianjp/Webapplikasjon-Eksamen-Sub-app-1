@@ -1,0 +1,83 @@
+@model IEnumerable<Sub_App_1.Models.Product>
+
+<table class="table table-responsive table-hover">
+    <thead>
+        <tr>
+            <th scope="col">
+            <a asp-action="Index" asp-route-sortOrder="Name" asp-route-sortDirection="@ViewData["CurrentDirection"]">Name</a>
+            @if (ViewData["CurrentSort"]?.ToString() == "Name")
+            {
+                <span>@(ViewData["CurrentDirection"]?.ToString() == "asc" ? "▲" : "▼")</span>
+            }
+        </th>
+        <th scope="col">
+            <a asp-action="Index" asp-route-sortOrder="Category" asp-route-sortDirection="@ViewData["CurrentDirection"]">Category</a>
+            @if (ViewData["CurrentSort"]?.ToString() == "Category")
+            {
+                <span>@(ViewData["CurrentDirection"]?.ToString() == "asc" ? "▲" : "▼")</span>
+            }
+        </th>
+        <th scope="col">Description</th>
+        <th scope="col">
+            <a asp-action="Index" asp-route-sortOrder="Calories" asp-route-sortDirection="@ViewData["CurrentDirection"]">Calories (kcal)</a>
+            @if (ViewData["CurrentSort"]?.ToString() == "Calories")
+            {
+                <span>@(ViewData["CurrentDirection"]?.ToString() == "asc" ? "▲" : "▼")</span>
+            }
+        </th>
+        <th scope="col">
+            <a asp-action="Index" asp-route-sortOrder="Protein" asp-route-sortDirection="@ViewData["CurrentDirection"]">Protein (g)</a>
+            @if (ViewData["CurrentSort"]?.ToString() == "Protein")
+            {
+                <span>@(ViewData["CurrentDirection"]?.ToString() == "asc" ? "▲" : "▼")</span>
+            }
+        </th>
+        <th scope="col">
+            <a asp-action="Index" asp-route-sortOrder="Fat" asp-route-sortDirection="@ViewData["CurrentDirection"]">Fat (g)</a>
+            @if (ViewData["CurrentSort"]?.ToString() == "Fat")
+            {
+                <span>@(ViewData["CurrentDirection"]?.ToString() == "asc" ? "▲" : "▼")</span>
+            }
+        </th>
+        <th scope="col">
+            <a asp-action="Index" asp-route-sortOrder="Carbohydrates" asp-route-sortDirection="@ViewData["CurrentDirection"]">Carbohydrates (g)</a>
+            @if (ViewData["CurrentSort"]?.ToString() == "Carbohydrates")
+            {
+                <span>@(ViewData["CurrentDirection"]?.ToString() == "asc" ? "▲" : "▼")</span>
+            }
+        </th>
+            @if (User.IsInRole(UserRoles.FoodProducer) || User.IsInRole(UserRoles.Administrator)) {
+                <th scope="col">Actions</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+            <tr onclick="window.location.href='@Url.Action("Details", "Products", new { id = item.Id });" style="cursor: pointer;">
+                <td>
+                    <a id="link" asp-controller="Products"
+                       asp-action="Details"
+                       asp-route-id="@item.Id">@item.Name</a>
+                </td>
+                <td>@(item.CategoryList != null ? string.Join(", ", item.CategoryList) : "No Categories")</td>
+                <td>@item.Description</td>
+                <td>@item.Calories</td>
+                <td>@item.Protein</td>
+                <td>@item.Fat</td>
+                <td>@item.Carbohydrates</td>
+                
+                @if ((User.IsInRole(UserRoles.FoodProducer) && item.ProducerId == User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value) || User.IsInRole(UserRoles.Administrator)) {
+                    <td>
+                        <a class="btn btn-primary btn-sm link" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a class="btn btn-danger btn-sm link" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+

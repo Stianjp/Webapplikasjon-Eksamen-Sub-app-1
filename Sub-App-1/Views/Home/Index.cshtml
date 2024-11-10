@@ -26,13 +26,20 @@
         roleMessage = "Welcome to our application!";
     }
 
+    <div class="backround-image">
+
+    </div>
+
     <div class="welcome-container">
         <div class="jumbotron">
-            <h1> Welcome, @userName!</h1>
-            <p class="lead"> @roleMessage</p>
+            <div class="text-center mb-3 rounded">
+                <img src="~/icons/bowl-food-solid.svg" alt="App Logo" class="img-fluid"/>
+            </div>
+            <h2> Welcome, @userName!</h2>
+            <h6 class="lead"> @roleMessage</h6>
             <hr class="my-4">
-            <p>Get started by exploring our products.</p>
-            <a class="btn btn-primary btn-lg d-flex" href="@Url.Action("Productsindex", "Products")" role="button">
+            <p class="second-color">Get started by exploring our products.</p>
+            <a class="btn btn-primary icon" href="@Url.Action("Productsindex", "Products")" role="button">
                 <img src="~/icons/arrow-right-solid.svg" alt="Go to products"> View Products
             </a>
         </div>
@@ -43,12 +50,16 @@ else
     <!-- Unauthenticated User Content -->
     <div class="welcome-container">
         <div class="jumbotron">
-            <h1 class="display-4">Welcome to FoodStack!</h1>
-            <p class="lead">Discover a variety of food products and their nutritional information.</p>
+              <div class="text-center mb-3 rounded">
+                <img src="~/icons/bowl-food-solid.svg" alt="App Logo" class="img-fluid"/>
+            </div>
+            <h2>Welcome to FoodStack!</h2>
+            <h6 class="lead">Discover a variety of food products and their nutritional information.</h6>
             <hr class="my-4">
-            <p>You need to log in to access the full features of our application.</p>
-            <a class="btn btn-success btn-lg" href="@Url.Action("Index", "Account")" role="button">
-                <img src="~/icons/arrow-right-solid.svg" alt="Go to register form"> Log in or Register
+            <p class="second-color">You need to log in to access the full features of our application.</p>
+            <!-- Behov for en ny hover css for denne type button som er laget i -->
+            <a class="btn btn-primary icon" href="@Url.Action("Index", "Account")" role="button">
+                <img src="~/icons/arrow-right-solid.svg" alt="Go to register form"> Log in or register
             </a>
         </div>
     </div>

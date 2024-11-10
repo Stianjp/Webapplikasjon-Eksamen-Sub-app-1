@@ -1,0 +1,103 @@
+@model Sub_App_1.ViewModels.ProductFormViewModel
+
+<div class="wrapper-box">
+    <form asp-action="@(Model.IsEdit ? "Edit" : "Create")" method="post">
+        @Html.AntiForgeryToken()
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger">
+                <strong>Error!</strong> Please correct the following errors:
+                <ul>
+                    @foreach (var modelState in ViewData.ModelState.Values)
+                    {
+                        foreach (var error in modelState.Errors)
+                        {
+                            <li>@error.ErrorMessage</li>
+                        }
+                    }
+                </ul>
+            </div>
+        }
+        
+        @if (Model.IsEdit)
+        {
+            <input type="hidden" asp-for="Id" />
+            
+        }
+
+         <input type="hidden" asp-for="ProducerId" />
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <label asp-for="Name">Product Name</label>
+            <input asp-for="Name" class="form-control" placeholder="Enter the product name" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Description">Description</label>
+            <input asp-for="Description" class="form-control" placeholder="Enter a description" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Category (Select one or more)</label>
+            <select asp-for="CategoryList" class="form-control" multiple="multiple" required>
+                @foreach (var category in ViewBag.CategoryOptions)
+                {
+                    bool isSelected = Model.CategoryList?.Contains(category) ?? false;
+                    <option value="@category" selected="@isSelected">@category</option>
+                }
+            </select>
+            <span asp-validation-for="CategoryList" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Calories">Calories (kcal per 100g)</label>
+            <input asp-for="Calories" type="number" step="any" class="form-control" />
+            <span asp-validation-for="Calories" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Protein">Protein (g per 100g)</label>
+            <input asp-for="Protein" type="number" step="any" class="form-control" />
+            <span asp-validation-for="Protein" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Fat">Fat (g per 100g)</label>
+            <input asp-for="Fat" type="number" step="any" class="form-control" />
+            <span asp-validation-for="Fat" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Carbohydrates">Carbohydrates (g per 100g)</label>
+            <input asp-for="Carbohydrates" type="number" step="any" class="form-control" />
+            <span asp-validation-for="Carbohydrates" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Allergens</label>
+            <div class="allergens-grid">
+            @foreach (var allergen in ViewBag.AllergenOptions)
+            {
+                bool isChecked = Model.SelectedAllergens?.Contains(allergen) ?? false;
+                <div class="form-check">
+                    <input type="checkbox" name="SelectedAllergens" value="@allergen" 
+                           class="form-check-input" id="allergen_@allergen"
+                           @(isChecked ? "checked" : "") />
+                    <label class="form-check-label" for="allergen_@allergen">@allergen</label>
+                </div>
+            }
+            </div>
+        </div>
+
+        <hr>
+        <div class="form-actions d-flex ">
+            <button type="submit" class="btn btn-primary me-2">@Model.SubmitButtonText</button>
+            <a href="@Url.Action("Productsindex", "Products")" class="btn btn-secondary">Back to products list</a>
+        </div>
+    </form>
+</div>

@@ -3,129 +3,41 @@
 @{
     ViewData["Title"] = "Products";
 }
-<link rel="stylesheet" href="~/css/product.css" asp-append-version="true" />
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="display-4">@ViewData["Title"]</h1>
-    @if (User.IsInRole(UserRoles.FoodProducer) || User.IsInRole(UserRoles.Administrator)) {
-        <a class="btn btn-success d-flex align-items-center" asp-action="Create">
-            <img src="~/icons/plus-solid.svg" style="height: 1.5rem; margin-right: 0.5rem;" />
-            Add Product
-        </a>
-    }
-</div>
-    <div class="search d-flex justify-content-between align-items-center mb-3">
-    <input type="text" id="searchInput" class="form-control" placeholder="Search for a product...">
-    <button class="btn btn-primary d-flex">Search</button>
-</div>
 
-<div class="info-text">
+ <div class=" justify-content-between">
+        <h1>@ViewData["Title"]</h1>
+            @if (User.IsInRole(UserRoles.FoodProducer) || User.IsInRole(UserRoles.Administrator)) {
+                <a class="btn btn-primary mt-3" asp-action="Create">
+                    <img src="~/icons/plus-solid.svg" alt="add new product" class="icon" />
+                    Add new product
+                </a>
+            }
+ </div>
+
+ <p class="info mt-3">
+    Welcome to the product catalog. This page gives you a comprehensive view of all registered food products in our database. Each product displays essential information including nutritional content (calories, protein, fat, and carbohydrates), categorization, and allergen details. 
+    Use the search function to find specific products, or click on any item for detailed information.
+</p>
+
+
+<div class="search-container mt-3">
+    <div class="search d-flex justify-content-between align-items-center mt-3">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search for a product...">
+        <button class="btn btn-primary btn-md">Search</button>
+    </div>
+<div>
+
+<hr>
+
+<div class="tag-info mt-3">
     <p>The nutritional values below are based on 100 grams of the product</p>
 </div>
 
-<div id="bakgrunns-farger">
-    <table class="table rounded-2 table-responsiv table-hover">
-    <thead>
-        <tr>
-            <th scope="col">
-            <a asp-action="Index" asp-route-sortOrder="Name" asp-route-sortDirection="@ViewData["CurrentDirection"]">Name</a>
-            @if (ViewData["CurrentSort"]?.ToString() == "Name")
-            {
-                <span>@(ViewData["CurrentDirection"]?.ToString() == "asc" ? "▲" : "▼")</span>
-            }
-        </th>
-        <th scope="col">
-            <a asp-action="Index" asp-route-sortOrder="Category" asp-route-sortDirection="@ViewData["CurrentDirection"]">Category</a>
-            @if (ViewData["CurrentSort"]?.ToString() == "Category")
-            {
-                <span>@(ViewData["CurrentDirection"]?.ToString() == "asc" ? "▲" : "▼")</span>
-            }
-        </th>
-        <th scope="col">Description</th>
-        <th scope="col">
-            <a asp-action="Index" asp-route-sortOrder="Calories" asp-route-sortDirection="@ViewData["CurrentDirection"]">Calories (kcal)</a>
-            @if (ViewData["CurrentSort"]?.ToString() == "Calories")
-            {
-                <span>@(ViewData["CurrentDirection"]?.ToString() == "asc" ? "▲" : "▼")</span>
-            }
-        </th>
-        <th scope="col">
-            <a asp-action="Index" asp-route-sortOrder="Protein" asp-route-sortDirection="@ViewData["CurrentDirection"]">Protein (g)</a>
-            @if (ViewData["CurrentSort"]?.ToString() == "Protein")
-            {
-                <span>@(ViewData["CurrentDirection"]?.ToString() == "asc" ? "▲" : "▼")</span>
-            }
-        </th>
-        <th scope="col">
-            <a asp-action="Index" asp-route-sortOrder="Fat" asp-route-sortDirection="@ViewData["CurrentDirection"]">Fat (g)</a>
-            @if (ViewData["CurrentSort"]?.ToString() == "Fat")
-            {
-                <span>@(ViewData["CurrentDirection"]?.ToString() == "asc" ? "▲" : "▼")</span>
-            }
-        </th>
-        <th scope="col">
-            <a asp-action="Index" asp-route-sortOrder="Carbohydrates" asp-route-sortDirection="@ViewData["CurrentDirection"]">Carbohydrates (g)</a>
-            @if (ViewData["CurrentSort"]?.ToString() == "Carbohydrates")
-            {
-                <span>@(ViewData["CurrentDirection"]?.ToString() == "asc" ? "▲" : "▼")</span>
-            }
-        </th>
-            @if (User.IsInRole(UserRoles.FoodProducer) || User.IsInRole(UserRoles.Administrator)) {
-                <th scope="col">Actions</th>
-            }
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model) {
-            <tr onclick="window.location.href='@Url.Action("Details", "Products", new { id = item.Id })';" style="cursor: pointer;">
-                <td>
-                    <a asp-controller="Products"
-                       asp-action="Details"
-                       asp-route-id="@item.Id">@item.Name</a>
-                </td>
-                <td>@(item.CategoryList != null ? string.Join(", ", item.CategoryList) : "No Categories")</td>
-                <td>@item.Description</td>
-                <td>@item.Calories</td>
-                <td>@item.Protein</td>
-                <td>@item.Fat</td>
-                <td>@item.Carbohydrates</td>
-                
-                @if ((User.IsInRole(UserRoles.FoodProducer) && item.ProducerId == User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value) || User.IsInRole(UserRoles.Administrator)) {
-                    <td>
-                        <a class="btn btn-sm btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                        <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                }
-            </tr>
-        }
-    </tbody>
-    </table>
+<div class="mt-3">
+    <partial name="_ProductTable" model="@Model"/>
 </div>
 
-@section Scripts {
-    <!-- Search functionality -->
-    <!-- Possible to do server-side without JS, but yeah just not a good idea other than for SEO and to drop JS necessity-->
-    <script>
-        document.getElementById('searchInput').addEventListener('keyup', function () {
-            var filter = this.value.toUpperCase();
-            var table = document.querySelector('#bakgrunns-farger table');
-            var trs = table.getElementsByTagName('tr');
 
-            for (var i = 1; i < trs.length; i++) { // Start from 1 to skip header row
-                var tds = trs[i].getElementsByTagName('td');
-                var found = false;
-                for (var j = 0; j < tds.length; j++) {
-                    if (tds[j]) {
-                        var txtValue = tds[j].textContent || tds[j].innerText;
-                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                            found = true;
-                            break;
-                        }
-                    }
-                }
-                trs[i].style.display = found ? '' : 'none';
-            }
-        });
-    </script>
 
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+
+

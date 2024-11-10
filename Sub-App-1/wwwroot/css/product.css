@@ -1,82 +1,21 @@
 /* Additional styling for table and searchbar */
 
-.search{
-    border-radius: 8px;
-    padding: 10px;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+
+.search {
+    background-color: var(--bg-primary);
+    border-radius: var(--border-radius-sm);
+    box-shadow:var(--shadow-sm);
+    padding: 1rem;
 }
 
-.info-text{
+.info {
+    margin-bottom: 2rem;
+}
+
+.tag-info {
     margin-top: 2rem;
-    margin-bottom: 1rem;
-}
-
-#bakgrunns-farger{
-    border-radius: 8px;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
-}
-
-.table{ 
-    background-color: #f4f8fe;
-    border-collapse: separate;
-    border-spacing: 0;
-    overflow: hidden;
-}
-
-.table thead{
-    color: white;
-    background-color:#348a50;
-}
-
-.table th {
-    font-weight: 500;
-    font-size: 15px;
-    border-bottom: none ;
-}
-.table thead th a{
-    color: white;
-    text-decoration: none;
-}
-
-.table td {
-    font-size: 15px;
-    font-weight: 400;
-
-}
-
-.table td a {
-    text-decoration: none;
-    color: black;
 }
 
 
-/* Pagination  we did not hvae time to futher explore this but this is an 
-example based ofr generelle css*/
-.pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
 
-.pagination a {
-    color: #333;
-    padding: 8px 12px;
-    margin: 0 5px;
-    text-decoration: none;
-    border-radius: 5px;
-    background-color: #f0f0f0;
-}
 
-.pagination a:hover {
-    background-color: #d0d0d0;
-}
-
-/* Buttons */
-.btn-group .btn {
-    margin-left: 0.5rem;
-}
-
-/* Button hover effect */
-.btn:hover {
-    opacity: 0.9;
-}
