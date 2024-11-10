@@ -22,8 +22,8 @@ public static class DBInit
             await EnsureRolesExistAsync(roleManager);
             await EnsureAdminUserExistsAsync(userManager);
 
-            // seed products
-            /*if (!context.Products.Any())
+            
+            *if (!context.Products.Any())
             {
                 var products = new List<Product>
                 {
