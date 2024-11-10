@@ -26,6 +26,9 @@ namespace Sub_App_1.Tests.Controllers
 
             // Instantiate the AdminController with the mock repository
             _controller = new AdminController(_userRepositoryMock.Object);
+        
+            // Set up TempData
+            _controller.TempData = new Mock<ITempDataDictionary>().Object;
         }
 
         // Test: UserManager - Verify that the method returns the correct view with users and their roles
