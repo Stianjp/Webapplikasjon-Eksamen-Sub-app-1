@@ -89,6 +89,13 @@ img{
   transition: all 0.3s ease;
 }
 
+.logo{
+  width: 100px;
+  height: 100px;
+  justify-content: center; 
+  transition: all 0.3s ease;
+}
+
 /* Button styles that is manipiluted from the boostrap colors se variables.css */
 .btn{
   color: black;
