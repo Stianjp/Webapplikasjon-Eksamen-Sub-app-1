@@ -345,7 +345,8 @@ public async Task<IActionResult> Edit(int id, ProductFormViewModel viewModel)
     [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
     public async Task<IActionResult> UserProducts(string category)
     {
-        string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        // See if currentUserId get a value, dont need a valid ID
+        string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
 
         if (string.IsNullOrEmpty(currentUserId))
         {
