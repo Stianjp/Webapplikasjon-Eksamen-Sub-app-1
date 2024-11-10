@@ -17,8 +17,11 @@ public class AccountController : Controller {
 
     // /Account/Index
     public IActionResult Index() {
+
         return View();
     }
+
+   
 
     [HttpPost]
     public async Task<IActionResult> Login(string username, string password) {

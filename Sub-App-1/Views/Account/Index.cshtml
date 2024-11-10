@@ -1,5 +1,6 @@
 @using Sub_App_1.Models;
 
+
 @{
     ViewBag.Title = "Account";
 }
@@ -39,19 +40,13 @@
                     </div>
                         <div class="mb-3">
                             <label class="form-label">Password</label>
-                            <input type="text" class="form-control" value="••••••••" readonly 
-                                style="letter-spacing: 2px; font-weight: bold;">
-                        </div>
-                    
-                        <div class="mb-3">
-                            <label class="form-label">Role</label>
-                            <input type="text" class="form-control" value="@Model.Role" readonly>
+                            <input type="text" class="form-control" value="••••••••" readonly>
                         </div>
                     </form>
                         <div class="form-actions">
                             <form asp-action="Logout" method="post">
                                 @Html.AntiForgeryToken()
-                                <button type="submit" class="btn btn-danger me-2">Logout</button>
+                                <button type="submit" class="btn btn-warning me-2">Logout</button>
                             </form>
                             <a asp-controller="Account" asp-action="ChangePassword" class="btn btn-primary me-2">Change Password</a>
                             <a asp-controller="Account" asp-action="DeleteAccount" class="btn btn-danger ">Delete Account</a>
