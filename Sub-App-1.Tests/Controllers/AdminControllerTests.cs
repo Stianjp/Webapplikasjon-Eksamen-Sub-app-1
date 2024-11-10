@@ -105,8 +105,7 @@ namespace Sub_App_1.Tests.Controllers
         public async Task EditUser_InvalidUserId_ReturnsNotFound()
         {
             // Arrange
-            _userManagerMock.Setup(um => um.FindByIdAsync("invalid-id")).ReturnsAsync((IdentityUser?)null);
-
+            _userManagerMock.Setup(um => um.FindByIdAsync("invalid-id")).ReturnsAsync((IdentityUser)null!);
 
             // Act
             var result = await _controller.EditUser("invalid-id");
@@ -141,8 +140,8 @@ public async Task DeleteUserConfirmed_ValidUser_RedirectsToUserManager()
         [Fact]
         public async Task DeleteUserConfirmed_InvalidUser_ReturnsNotFound()
         {
-            // Arrange: Configure FindByIdAsync to returne null
-            _userManagerMock.Setup(um => um.FindByIdAsync("invalid-id")).ReturnsAsync((IdentityUser?)null);
+            // Arrange
+            _userManagerMock.Setup(um => um.FindByIdAsync("invalid-id")).ReturnsAsync((IdentityUser)null!);
 
             // Act: Call the method with a invalid ID
             var result = await _controller.DeleteUserConfirmed("invalid-id");
