@@ -137,17 +137,17 @@ public class AdminController : Controller {
     var user = await _userManager.FindByIdAsync(id);
     if (user == null)
     {
-        return NotFound(); // Handle null user here
+        return NotFound();
     }
 
     var result = await _userManager.DeleteAsync(user);
     if (result == null || !result.Succeeded)
     {
-        TempData["Error"] = result == null ? "An unexpected error occurred." : "Error deleting user.";
+        TempData["Error"] = "An unexpected error occurred.";
         return RedirectToAction("UserManager");
     }
 
     TempData["Message"] = "User deleted successfully!";
     return RedirectToAction("UserManager");
-}
+    }
 }

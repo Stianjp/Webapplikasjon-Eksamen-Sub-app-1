@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Sub_App_1.Controllers;
 using Sub_App_1.Models;
@@ -18,14 +20,28 @@ namespace Sub_App_1.Tests.Controllers
 
         public AdminControllerTests()
         {
-            _userManagerMock = new Mock<UserManager<IdentityUser?>>(
-                new Mock<IUserStore<IdentityUser?>>().Object, null, null, null, null, null, null, null, null
-            );
-            _roleManagerMock = new Mock<RoleManager<IdentityRole?>>(
-                new Mock<IRoleStore<IdentityRole?>>().Object, null, null, null, null
+            // Bruk tomme mock-objekter istedenfor null
+            _userManagerMock = new Mock<UserManager<IdentityUser>>(
+                new Mock<IUserStore<IdentityUser>>().Object, 
+                new Mock<IOptions<IdentityOptions>>().Object,
+                new Mock<IPasswordHasher<IdentityUser>>().Object,
+                new IUserValidator<IdentityUser>[0],
+                new IPasswordValidator<IdentityUser>[0],
+                new Mock<ILookupNormalizer>().Object,
+                new Mock<IdentityErrorDescriber>().Object,
+                new Mock<IServiceProvider>().Object,
+                new Mock<ILogger<UserManager<IdentityUser>>>().Object
             );
 
-            // Initialize AdminController with the mocked objects
+            _roleManagerMock = new Mock<RoleManager<IdentityRole>>(
+                new Mock<IRoleStore<IdentityRole>>().Object, 
+                new IRoleValidator<IdentityRole>[0], 
+                new Mock<ILookupNormalizer>().Object,
+                new Mock<IdentityErrorDescriber>().Object,
+                new Mock<ILogger<RoleManager<IdentityRole>>>().Object
+            );
+
+            // Initialiser AdminController med mockede objekter
             _controller = new AdminController(_userManagerMock.Object, _roleManagerMock.Object);
         }
 
@@ -91,6 +107,7 @@ namespace Sub_App_1.Tests.Controllers
             // Arrange
             _userManagerMock.Setup(um => um.FindByIdAsync("invalid-id")).ReturnsAsync((IdentityUser?)null);
 
+
             // Act
             var result = await _controller.EditUser("invalid-id");
 
@@ -109,7 +126,8 @@ public async Task DeleteUserConfirmed_ValidUser_RedirectsToUserManager()
     _controller.TempData = new Mock<ITempDataDictionary>().Object;
 
     _userManagerMock.Setup(um => um.FindByIdAsync(userId)).ReturnsAsync(user);
-    _userManagerMock.Setup(um => um.DeleteAsync(user)).ReturnsAsync(IdentityResult.Success);
+    _userManagerMock.Setup(um => um.DeleteAsync(user)).Returns(Task.FromResult(IdentityResult.Success));
+
 
     // Act
     var result = await _controller.DeleteUserConfirmed(userId) as RedirectToActionResult;
@@ -123,14 +141,42 @@ public async Task DeleteUserConfirmed_ValidUser_RedirectsToUserManager()
         [Fact]
         public async Task DeleteUserConfirmed_InvalidUser_ReturnsNotFound()
         {
-            // Arrange
+            // Arrange: Configure FindByIdAsync to returne null
             _userManagerMock.Setup(um => um.FindByIdAsync("invalid-id")).ReturnsAsync((IdentityUser?)null);
 
-            // Act
+            // Act: Call the method with a invalid ID
             var result = await _controller.DeleteUserConfirmed("invalid-id");
 
-            // Assert
+            // Assert: Check that the result is NotFound
             Assert.IsType<NotFoundResult>(result);
         }
+
+        [Fact]
+        
+        public async Task DeleteUserConfirmed_ValidUser_DeleteFails_ReturnsErrorInTempData()
+        {
+            // Arrange
+            var userId = "1";
+            var user = new IdentityUser { Id = userId };
+
+            // Set up TempData using a mock TempDataDictionary
+            var tempDataMock = new Mock<ITempDataDictionary>();
+            _controller.TempData = tempDataMock.Object;
+
+            // Set up mock to return user but delete fails
+            _userManagerMock.Setup(um => um.FindByIdAsync(userId)).ReturnsAsync(user);
+            _userManagerMock.Setup(um => um.DeleteAsync(user)).Returns(Task.FromResult(IdentityResult.Failed()));
+
+
+            // Act
+            var result = await _controller.DeleteUserConfirmed(userId) as RedirectToActionResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal("UserManager", result.ActionName);
+
+            // Verify that TempData["Error"] was set with the expected error message
+            tempDataMock.VerifySet(tempData => tempData["Error"] = "An unexpected error occurred.");
+}       
     }
 }
