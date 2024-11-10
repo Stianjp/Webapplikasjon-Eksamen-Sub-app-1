@@ -5,7 +5,10 @@
     ViewData["Title"] = "Product details";
 }
 
+<div class="card">
     <h3>@Model.Name</h3>
+
+    <div class="card-body">
 
     <div class="d-flex">
         @if ((User.IsInRole(UserRoles.FoodProducer) && Model.ProducerId == User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier)) || User.IsInRole(UserRoles.Administrator))
@@ -102,4 +105,6 @@
            Back to Products List
         </a>
     </div>
+    </div>
 
+</div>

@@ -23,7 +23,7 @@ public static class DBInit
             await EnsureAdminUserExistsAsync(userManager);
 
             
-            *if (!context.Products.Any())
+            /*if (!context.Products.Any())
             {
                 var products = new List<Product>
                 {

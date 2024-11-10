@@ -1,67 +1,81 @@
 @model Sub_App_1.Models.Product
 
+<div class="card ">
+        <div class="card-header bg-danger text-white">
+            <h5>Are you sure you want to delete @Model.Name?</h5>
+        </div>
+        <div class="card-body">
+            <dl class="row g-2 w-100">
+                <div class="row border-bottom py-2 w-100">
+                    <dt class="col-sm-4 col-md-3 d-inline-block">
+                        <strong>Name</strong>
+                    </dt>
+                    <dd class="col-sm-8 col-md-9 d-inline-block mb-0">
+                        @Model.Name
+                    </dd>
+                </div>
 
-<h1>Delete product</h1>
+                <div class="row border-bottom py-2 w-100">
+                    <dt class="col-sm-4 col-md-3 d-inline-block">
+                        <strong>Description</strong>
+                    </dt>
+                    <dd class="col-sm-8 col-md-9 d-inline-block mb-0">
+                        @Model.Description
+                    </dd>
+                </div>
 
-<div class="wrapper-box">
-    <h4>Are you sure you want to delete this product?</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+                <div class="row border-bottom py-2 w-100">
+                    <dt class="col-sm-4 col-md-3 d-inline-block">
+                        <strong>Category</strong>
+                    </dt>
+                    <dd class="col-sm-8 col-md-9 d-inline-block mb-0">
+                        @Model.Category
+                    </dd>
+                </div>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+                <div class="row border-bottom py-2 w-100">
+                    <dt class="col-sm-4 col-md-3 d-inline-block">
+                        <strong>Calories</strong>
+                    </dt>
+                    <dd class="col-sm-8 col-md-9 d-inline-block mb-0">
+                        @Model.Calories
+                    </dd>
+                </div>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Category)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Category)
-        </dd>
+                 <div class="row border-bottom py-2 w-100">
+                    <dt class="col-sm-4 col-md-3 d-inline-block">
+                        <strong>Protein</strong>
+                    </dt>
+                    <dd class="col-sm-8 col-md-9 d-inline-block mb-0">
+                        @Model.Protein
+                    </dd>
+                </div>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Calories)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Calories)
-        </dd>
+                 <div class="row border-bottom py-2 w-100">
+                    <dt class="col-sm-4 col-md-3 d-inline-block">
+                        <strong>Fat</strong>
+                    </dt>
+                    <dd class="col-sm-8 col-md-9 d-inline-block mb-0">
+                        @Model.Fat
+                    </dd>
+                </div>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Protein)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Protein)
-        </dd>
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Fat)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Fat)
-        </dd>
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Carbohydrates)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Carbohydrates)
-        </dd>
-    </dl>
+                <div class="row border-bottom py-2 w-100">
+                    <dt class="col-sm-4 col-md-3 d-inline-block">
+                        <strong>Carbohydrates</strong>
+                    </dt>
+                    <dd class="col-sm-8 col-md-9 d-inline-block mb-0">
+                        @Model.Carbohydrates
+                    </dd>
+                </div>
+            </dl>
 
     <form asp-action="Delete" method="post">
         <input type="hidden" asp-for="Id" />
         <div class="form-group">
             <button type="submit" class="btn btn-danger">Delete</button>
-            <a href="@Url.Action("Productsindex", "Products")" class="btn btn-secondary">Cancel</a>
+            <a href="@Url.Action("Productsindex", "Products")" class="btn btn-primary">Cancel</a>
+            <a href="@Url.Action("Productsindex", "Products")" class="btn btn-secondary">Back to products list</a>
         </div>
     </form>
 </div>
