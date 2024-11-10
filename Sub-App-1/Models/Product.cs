@@ -33,8 +33,6 @@ public class Product {
     public string? Allergens { get; set; }
 
 
-    //Behov for kategorier av type mat
-    // public string Category {get; set; } // Skal vi bruke en liste med kategorier som er alt satt av oss?
 
     // Foreign Key to the producer
     [JsonIgnore]

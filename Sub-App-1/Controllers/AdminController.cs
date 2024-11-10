@@ -19,32 +19,64 @@ public class AdminController : Controller {
         var userWithRoles = new List<UserWithRolesViewModel>();
 
         foreach (var user in users) {
-            var roles = await _userManager.GetRolesAsync(user);
-            userWithRoles.Add(new UserWithRolesViewModel {
+            if (user.UserName != null){
+                var roles = await _userManager.GetRolesAsync(user);
+                userWithRoles.Add(new UserWithRolesViewModel {
                 UserId = user.Id,
                 Username = user.UserName,
                 Roles = roles
             });
+
+            }
+          
         }
 
         return View(userWithRoles); // pass the list of users with their roles to the view
     }
 
     // GET /Admin/EditUser/{id}
-    public async Task<IActionResult> EditUser(string id) {
-        var user = await _userManager.FindByIdAsync(id);
-        if (user == null) {
-            return NotFound();
+   
+    public async Task<IActionResult> EditUser(string id) 
+    {
+    var user = await _userManager.FindByIdAsync(id);
+    if (user == null) 
+    {
+        return NotFound();
+    }
+
+    // Handle potential null username
+    string userName;
+    if (user.UserName == null)
+    {
+        userName = string.Empty;
+    }
+    else
+    {
+        userName = user.UserName;
+    }
+
+    // Get and convert roles to list
+    var roles = await _userManager.GetRolesAsync(user);
+    var rolesList = roles.ToList();
+
+    var model = new UserWithRolesViewModel {
+        UserId = user.Id,
+        Username = userName,
+        Roles = rolesList
+    };
+
+    // Handle potential null role names in ViewBag
+    var allRoles = new List<string>();
+    foreach (var role in _roleManager.Roles)
+    {
+        if (role.Name != null)
+        {
+            allRoles.Add(role.Name);
         }
+    }
+    ViewBag.AllRoles = allRoles;
 
-        var model = new UserWithRolesViewModel {
-            UserId = user.Id,
-            Username = user.UserName,
-            Roles = await _userManager.GetRolesAsync(user)  // fetch current roles
-        };
-
-        ViewBag.AllRoles = _roleManager.Roles.Select(r => r.Name).ToList();  // pass all roles to the view for selection
-        return View(model); 
+    return View(model); 
     }
 
     // POST /Admin/EditUser
