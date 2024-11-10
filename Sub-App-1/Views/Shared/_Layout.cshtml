@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="~/css/menu.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/css/table.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/css/form.css" asp-append-version="true"/>
+     <link rel="stylesheet" href="~/css/card.css" asp-append-version="true" />
+    }
 
     
      @if (ViewData["Title"]?.ToString() == "Home Page") {
@@ -22,9 +24,7 @@
     @if (ViewData["Title"]?.ToString() == "Add Product") {
         <link rel="stylesheet" href="~/css/create.css" asp-append-version="true" />
     }
-    @if (ViewData["Title"]?.ToString() == "Account") {
-        <link rel="stylesheet" href="~/css/account.css" asp-append-version="true" />
-    }
+    
 </head>
 <body>
     <!-- Navbar for smaller screens -->

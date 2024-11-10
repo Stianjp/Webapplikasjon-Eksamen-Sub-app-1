@@ -1,8 +1,12 @@
-/* Account Page Styles */
+/* Card component style */
 
 .card {
+    width: auto;
+    height: auto;
+    background-color: var(--bg-sidebar);
     margin-bottom: 30px;
     border-radius: 0.5rem;
+    box-shadow: var(--shadow-sm);
 }
 
 .card-title {

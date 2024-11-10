@@ -1,6 +1,7 @@
 @model Sub_App_1.ViewModels.ProductFormViewModel
 
-<div class="wrapper-box">
+<div class="card">
+    <div class="card-body">
     <form asp-action="@(Model.IsEdit ? "Edit" : "Create")" method="post">
         @Html.AntiForgeryToken()
 
@@ -30,6 +31,7 @@
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+    
         <div class="form-group">
             <label asp-for="Name">Product Name</label>
             <input asp-for="Name" class="form-control" placeholder="Enter the product name" />
@@ -100,4 +102,5 @@
             <a href="@Url.Action("Productsindex", "Products")" class="btn btn-secondary">Back to products list</a>
         </div>
     </form>
+   </div>
 </div>
