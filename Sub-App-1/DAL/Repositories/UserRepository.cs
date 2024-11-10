@@ -23,6 +23,9 @@ public class UserRepository : IUserRepository
 
     public async Task<SignInResult> LoginAsync(string username, string password)
     {
+        if (string.IsNullOrEmpty(username)){
+            throw new ArgumentNullException(nameof(username));
+        }
         return await _signInManager.PasswordSignInAsync(username, password, isPersistent: false, lockoutOnFailure: false);
     }
 
@@ -39,7 +42,11 @@ public class UserRepository : IUserRepository
 
     public async Task<IdentityUser> FindByNameAsync(string username)
     {
-        return await _userManager.FindByNameAsync(username);
+        var user = await _userManager.FindByEmailAsync(username);
+        if( user == null){
+            throw new Exception($"User with username {username} not found");
+        }
+        return user;
     }
 
     public async Task<IList<string>> GetRolesAsync(IdentityUser user)
@@ -79,7 +86,14 @@ public class UserRepository : IUserRepository
 
     public async Task<IdentityUser> GetUserAsync(ClaimsPrincipal principal)
     {
-        return await _userManager.GetUserAsync(principal);
+        var user = await _userManager.GetUserAsync(principal);
+        if (user == null)
+        {
+            throw new KeyNotFoundException("User not found");
+            // Or return a new IdentityUser() if you prefer
+        }
+        return user;
+        
     }
 
     public async Task<List<IdentityUser>> GetAllUsersAsync()
@@ -94,7 +108,13 @@ public class UserRepository : IUserRepository
 
     public async Task<IdentityUser> FindByIdAsync(string userId)
     {
-        return await _userManager.FindByIdAsync(userId);
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null)
+        {
+            throw new KeyNotFoundException($"User with ID {userId} not found");
+            // Or return a new IdentityUser() if you prefer
+        }
+        return user;
     }
 
     public async Task<bool> RoleExistsAsync(string roleName)
