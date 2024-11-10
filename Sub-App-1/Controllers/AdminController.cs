@@ -110,23 +110,27 @@ public class AdminController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteUserConfirmed(string id)
     {
-        var user = await _userRepository.FindByIdAsync(id);
-        if (user == null)
-        {
-            return NotFound();
-        }
-
-        var result = await _userRepository.DeleteUserAsync(user);
-        if (result.Succeeded)
-        {
-            TempData["Message"] = "User deleted successfully!";
-        }
-        else
-        {
-            TempData["Error"] = "Error deleting user.";
-        }
-
+     if (string.IsNullOrEmpty(id))
+    {
+        TempData["Error"] = "Invalid user ID.";
         return RedirectToAction("UserManager");
+    }
+
+    var user = await _userRepository.FindByIdAsync(id);
+    if (user == null)
+    {
+        return NotFound(); // Returnerer NotFound for ugyldig bruker
+    }
+
+    var result = await _userRepository.DeleteUserAsync(user);
+    if (result == null || !result.Succeeded)
+    {
+        TempData["Error"] = result == null ? "An unexpected error occurred." : "Error deleting user.";
+        return RedirectToAction("UserManager");
+    }
+
+    TempData["Message"] = "User deleted successfully!";
+    return RedirectToAction("UserManager");
     }
 
 }
