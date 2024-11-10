@@ -1,84 +1,105 @@
 namespace Sub_App_1.Controllers;
 
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Sub_App_1.DAL.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Sub_App_1.Models;
-using Sub_App_1.ViewModels;
 
 [Authorize(Roles = UserRoles.Administrator)]
-public class AdminController : Controller
-{
-    private readonly IUserRepository _userRepository;
+public class AdminController : Controller {
+    private readonly UserManager<IdentityUser> _userManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
 
-    public AdminController(IUserRepository userRepository)
-    {
-        _userRepository = userRepository;
+    public AdminController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager) {
+        _userManager = userManager;
+        _roleManager = roleManager;
     }
 
     // GET /Admin/UserManager
-    public async Task<IActionResult> UserManager()
-    {
-        var users = await _userRepository.GetAllUsersAsync();
+    public async Task<IActionResult> UserManager() {
+        var users = _userManager.Users.ToList();
         var userWithRoles = new List<UserWithRolesViewModel>();
 
-        foreach (var user in users)
-        {
-            var roles = await _userRepository.GetRolesAsync(user);
-            userWithRoles.Add(new UserWithRolesViewModel
-            {
+        foreach (var user in users) {
+            if (user.UserName != null){
+                var roles = await _userManager.GetRolesAsync(user);
+                userWithRoles.Add(new UserWithRolesViewModel {
                 UserId = user.Id,
                 Username = user.UserName,
                 Roles = roles
             });
+
+            }
+          
         }
 
         return View(userWithRoles); // pass the list of users with their roles to the view
     }
 
     // GET /Admin/EditUser/{id}
-    public async Task<IActionResult> EditUser(string id)
+   
+    public async Task<IActionResult> EditUser(string id) 
     {
-        var user = await _userRepository.FindByIdAsync(id);
-        if (user == null)
+    var user = await _userManager.FindByIdAsync(id);
+    if (user == null) 
+    {
+        return NotFound();
+    }
+
+    // Handle potential null username
+    string userName;
+    if (user.UserName == null)
+    {
+        userName = string.Empty;
+    }
+    else
+    {
+        userName = user.UserName;
+    }
+
+    // Get and convert roles to list
+    var roles = await _userManager.GetRolesAsync(user);
+    var rolesList = roles.ToList();
+
+    var model = new UserWithRolesViewModel {
+        UserId = user.Id,
+        Username = userName,
+        Roles = rolesList
+    };
+
+    // Handle potential null role names in ViewBag
+    var allRoles = new List<string>();
+    foreach (var role in _roleManager.Roles)
+    {
+        if (role.Name != null)
         {
-            return NotFound();
+            allRoles.Add(role.Name);
         }
+    }
+    ViewBag.AllRoles = allRoles;
 
-        var model = new UserWithRolesViewModel
-        {
-            UserId = user.Id,
-            Username = user.UserName,
-            Roles = await _userRepository.GetRolesAsync(user)  // fetch current roles
-        };
-
-        ViewBag.AllRoles = (await _userRepository.GetAllRolesAsync()).Select(r => r.Name).ToList();  // pass all roles to the view for selection
-        return View(model);
+    return View(model); 
     }
 
     // POST /Admin/EditUser
     [HttpPost]
-    public async Task<IActionResult> EditUser(UserWithRolesViewModel model, List<string> roles)
-    {
-        var user = await _userRepository.FindByIdAsync(model.UserId);
-        if (user == null)
-        {
+    public async Task<IActionResult> EditUser(UserWithRolesViewModel model, List<string> roles) {
+        var user = await _userManager.FindByIdAsync(model.UserId);
+        if (user == null) {
             return NotFound();
         }
 
-        var currentRoles = await _userRepository.GetRolesAsync(user);
-        var result = await _userRepository.RemoveFromRolesAsync(user, currentRoles);
+        var currentRoles = await _userManager.GetRolesAsync(user);
+        var result = await _userManager.RemoveFromRolesAsync(user, currentRoles);
 
-        if (!result.Succeeded)
-        {
+        if (!result.Succeeded) {
             ViewBag.Error = "Error removing user roles.";
             return View(model);
         }
 
-        result = await _userRepository.AddToRolesAsync(user, roles);
+        result = await _userManager.AddToRolesAsync(user, roles);
 
-        if (!result.Succeeded)
-        {
+        if (!result.Succeeded) {
             ViewBag.Error = "Error adding roles.";
             return View(model);
         }
@@ -86,48 +107,20 @@ public class AdminController : Controller
         return RedirectToAction("UserManager");
     }
 
-    // GET /Admin/DeleteUser/{id}
-    [HttpGet]
-    public async Task<IActionResult> DeleteUser(string id)
-    {
-        var user = await _userRepository.FindByIdAsync(id);
-        if (user == null)
-        {
+    // POST /Admin/DeleteUser/{id}
+    public async Task<IActionResult> DeleteUser(string id) {
+        var user = await _userManager.FindByIdAsync(id);
+        if (user == null) {
             return NotFound();
         }
 
-        var model = new UserWithRolesViewModel
-        {
-            UserId = user.Id,
-            Username = user.UserName,
-            Roles = await _userRepository.GetRolesAsync(user)
-        };
-
-        return View(model);
-    }
-
-    // POST /Admin/DeleteUser
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteUserConfirmed(string id)
-    {
-        var user = await _userRepository.FindByIdAsync(id);
-        if (user == null)
-        {
-            return NotFound();
-        }
-
-        var result = await _userRepository.DeleteUserAsync(user);
-        if (result.Succeeded)
-        {
-            TempData["Message"] = "User deleted successfully!";
-        }
-        else
-        {
-            TempData["Error"] = "Error deleting user.";
+        var result = await _userManager.DeleteAsync(user);
+        if (result.Succeeded) {
+            ViewBag.Message = "User deleted successfully!";
+        } else {
+            ViewBag.Error = "Error deleting user.";
         }
 
         return RedirectToAction("UserManager");
     }
-
 }
