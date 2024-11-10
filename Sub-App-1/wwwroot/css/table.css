@@ -6,9 +6,10 @@
 
 .table {
     color: var(--text-primary);
-    background-color: var(--bg-sidebar);
+    background-color: var(--text-white);
     border-radius: var(--border-radius-sm);
     box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
     
 }
 
