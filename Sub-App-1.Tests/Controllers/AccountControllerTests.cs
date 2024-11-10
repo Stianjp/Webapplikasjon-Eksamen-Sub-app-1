@@ -66,7 +66,7 @@ namespace Sub_App_1.Tests.Controllers
 
     _signInManagerMock
         .Setup(signIn => signIn.PasswordSignInAsync(username, password, false, false))
-        .ReturnsAsync((IdentitySignInResult?)IdentitySignInResult.Success); // Nullable specification
+        .ReturnsAsync(IdentitySignInResult.Success);
 
     _userManagerMock
         .Setup(userManager => userManager.FindByNameAsync(username))

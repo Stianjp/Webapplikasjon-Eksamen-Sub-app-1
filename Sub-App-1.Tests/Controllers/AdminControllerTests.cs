@@ -107,6 +107,7 @@ namespace Sub_App_1.Tests.Controllers
             // Arrange
             _userManagerMock.Setup(um => um.FindByIdAsync("invalid-id")).ReturnsAsync((IdentityUser?)null);
 
+
             // Act
             var result = await _controller.EditUser("invalid-id");
 
@@ -125,7 +126,8 @@ public async Task DeleteUserConfirmed_ValidUser_RedirectsToUserManager()
     _controller.TempData = new Mock<ITempDataDictionary>().Object;
 
     _userManagerMock.Setup(um => um.FindByIdAsync(userId)).ReturnsAsync(user);
-    _userManagerMock.Setup(um => um.DeleteAsync(user)).ReturnsAsync((IdentityResult?)IdentityResult.Success);
+    _userManagerMock.Setup(um => um.DeleteAsync(user)).Returns(Task.FromResult(IdentityResult.Success));
+
 
     // Act
     var result = await _controller.DeleteUserConfirmed(userId) as RedirectToActionResult;
@@ -163,7 +165,8 @@ public async Task DeleteUserConfirmed_ValidUser_RedirectsToUserManager()
 
             // Set up mock to return user but delete fails
             _userManagerMock.Setup(um => um.FindByIdAsync(userId)).ReturnsAsync(user);
-            _userManagerMock.Setup(um => um.DeleteAsync(user)).ReturnsAsync((IdentityResult?)IdentityResult.Failed());
+            _userManagerMock.Setup(um => um.DeleteAsync(user)).Returns(Task.FromResult(IdentityResult.Failed()));
+
 
             // Act
             var result = await _controller.DeleteUserConfirmed(userId) as RedirectToActionResult;
