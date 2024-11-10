@@ -6,6 +6,7 @@
     background-color: var(--bg-sidebar);
     margin-bottom: 30px;
     border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
     box-shadow: var(--shadow-sm);
 }
 
