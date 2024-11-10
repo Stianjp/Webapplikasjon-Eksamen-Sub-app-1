@@ -18,11 +18,11 @@ namespace Sub_App_1.Tests.Controllers
 
         public AdminControllerTests()
         {
-            _userManagerMock = new Mock<UserManager<IdentityUser>>(
-                new Mock<IUserStore<IdentityUser>>().Object, null!, null!, null!, null!, null!, null!, null!, null!
+            _userManagerMock = new Mock<UserManager<IdentityUser?>>(
+                new Mock<IUserStore<IdentityUser?>>().Object, null, null, null, null, null, null, null, null
             );
-            _roleManagerMock = new Mock<RoleManager<IdentityRole>>(
-                new Mock<IRoleStore<IdentityRole>>().Object, null!, null!, null!, null!
+            _roleManagerMock = new Mock<RoleManager<IdentityRole?>>(
+                new Mock<IRoleStore<IdentityRole?>>().Object, null, null, null, null
             );
 
             // Initialize AdminController with the mocked objects
@@ -89,7 +89,7 @@ namespace Sub_App_1.Tests.Controllers
         public async Task EditUser_InvalidUserId_ReturnsNotFound()
         {
             // Arrange
-            _userManagerMock.Setup(um => um.FindByIdAsync("invalid-id")).ReturnsAsync((IdentityUser)null!);
+            _userManagerMock.Setup(um => um.FindByIdAsync("invalid-id")).ReturnsAsync((IdentityUser?)null);
 
             // Act
             var result = await _controller.EditUser("invalid-id");
@@ -124,7 +124,7 @@ public async Task DeleteUserConfirmed_ValidUser_RedirectsToUserManager()
         public async Task DeleteUserConfirmed_InvalidUser_ReturnsNotFound()
         {
             // Arrange
-            _userManagerMock.Setup(um => um.FindByIdAsync("invalid-id")).ReturnsAsync((IdentityUser)null!);
+            _userManagerMock.Setup(um => um.FindByIdAsync("invalid-id")).ReturnsAsync((IdentityUser?)null);
 
             // Act
             var result = await _controller.DeleteUserConfirmed("invalid-id");
