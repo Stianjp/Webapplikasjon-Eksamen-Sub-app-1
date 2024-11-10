@@ -1,11 +1,10 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Moq;
-using Xunit;
 using Sub_App_1.Controllers;
 using Sub_App_1.Models;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+using Xunit;
+using IdentitySignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace Sub_App_1.Tests.Controllers
 {
@@ -18,55 +17,90 @@ namespace Sub_App_1.Tests.Controllers
 
         public AccountControllerTests()
         {
-            // Opprett UserManager mock
             _userManagerMock = new Mock<UserManager<IdentityUser>>(
-                new Mock<IUserStore<IdentityUser>>().Object, null, null, null, null, null, null, null, null
+                new Mock<IUserStore<IdentityUser>>().Object,
+                null!, null!, null!, null!, null!, null!, null!, null!
             );
 
-            // Opprett SignInManager mock
             _signInManagerMock = new Mock<SignInManager<IdentityUser>>(
                 _userManagerMock.Object,
                 new Mock<Microsoft.AspNetCore.Http.IHttpContextAccessor>().Object,
                 new Mock<IUserClaimsPrincipalFactory<IdentityUser>>().Object,
-                null, null, null, null
+                null!, null!, null!, null!
             );
 
-            // Opprett RoleManager mock
             _roleManagerMock = new Mock<RoleManager<IdentityRole>>(
-                new Mock<IRoleStore<IdentityRole>>().Object, null, null, null, null
+                new Mock<IRoleStore<IdentityRole>>().Object, 
+                null!, null!, null!, null!
             );
 
-            // Initialiser AccountController med de mockede objektene
+            // Initialize AccountController with the mocked objects
             _controller = new AccountController(_userManagerMock.Object, _signInManagerMock.Object, _roleManagerMock.Object);
         }
 
+        // Update each test case to use _userManagerMock, _signInManagerMock, and _roleManagerMock directly.
         [Fact]
-        public async Task Login_WithValidCredentials_ShouldRedirectToDashboard()
+        public async Task Login_WithValidCredentialsAndRoles_RedirectsToProducts()
         {
             // Arrange
             var username = "testuser";
             var password = "ValidPassword123";
             var user = new IdentityUser { UserName = username };
+            var roles = new List<string> { UserRoles.RegularUser };
 
             _signInManagerMock
-                .Setup(sm => sm.PasswordSignInAsync(username, password, false, false))
-                .ReturnsAsync(SignInResult.Success);
+                .Setup(signIn => signIn.PasswordSignInAsync(username, password, false, false))
+                .ReturnsAsync(IdentitySignInResult.Success);
 
             _userManagerMock
-                .Setup(um => um.FindByNameAsync(username))
+                .Setup(userManager => userManager.FindByNameAsync(username))
                 .ReturnsAsync(user);
 
             _userManagerMock
-                .Setup(um => um.GetRolesAsync(user))
-                .ReturnsAsync(new List<string> { UserRoles.RegularUser });
+                .Setup(userManager => userManager.GetRolesAsync(user))
+                .ReturnsAsync(roles);
 
             // Act
             var result = await _controller.Login(username, password) as RedirectToActionResult;
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal("Dashboard", result.ActionName);
-            Assert.Equal("RegularUser", result.ControllerName);
+            Assert.Equal("Productsindex", result!.ActionName);
+            Assert.Equal("Products", result.ControllerName);
         }
+
+        [Fact]
+        public async Task Login_WithValidCredentialsAndNoRoles_RedirectsToHome()
+        {
+            // Arrange
+            var username = "testuser";
+            var password = "ValidPassword123";
+            var user = new IdentityUser { UserName = username };
+            var roles = new List<string>();
+
+            _signInManagerMock
+                .Setup(signIn => signIn.PasswordSignInAsync(username, password, false, false))
+                .ReturnsAsync(IdentitySignInResult.Success);
+
+            _userManagerMock
+                .Setup(userManager => userManager.FindByNameAsync(username))
+                .ReturnsAsync(user);
+
+            _userManagerMock
+                .Setup(userManager => userManager.GetRolesAsync(user))
+                .ReturnsAsync(roles);
+
+            // Act
+            var result = await _controller.Login(username, password) as RedirectToActionResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal("Index", result!.ActionName);
+            Assert.Equal("Home", result.ControllerName);
+        }
+
+        // Similarly, update all other test cases to directly use _userManagerMock, _signInManagerMock, and _roleManagerMock
+        // Also, ensure each test accurately mocks the needed methods on these mocks directly instead of _userRepositoryMock.
     }
+
 }

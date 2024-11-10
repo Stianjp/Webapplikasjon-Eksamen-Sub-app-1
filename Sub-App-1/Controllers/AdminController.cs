@@ -123,4 +123,31 @@ public class AdminController : Controller {
 
         return RedirectToAction("UserManager");
     }
+     // POST /Admin/DeleteUser
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteUserConfirmed(string id)
+    {
+    if (string.IsNullOrEmpty(id))
+    {
+        TempData["Error"] = "Invalid user ID.";
+        return RedirectToAction("UserManager");
+    }
+
+    var user = await _userManager.FindByIdAsync(id);
+    if (user == null)
+    {
+        return NotFound(); // Handle null user here
+    }
+
+    var result = await _userManager.DeleteAsync(user);
+    if (result == null || !result.Succeeded)
+    {
+        TempData["Error"] = result == null ? "An unexpected error occurred." : "Error deleting user.";
+        return RedirectToAction("UserManager");
+    }
+
+    TempData["Message"] = "User deleted successfully!";
+    return RedirectToAction("UserManager");
+}
 }
