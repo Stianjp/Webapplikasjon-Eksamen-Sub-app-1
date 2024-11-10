@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (link.getAttribute("href") === currentUrl) {
             link.classList.add("active");
             link.style.backgroundColor = 'var(--primary-green)'; // Using the css variabels and custom styles.
-            link.style.color = 'var(--text-light)'; // Using the css variabels and custom styles.
+            link.style.color = 'var(--text-black)'; // Using the css variabels and custom styles.
         }
     });
 });

@@ -21,7 +21,7 @@
     padding: 0.8rem;
     text-decoration: none;
     font-weight: 600;
-    color: var(--text-white);
+    color: var(--text-black);
     border-bottom: none;
     white-space: nowrap;
 }
@@ -36,18 +36,20 @@
 /* Link Styling */
 .table thead th a {
     text-decoration: none;
-    color: var(--text-white);
+    color: var(--text-black);
 }
 
 .table thead th a:hover {
     text-decoration: none;
-    color: var(--text-primary) !important;
+    color: var(--text-white) !important;
 }
 
 .table tbody a{
     text-decoration: none;
     color: var(--text-primary);
 }
+
+
 
 
 

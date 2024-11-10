@@ -36,6 +36,7 @@
                 Menu
             </a>
     </nav>  
+   
 
     <!-- Sidebar for Large Screens -->
     <div class="sidebar-wrapper d-none d-lg-flex">
@@ -43,12 +44,15 @@
             <partial name="_Sidebar" />
         </div>
     </div
+    
 
     <!-- Main content -->
+    <div class="container-fluid">
     <div class="main-content">
         @RenderBody()
     </div>
-
+    </div>
+    
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 

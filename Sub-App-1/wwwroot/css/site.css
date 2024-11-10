@@ -16,8 +16,8 @@ hr {
 }
 
 img{
-  width: 24px;
-  height: 24px;
+  width: 2rem;
+  height: 2rem;
 }
 
 
@@ -69,7 +69,7 @@ img{
 
 /* Main Content Styles */
 .main-content {
-  margin-left: 240px; /* Width of the sidebar */
+  margin-left: 250px; /* Width of the sidebar */
   padding: 2rem;
   height: auto;
 }
@@ -113,7 +113,8 @@ img{
   border: none;
   transition: all 0.3s ease;
 }
-.btn-secondery {
+.btn-secondary {
+  background-color: var(--grey-color);
   border: none;
   transition: all 0.3s ease;
 }
@@ -128,30 +129,31 @@ img{
   transition: all 0.3s ease;
 }
 
+
 /*Behov for å legge til hover farger for alle buttons */
 
 .btn-success:hover {
   background-color: var(--primary-green-hover);
-  color: var(--text-white);
+  color: var(--text-black);
 }
 
 .btn-primary:hover {
   background-color: var(--secondery-blue-hover);
-  color: var(--text-white);
+  color: var(--text-black);
 }
 
 .btn-danger:hover {
-  color: var(--text-white);
+  background-color: var(--danger-red);
+  color: var(--text-black);
 }
 
-/* Make icon change color when button is hovered */
-.btn-success:hover .icon {
-  filter: brightness(0) invert(1); /* Changes to white */
+.btn-secondary:hover {
+  background-color: var(--text-light);
+  color: var(--text-black);
 }
 
-.btn-danger:hover .icon {
-  filter: brightness(0) invert(1); /* Changes to white */
-}
+
+
 
 
 /*a tag buttons*/
@@ -167,36 +169,46 @@ a.btn {
   transition: all 0.2s ease-in-out;
   border: none;
   cursor: pointer;
-  color: var(--text-white);
 }
 
 /* Remove default link behaviors */
 a.btn:hover,
-a.btn:focus,
+a.btn:focus
 a.btn:active {
   text-decoration: none;
-  color: var(--text-white);
 }
 
 /* Success variant specific to anchors */
 a.btn-success {
   background-color: var(--primary-green);
-  color: var(--text-white);
 }
+a.btn-primary {
+  background-color: var(--secondery-blue);
+}
+
+a.btn-secondary {
+  background-color: var(--grey-color);
+}
+
+a.btn-warning {
+  background-color: var(--other-yellow);
+}
+
+
 
 a.btn-success:hover {
   background-color: var(--primary-green-hover);
-  transform: translateY(-1px);
-}
-
-a.btn-primary {
-  background-color: var(--secondery-blue);
-  color: var(--text-white);
+ 
 }
 
 a.btn-primary:hover {
   background-color: var(--secondery-blue-hover);
-  transform: translateY(-1px);
+
+}
+
+a.btn-secondary:hover {
+  background-color: var(--text-light);
+  color: var(--text-black);
 }
 
 /* Icon handling for anchor buttons */
@@ -208,17 +220,10 @@ a.btn img {
 }
 
 /* Make SVG icons white */
-a.btn-success img {
-  filter: brightness(0) invert(1);
-}
 
 /* Hover animation for icon */
 a.btn-success:hover img {
   transform: translateX(2px);
-}
-
-a.btn-primary img {
-  filter: brightness(0) invert(1);
 }
 
 /* Hover animation for icon */
@@ -226,6 +231,9 @@ a.btn-primary:hover img {
   transform: translateX(2px);
 }
 
+a.btn-danger:hover img {
+  transform: translateX(2px);
+}
 
 
 
@@ -237,23 +245,23 @@ a.btn-primary:hover img {
 
 .nav .nav-link:hover {
   background-color: var(--primary-green-hover);
-  color: #ffffff;
   border-radius: 4px;
 }
 
+
 .nav .nav-link:hover .icon {
-  filter: brightness(0) invert(1); /* Changes to white */
+  transform: translateX(2px);
 }
 
 /* Active state */
 .nav .nav-link.active {
   background-color: var(--nav-active);
-  color: #ffffff !important;
   border-radius: 4px;
 }
 
+
 .nav .nav-link.active .icon {
-  filter: brightness(0) invert(1); /* White color for active state */
+  color: var(--text-black);
 }
 
 
@@ -291,7 +299,7 @@ a.btn-primary:hover img {
     display: block; /* Show sidebar */
   }
   .main-content {
-    margin-left: 240px; /* Width of the sidebar */
+    margin-left: 250px; /* Width of the sidebar */
   }
   .menu-button {
     display: none; /* Hide menu button */
