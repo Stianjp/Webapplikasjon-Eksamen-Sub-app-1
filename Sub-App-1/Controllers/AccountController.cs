@@ -31,7 +31,8 @@ public class AccountController : Controller {
         if (result.Succeeded) {
             // Get the user and their roles after successful login
             var user = await _userManager.FindByNameAsync(username);
-            if(user != null) {
+            if(user != null) 
+            {
                 var roles = await _userManager.GetRolesAsync(user);
 
                 // Check if the user has any roles
@@ -39,11 +40,9 @@ public class AccountController : Controller {
                     // redirect to the products page if the user has a role
                     return RedirectToAction("Productsindex", "Products");
                 } else {
-                    // eedirect to the home page if the user has no roles
+                    // redirect to the home page if the user has no roles
                     return RedirectToAction("Index", "Home");
                 }
-            } else {
-                return RedirectToAction("Index", "Home");
             }
         }
         // If login failed, show an error message
