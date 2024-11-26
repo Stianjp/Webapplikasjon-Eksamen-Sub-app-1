@@ -52,38 +52,38 @@ namespace Sub_App_1.Tests.Controllers
 
     // Initialize AccountController with the mocked objects
     _controller = new AccountController(_userManagerMock.Object, _signInManagerMock.Object, _roleManagerMock.Object);
-}
+        }
 
         // Update each test case to use _userManagerMock, _signInManagerMock, and _roleManagerMock directly.
         [Fact]
         public async Task Login_WithValidCredentialsAndRoles_RedirectsToProducts()
         {
-    // Arrange
-    var username = "testuser";
-    var password = "ValidPassword123";
-    var user = new IdentityUser { UserName = username };
-    var roles = new List<string> { UserRoles.RegularUser };
+            // Arrange
+            var username = "testuser";
+            var password = "ValidPassword123";
+            var user = new IdentityUser { UserName = username };
+            var roles = new List<string> { UserRoles.RegularUser };
 
-    _signInManagerMock
-        .Setup(signIn => signIn.PasswordSignInAsync(username, password, false, false))
-        .ReturnsAsync(IdentitySignInResult.Success);
+            _signInManagerMock
+                .Setup(signIn => signIn.PasswordSignInAsync(username, password, false, false))
+                .ReturnsAsync(IdentitySignInResult.Success);
 
-    _userManagerMock
-        .Setup(userManager => userManager.FindByNameAsync(username))
-        .ReturnsAsync(user);
+            _userManagerMock
+                .Setup(userManager => userManager.FindByNameAsync(username))
+                .ReturnsAsync(user);
 
-    _userManagerMock
-        .Setup(userManager => userManager.GetRolesAsync(user))
-        .ReturnsAsync(roles);
+            _userManagerMock
+                .Setup(userManager => userManager.GetRolesAsync(user))
+                .ReturnsAsync(roles);
 
-    // Act
-    var result = await _controller.Login(username, password) as RedirectToActionResult;
+            // Act
+            var result = await _controller.Login(username, password) as RedirectToActionResult;
 
-    // Assert
-    Assert.NotNull(result);
-    Assert.Equal("Productsindex", result!.ActionName);
-    Assert.Equal("Products", result.ControllerName);
-}
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal("Productsindex", result!.ActionName);
+            Assert.Equal("Products", result.ControllerName);
+        }
 
         [Fact]
         public async Task Login_WithValidCredentialsAndNoRoles_RedirectsToHome()
@@ -117,6 +117,66 @@ namespace Sub_App_1.Tests.Controllers
 
         // Similarly, update all other test cases to directly use _userManagerMock, _signInManagerMock, and _roleManagerMock
         // Also, ensure each test accurately mocks the needed methods on these mocks directly instead of _userRepositoryMock.
-    }
 
+        [Fact]
+        public async Task Login_WithInvalidCredentials_ReturnsErrorInView()
+        {
+            // Arrange
+            var username = "testuser";
+            var password = "InvalidPassword123";
+
+            _signInManagerMock
+                .Setup(signIn => signIn.PasswordSignInAsync(username, password, false, false))
+                .ReturnsAsync(IdentitySignInResult.Failed);
+
+            // Act
+            var result = await _controller.Login(username, password) as ViewResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal("Invalid username or password.", result.ViewData["Error"]);
+            Assert.Equal("Index", result.ViewName);
+        }
+
+        [Fact]
+        public async Task Login_WithNonExistentUser_ReturnsErrorInView()
+        {
+            // Arrange
+            var username = "nonExistentUser";
+            var password = "ValidPassword123";
+
+            _signInManagerMock
+                .Setup(signIn => signIn.PasswordSignInAsync(username, password, false, false))
+                .ReturnsAsync(IdentitySignInResult.Success);
+
+            _userManagerMock
+                .Setup(userManager => userManager.FindByNameAsync(username))
+                .ReturnsAsync((IdentityUser?)null);
+
+            // Act
+            var actionResult = await _controller.Login(username, password);
+            var result = actionResult as ViewResult;
+
+            // Assert
+            Assert.NotNull(actionResult);
+            Assert.NotNull(result);
+            Assert.Equal("Invalid username or password.", result!.ViewData["Error"]);
+            Assert.Equal("Index", result.ViewName);
+        }
+
+        [Fact]
+        public async Task Login_WithUnexpectedError_ThrowsException()
+        {
+            // Arrange
+            var username = "testuser";
+            var password = "ValidPassword123";
+
+            _signInManagerMock
+                .Setup(signIn => signIn.PasswordSignInAsync(username, password, false, false))
+                .Throws<Exception>();
+
+            // Act & Assert
+            await Assert.ThrowsAsync<Exception>(() => _controller.Login(username, password));
+        }
+    }
 }

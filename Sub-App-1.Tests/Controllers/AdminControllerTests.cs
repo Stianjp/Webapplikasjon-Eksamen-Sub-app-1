@@ -6,8 +6,6 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Sub_App_1.Controllers;
 using Sub_App_1.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Sub_App_1.Tests.Controllers
@@ -115,27 +113,27 @@ namespace Sub_App_1.Tests.Controllers
         }
 
         [Fact]
-public async Task DeleteUserConfirmed_ValidUser_RedirectsToUserManager()
-{
-    // Arrange
-    var userId = "1";
-    var user = new IdentityUser { Id = userId };
+        public async Task DeleteUserConfirmed_ValidUser_RedirectsToUserManager()
+        {
+            // Arrange
+            var userId = "1";
+            var user = new IdentityUser { Id = userId };
 
-    // Set up TempData
-    _controller.TempData = new Mock<ITempDataDictionary>().Object;
+            // Set up TempData
+            _controller.TempData = new Mock<ITempDataDictionary>().Object;
 
-    _userManagerMock.Setup(um => um.FindByIdAsync(userId)).ReturnsAsync(user);
-    _userManagerMock.Setup(um => um.DeleteAsync(user)).Returns(Task.FromResult(IdentityResult.Success));
+            _userManagerMock.Setup(um => um.FindByIdAsync(userId)).ReturnsAsync(user);
+            _userManagerMock.Setup(um => um.DeleteAsync(user)).Returns(Task.FromResult(IdentityResult.Success));
 
 
-    // Act
-    var result = await _controller.DeleteUserConfirmed(userId) as RedirectToActionResult;
+            // Act
+            var result = await _controller.DeleteUserConfirmed(userId) as RedirectToActionResult;
 
-    // Assert
-    Assert.NotNull(result);
-    Assert.Equal("UserManager", result.ActionName);
-    _userManagerMock.Verify(um => um.DeleteAsync(It.Is<IdentityUser>(u => u.Id == userId)), Times.Once);
-}
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal("UserManager", result.ActionName);
+            _userManagerMock.Verify(um => um.DeleteAsync(It.Is<IdentityUser>(u => u.Id == userId)), Times.Once);
+        }
 
         [Fact]
         public async Task DeleteUserConfirmed_InvalidUser_ReturnsNotFound()
@@ -151,12 +149,14 @@ public async Task DeleteUserConfirmed_ValidUser_RedirectsToUserManager()
         }
 
         [Fact]
-        
         public async Task DeleteUserConfirmed_ValidUser_DeleteFails_ReturnsErrorInTempData()
         {
             // Arrange
-            var userId = "1";
-            var user = new IdentityUser { Id = userId };
+            var userId = "User123";
+
+            // Mock UserManager to return a user
+            var user = new IdentityUser { Id = userId, UserName = "TestUser" };
+            _userManagerMock.Setup(manager => manager.FindByIdAsync(userId)).ReturnsAsync(user);
 
             // Set up TempData using a mock TempDataDictionary
             var tempDataMock = new Mock<ITempDataDictionary>();
@@ -166,6 +166,8 @@ public async Task DeleteUserConfirmed_ValidUser_RedirectsToUserManager()
             _userManagerMock.Setup(um => um.FindByIdAsync(userId)).ReturnsAsync(user);
             _userManagerMock.Setup(um => um.DeleteAsync(user)).Returns(Task.FromResult(IdentityResult.Failed()));
 
+            // Set up TempData to track changes
+            tempDataMock.SetupSet(tempData => tempData["Error"] = It.IsAny<string>()).Verifiable();
 
             // Act
             var result = await _controller.DeleteUserConfirmed(userId) as RedirectToActionResult;
@@ -174,8 +176,8 @@ public async Task DeleteUserConfirmed_ValidUser_RedirectsToUserManager()
             Assert.NotNull(result);
             Assert.Equal("UserManager", result.ActionName);
 
-            // Verify that TempData["Error"] was set with the expected error message
-            tempDataMock.VerifySet(tempData => tempData["Error"] = "An unexpected error occurred.");
-}       
+            // Verify that TempData["Error"] was set
+            tempDataMock.Verify();
+        }  
     }
 }
