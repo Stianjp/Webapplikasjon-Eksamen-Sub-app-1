@@ -43,10 +43,12 @@ public class ProductsController : Controller
         _productRepository = productRepository;
     }
 
+
     private bool IsAdmin()
     {
-        return User.IsInRole(UserRoles.Administrator);
+        return User?.IsInRole(UserRoles.Administrator) ?? false;
     }
+
 
     // GET: Products (available to all, including not logged in users)
     public async Task<IActionResult> Productsindex()
