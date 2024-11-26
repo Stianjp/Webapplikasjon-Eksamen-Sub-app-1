@@ -6,8 +6,6 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Sub_App_1.Controllers;
 using Sub_App_1.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Sub_App_1.Tests.Controllers
