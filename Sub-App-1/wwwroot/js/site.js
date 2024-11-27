@@ -41,4 +41,3 @@ document.getElementById('searchInput').addEventListener('keyup', function () {
                 trs[i].style.display = found ? '' : 'none';
             }
  });
-   
