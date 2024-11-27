@@ -17,6 +17,16 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+    const navbarToggler = document.querySelector('.navbar-toggler');
+    if (navbarToggler) {
+        navbarToggler.addEventListener('click', () => {
+            console.log('Navbar toggler clicked');
+        });
+    } else {
+        console.error('Navbar toggler element not found!');
+    }
+});
 
 /* Search functionality */
 /* Possible to do server-side without JS, but yeah just not a good idea other than for SEO and to drop JS necessity */

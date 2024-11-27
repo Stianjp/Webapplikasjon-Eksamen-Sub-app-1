@@ -292,19 +292,29 @@ a.btn-danger:hover img {
     display: block; /* Show menu button */
   }
 }
+.sidebar.show {
+  display: block !important;
+}
 
 /* Ensure correct display on large screens */
 @media (min-width: 992px) {
   .sidebar {
-    display: block; /* Show sidebar */
-  }
+    display: block !important; /* Show the sidebar on big screens*/
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow-y: auto;
+}
   .main-content {
     margin-left: 250px; /* Width of the sidebar */
   }
-  .menu-button {
+  /*.menu-button {
     display: none; /* Hide menu button */
-  }
+  
 }
+
 
 /* Responsive styles a.btn */
 @media (max-width: 768px) {
