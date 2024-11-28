@@ -5,149 +5,174 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Sub_App_1.Models;
 
+/// <summary>
+/// Provides administrative functionalities such as user management and role assignment.
+/// </summary>
 [Authorize(Roles = UserRoles.Administrator)]
-public class AdminController : Controller {
+public class AdminController : Controller
+{
     private readonly UserManager<IdentityUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
 
-    public AdminController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager) {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AdminController"/> class.
+    /// </summary>
+    /// <param name="userManager">The user manager for managing users.</param>
+    /// <param name="roleManager">The role manager for managing roles.</param>
+    public AdminController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+    {
         _userManager = userManager;
         _roleManager = roleManager;
     }
 
-    // GET /Admin/UserManager
-    public async Task<IActionResult> UserManager() {
+    /// <summary>
+    /// Displays the User Manager view, which lists all users along with their roles.
+    /// </summary>
+    /// <returns>A view displaying a list of users and their roles.</returns>
+    public async Task<IActionResult> UserManager()
+    {
         var users = _userManager.Users.ToList();
         var userWithRoles = new List<UserWithRolesViewModel>();
 
-        foreach (var user in users) {
-            if (user.UserName != null){
-                var roles = await _userManager.GetRolesAsync(user);
-                userWithRoles.Add(new UserWithRolesViewModel {
-                UserId = user.Id,
-                Username = user.UserName,
-                Roles = roles
-            });
-
-            }
-          
-        }
-
-        return View(userWithRoles); // pass the list of users with their roles to the view
-    }
-
-    // GET /Admin/EditUser/{id}
-   
-    public async Task<IActionResult> EditUser(string id) 
-    {
-    var user = await _userManager.FindByIdAsync(id);
-    if (user == null) 
-    {
-        return NotFound();
-    }
-
-    // Handle potential null username
-    string userName;
-    if (user.UserName == null)
-    {
-        userName = string.Empty;
-    }
-    else
-    {
-        userName = user.UserName;
-    }
-
-    // Get and convert roles to list
-    var roles = await _userManager.GetRolesAsync(user);
-    var rolesList = roles.ToList();
-
-    var model = new UserWithRolesViewModel {
-        UserId = user.Id,
-        Username = userName,
-        Roles = rolesList
-    };
-
-    // Handle potential null role names in ViewBag
-    var allRoles = new List<string>();
-    foreach (var role in _roleManager.Roles)
-    {
-        if (role.Name != null)
+        foreach (var user in users)
         {
-            allRoles.Add(role.Name);
+            if (user.UserName != null)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                userWithRoles.Add(new UserWithRolesViewModel
+                {
+                    UserId = user.Id,
+                    Username = user.UserName,
+                    Roles = roles
+                });
+            }
         }
-    }
-    ViewBag.AllRoles = allRoles;
 
-    return View(model); 
+        return View(userWithRoles);
     }
 
-    // POST /Admin/EditUser
+    /// <summary>
+    /// Displays the view to edit a user's roles.
+    /// </summary>
+    /// <param name="id">The unique identifier of the user to edit.</param>
+    /// <returns>A view with the user's details and roles, or a NotFound result if the user does not exist.</returns>
+    public async Task<IActionResult> EditUser(string id)
+    {
+        var user = await _userManager.FindByIdAsync(id);
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        string userName = user.UserName ?? string.Empty;
+        var roles = await _userManager.GetRolesAsync(user);
+
+        var model = new UserWithRolesViewModel
+        {
+            UserId = user.Id,
+            Username = userName,
+            Roles = roles.ToList()
+        };
+
+        ViewBag.AllRoles = _roleManager.Roles
+            .Where(role => role.Name != null)
+            .Select(role => role.Name)
+            .ToList();
+
+        return View(model);
+    }
+
+    /// <summary>
+    /// Updates the roles assigned to a user.
+    /// </summary>
+    /// <param name="model">The user's information and roles to update.</param>
+    /// <param name="roles">A list of roles to assign to the user.</param>
+    /// <returns>A redirect to the UserManager view, or the edit user view with errors if the update fails.</returns>
     [HttpPost]
-    public async Task<IActionResult> EditUser(UserWithRolesViewModel model, List<string> roles) {
+    public async Task<IActionResult> EditUser(UserWithRolesViewModel model, List<string> roles)
+    {
         var user = await _userManager.FindByIdAsync(model.UserId);
-        if (user == null) {
+        if (user == null)
+        {
             return NotFound();
         }
 
         var currentRoles = await _userManager.GetRolesAsync(user);
         var result = await _userManager.RemoveFromRolesAsync(user, currentRoles);
 
-        if (!result.Succeeded) {
+        if (!result.Succeeded)
+        {
             ViewBag.Error = "Error removing user roles.";
             return View(model);
         }
 
         result = await _userManager.AddToRolesAsync(user, roles);
 
-        if (!result.Succeeded) {
+        if (!result.Succeeded)
+        {
             ViewBag.Error = "Error adding roles.";
             return View(model);
         }
+
         ViewBag.Message = "User roles updated successfully!";
         return RedirectToAction("UserManager");
     }
 
-    // POST /Admin/DeleteUser/{id}
-    public async Task<IActionResult> DeleteUser(string id) {
+    /// <summary>
+    /// Deletes a user by their unique identifier.
+    /// </summary>
+    /// <param name="id">The unique identifier of the user to delete.</param>
+    /// <returns>A redirect to the UserManager view, or a NotFound result if the user does not exist.</returns>
+    public async Task<IActionResult> DeleteUser(string id)
+    {
         var user = await _userManager.FindByIdAsync(id);
-        if (user == null) {
+        if (user == null)
+        {
             return NotFound();
         }
 
         var result = await _userManager.DeleteAsync(user);
-        if (result.Succeeded) {
+        if (result.Succeeded)
+        {
             ViewBag.Message = "User deleted successfully!";
-        } else {
+        }
+        else
+        {
             ViewBag.Error = "Error deleting user.";
         }
 
         return RedirectToAction("UserManager");
     }
-     // POST /Admin/DeleteUser
+
+    /// <summary>
+    /// Confirms the deletion of a user.
+    /// </summary>
+    /// <param name="id">The unique identifier of the user to delete.</param>
+    /// <returns>A redirect to the UserManager view, with success or error messages.</returns>
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteUserConfirmed(string id)
     {
-    if (string.IsNullOrEmpty(id))
-    {
-        TempData["Error"] = "Invalid user ID.";
+        if (string.IsNullOrEmpty(id))
+        {
+            TempData["Error"] = "Invalid user ID.";
+            return RedirectToAction("UserManager");
+        }
+
+        var user = await _userManager.FindByIdAsync(id);
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        var result = await _userManager.DeleteAsync(user);
+        if (result == null || !result.Succeeded)
+        {
+            TempData["Error"] = result == null ? "An unexpected error occurred." : "Error deleting user.";
+            return RedirectToAction("UserManager");
+        }
+
+        TempData["Message"] = "User deleted successfully!";
         return RedirectToAction("UserManager");
     }
-
-    var user = await _userManager.FindByIdAsync(id);
-    if (user == null)
-    {
-        return NotFound(); // Handle null user here
-    }
-
-    var result = await _userManager.DeleteAsync(user);
-    if (result == null || !result.Succeeded)
-    {
-        TempData["Error"] = result == null ? "An unexpected error occurred." : "Error deleting user.";
-        return RedirectToAction("UserManager");
-    }
-
-    TempData["Message"] = "User deleted successfully!";
-    return RedirectToAction("UserManager");
-}
 }

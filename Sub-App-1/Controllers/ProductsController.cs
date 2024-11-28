@@ -10,54 +10,55 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Sub_App_1.DAL.Interfaces;
 
+/// <summary>
+/// Manages operations related to products, including viewing, creating, editing, and deleting products.
+/// </summary>
 public class ProductsController : Controller
 {
     private readonly IProductRepository _productRepository;
 
     // Define the list of available categories
     private readonly List<string> _availableCategories = new List<string> {
-        "Meat",
-        "Fish",
-        "Vegetable",
-        "Fruit",
-        "Pasta",
-        "Legume",
-        "Drink"
+        "Meat", "Fish", "Vegetable", "Fruit", "Pasta", "Legume", "Drink"
     };
 
-    private readonly List<string> _availableAllergens = new List<string>{
-        "Milk",
-        "Egg",
-        "Peanut",
-        "Soy",
-        "Wheat",
-        "Tree Nut",
-        "Shellfish",
-        "Fish",
-        "Sesame",
-        "None"
+    private readonly List<string> _availableAllergens = new List<string> {
+        "Milk", "Egg", "Peanut", "Soy", "Wheat", "Tree Nut", "Shellfish", "Fish", "Sesame", "None"
     };
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ProductsController"/> class.
+    /// </summary>
+    /// <param name="productRepository">The repository for accessing and managing products.</param>
     public ProductsController(IProductRepository productRepository)
     {
         _productRepository = productRepository;
     }
 
-
+    /// <summary>
+    /// Checks if the current user has an Administrator role.
+    /// </summary>
+    /// <returns>True if the user is an Administrator, otherwise false.</returns>
     private bool IsAdmin()
     {
         return User?.IsInRole(UserRoles.Administrator) ?? false;
     }
 
-
-    // GET: Products (available to all, including not logged in users)
+    /// <summary>
+    /// Displays the list of all products available in the system.
+    /// </summary>
+    /// <returns>A view containing the list of products.</returns>
     public async Task<IActionResult> Productsindex()
     {
         var products = await _productRepository.GetAllProductsAsync();
         return View(products);
     }
 
-    // GET: Products/Details/{id}
+    // <summary>
+    /// Displays the details of a specific product.
+    /// </summary>
+    /// <param name="id">The unique identifier of the product.</param>
+    /// <returns>A view containing product details or NotFound if the product does not exist.</returns>
     public async Task<IActionResult> Details(int id)
     {
         var product = await _productRepository.GetProductByIdAsync(id);
@@ -68,7 +69,11 @@ public class ProductsController : Controller
         }
         return View(product);
     }
-    // GET: Products/Create
+
+    /// <summary>
+    /// Displays the product creation form for Food Producers and Administrators.
+    /// </summary>
+    /// <returns>A view pre-filled with the producer's ID and options for allergens and categories.</returns>
     [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
     public IActionResult Create()
     {
@@ -82,7 +87,11 @@ public class ProductsController : Controller
     }
 
 
-    // POST: Products/Create
+    /// <summary>
+    /// Handles product creation requests.
+    /// </summary>
+    /// <param name="viewModel">The product form data submitted by the user.</param>
+    /// <returns>A redirect to the product index or the form view with errors if validation fails.</returns>
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
@@ -137,7 +146,11 @@ public class ProductsController : Controller
         }
     }
 
-    // GET: Products/Edit/{id}
+    /// <summary>
+    /// Displays the product editing form.
+    /// </summary>
+    /// <param name="id">The unique identifier of the product to edit.</param>
+    /// <returns>A view pre-filled with product details, or NotFound if the product does not exist.</returns>
     [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
     public async Task<IActionResult> Edit(int id)
     {
@@ -159,7 +172,12 @@ public class ProductsController : Controller
         return View(viewModel);
     }
 
-    // POST: Products/Edit/{id}
+    /// <summary>
+    /// Handles product editing requests.
+    /// </summary>
+    /// <param name="id">The unique identifier of the product being edited.</param>
+    /// <param name="viewModel">The updated product form data.</param>
+    /// <returns>A redirect to the product index or the form view with errors if validation fails.</returns>
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
@@ -220,9 +238,11 @@ public class ProductsController : Controller
         return View(viewModel);
     }
 
-
-
-    // GET: Products/Delete/{id} (only FoodProducers and Admins can delete products)
+    /// <summary>
+    /// Displays a confirmation view for product deletion.
+    /// </summary>
+    /// <param name="id">The unique identifier of the product to delete.</param>
+    /// <returns>A view with product details or NotFound if the product does not exist.</returns>
     [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
     public async Task<IActionResult> Delete(int id)
     {
@@ -240,7 +260,11 @@ public class ProductsController : Controller
         return View(product);
     }
 
-    // POST: Products/Delete/{id}
+    /// <summary>
+    /// Handles product deletion requests.
+    /// </summary>
+    /// <param name="id">The unique identifier of the product to delete.</param>
+    /// <returns>A redirect to the product index or an error response if deletion fails.</returns>
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
@@ -268,7 +292,11 @@ public class ProductsController : Controller
         return RedirectToAction(nameof(Productsindex));
     }
 
-    // Private method to generate category options using TagBuilder
+    /// <summary>
+    /// Generates the category options for display in forms.
+    /// </summary>
+    /// <param name="selectedCategories">The currently selected categories.</param>
+    /// <returns>An HTML string representing the category options.</returns>
     private string GenerateCategoryOptions(string? selectedCategories)
     {
         var selectedCategoryList = string.IsNullOrEmpty(selectedCategories) ? new List<string>() : selectedCategories.Split(',').ToList();
@@ -298,7 +326,13 @@ public class ProductsController : Controller
         return writer.ToString();
     }
 
-    // GET: Products/Index with sorting functionality
+    /// <summary>
+    /// Displays a sorted list of products.
+    /// </summary>
+    /// <param name="sortOrder">The field to sort by (e.g., Name, Category).</param>
+    /// <param name="currentSort">The current sort field.</param>
+    /// <param name="sortDirection">The direction of sorting (asc or desc).</param>
+    /// <returns>A view containing the sorted list of products.</returns>
     public async Task<IActionResult> Index(string sortOrder, string currentSort, string sortDirection)
     {
         ViewData["CurrentSort"] = sortOrder;
@@ -344,7 +378,11 @@ public class ProductsController : Controller
         return View("ProductsIndex", productsQuery.ToList());
     }
 
-    // GET: Products/UserProducts
+    /// <summary>
+    /// Displays the list of products for the current producer, optionally filtered by category.
+    /// </summary>
+    /// <param name="category">The category to filter products by.</param>
+    /// <returns>A view containing the filtered list of products.</returns>
     [Authorize(Roles = UserRoles.FoodProducer + "," + UserRoles.Administrator)]
     public async Task<IActionResult> UserProducts(string category)
     {

@@ -5,8 +5,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
 using Sub_App_1.Models;
 
+/// <summary>
+/// Provides methods for initializing and seeding the application's database with default data.
+/// </summary>
 public static class DBInit
 {
+    /// <summary>
+    /// Seeds the database with default roles, an admin user, a default producer user, and sample products.
+    /// </summary>
+    /// <param name="app">An <see cref="IApplicationBuilder"/> used to access application services.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public static async Task SeedAsync(IApplicationBuilder app)
     {
         try
@@ -83,6 +91,11 @@ public static class DBInit
         }
     }
 
+    /// <summary>
+    /// Ensures that the predefined roles exist in the system.
+    /// </summary>
+    /// <param name="roleManager">The role manager to handle role creation and existence checks.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     private static async Task EnsureRolesExistAsync(RoleManager<IdentityRole> roleManager)
     {
         var roles = new[] { UserRoles.RegularUser, UserRoles.FoodProducer, UserRoles.Administrator };
@@ -96,6 +109,12 @@ public static class DBInit
         }
     }
 
+    /// <summary>
+    /// Ensures that the administrator user exists and has the Administrator role.
+    /// </summary>
+    /// <param name="userManager">The user manager to handle user creation and role assignment.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    /// <exception cref="Exception">Thrown if the admin user cannot be created successfully.</exception>
     private static async Task EnsureAdminUserExistsAsync(UserManager<IdentityUser> userManager)
     {
         var adminUsername = "Admin";
@@ -128,6 +147,12 @@ public static class DBInit
         }
     }
 
+    /// <summary>
+    /// Ensures that the default producer user exists and has the FoodProducer role.
+    /// </summary>
+    /// <param name="userManager">The user manager to handle user creation and role assignment.</param>
+    /// <returns>The <see cref="IdentityUser"/> object representing the default producer.</returns>
+    /// <exception cref="Exception">Thrown if the default producer user cannot be created successfully.</exception>
     private static async Task<IdentityUser> EnsureDefaultProducerExistsAsync(UserManager<IdentityUser> userManager)
     {
         var producerUsername = "Default_Producer";

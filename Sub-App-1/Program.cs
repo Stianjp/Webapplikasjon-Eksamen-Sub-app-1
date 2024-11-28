@@ -5,9 +5,15 @@ using Sub_App_1.DAL;
 using Sub_App_1.DAL.Interfaces;
 using Sub_App_1.DAL.Repositories;
 
+/// <summary>
+/// Entry point for the ASP.NET Core application.
+/// Configures services, logging, middleware, and routing.
+/// </summary>
 var builder = WebApplication.CreateBuilder(args);
 
-// Use Serilog for logging.
+/// <summary>
+/// Configures Serilog for application logging.
+/// </summary>
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .Enrich.FromLogContext()
@@ -20,17 +26,23 @@ builder.Host.UseSerilog((context, services, configuration) => configuration
     .Enrich.FromLogContext()
     .WriteTo.Console());
 
-// Add services to the container.
+/// <summary>
+/// Configures services for the application, including controllers, views, database context, identity, and repositories.
+/// </summary>
 builder.Services.AddControllersWithViews().AddViewOptions(options =>
 {
     options.HtmlHelperOptions.ClientValidationEnabled = true;
 });
 
-// Add ApplicationDbContext
+/// <summary>
+/// Adds the ApplicationDbContext using SQLite as the database provider.
+/// </summary>
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Register Identity services
+/// <summary>
+/// Configures ASP.NET Core Identity with custom password options and adds default token providers.
+/// </summary>
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
     options.Password.RequireDigit = true;
@@ -38,27 +50,34 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase = true;
     options.Password.RequiredLength = 8;
-    options.Password.RequiredUniqueChars = 1;
 })
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
-// Register repositories
+/// <summary>
+/// Registers application-specific repositories for dependency injection.
+/// </summary>
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-// Configure Kestrel
+/// <summary>
+/// Configures Kestrel server options using application configuration.
+/// </summary>
 builder.WebHost.ConfigureKestrel((context, options) =>
 {
     options.Configure(context.Configuration.GetSection("Kestrel"));
 });
 
+/// <summary>
+/// Builds the application and seeds the database with default data.
+/// </summary>
 var app = builder.Build();
 
-// Seed the database
 await DBInit.SeedAsync(app);
 
-// Configure the HTTP request pipeline.
+/// <summary>
+/// Configures middleware and routing for the HTTP request pipeline.
+/// </summary>
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -71,7 +90,9 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Map routes
+/// <summary>
+/// Configures the default route and additional custom routes for different roles and controllers.
+/// </summary>
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
@@ -90,6 +111,12 @@ app.MapControllerRoute(
     pattern: "Admin/{action=UserManager}/{id?}",
     defaults: new { controller = "Admin" });
 
+/// <summary>
+/// Registers an application shutdown handler to flush Serilog logs on termination.
+/// </summary>
 app.Lifetime.ApplicationStopped.Register(Log.CloseAndFlush);
 
+/// <summary>
+/// Starts the application.
+/// </summary>
 app.Run();
