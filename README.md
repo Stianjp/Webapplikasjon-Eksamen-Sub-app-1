@@ -39,6 +39,6 @@ To test the application, the following default accounts are available:
 
 ## Related Projects
 
-This project is part of a larger system. The corresponding Sub-App-2 repository can be found here:
+The corresponding Sub-App-2 repository can be found here:
 
 https://github.com/Stianjp/Webapplikasjon-Eksamen-Sub-app-2
