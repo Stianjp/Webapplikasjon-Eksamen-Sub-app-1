@@ -1,47 +1,55 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
-
-/* To make the sidebar green for active site */
+﻿// Highlight the active sidebar link
 document.addEventListener("DOMContentLoaded", function () {
-    var currentUrl = window.location.pathname;
-    var navLinks = document.querySelectorAll(".nav-link");
+    const currentUrl = window.location.pathname;
+    const navLinks = document.querySelectorAll(".nav-link");
 
     navLinks.forEach(function (link) {
         if (link.getAttribute("href") === currentUrl) {
             link.classList.add("active");
-            link.style.backgroundColor = 'var(--primary-green)'; // Using the css variabels and custom styles.
-            link.style.color = 'var(--text-black)'; // Using the css variabels and custom styles.
+            link.style.backgroundColor = 'var(--primary-green)'; // Highlight active link
+            link.style.color = 'var(--text-black)';
         }
     });
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    const navbarToggler = document.querySelector('.navbar-toggler');
-    if (navbarToggler) {
-        navbarToggler.addEventListener('click', () => {
-            console.log('Navbar toggler clicked');
+document.addEventListener("DOMContentLoaded", function () {
+    const navbarToggler = document.querySelector(".navbar-toggler");
+    const navbarMenu = document.getElementById("navbarMenu");
+
+    // Ensure the toggle button works natively
+    navbarToggler.addEventListener("click", function () {
+        const isExpanded = navbarToggler.getAttribute("aria-expanded") === "true";
+        navbarToggler.setAttribute("aria-expanded", !isExpanded);
+    });
+
+    // Close the menu when a link is clicked
+    const navLinks = navbarMenu.querySelectorAll(".nav-link");
+    navLinks.forEach(link => {
+        link.addEventListener("click", function () {
+            const isExpanded = navbarMenu.classList.contains("show");
+            if (isExpanded) {
+                navbarToggler.click(); // Trigger the toggle button to close
+            }
         });
-    } else {
-        console.error('Navbar toggler element not found!');
-    }
+    });
 });
 
-/* Search functionality */
-/* Possible to do server-side without JS, but yeah just not a good idea other than for SEO and to drop JS necessity */
+// Search functionality for filtering table rows
+document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('keyup', function () {
+            const filter = this.value.toUpperCase();
+            const table = document.querySelector('table');
+            const trs = table.getElementsByTagName('tr');
 
-document.getElementById('searchInput').addEventListener('keyup', function () {
-    var filter = this.value.toUpperCase();
-    var table = document.querySelector('table');
-    var trs = table.getElementsByTagName('tr');
+            for (let i = 1; i < trs.length; i++) { // Start from 1 to skip header row
+                const tds = trs[i].getElementsByTagName('td');
+                let found = false;
 
-    for (var i = 1; i < trs.length; i++) { // Start from 1 to skip header row
-        var tds = trs[i].getElementsByTagName('td');
-            var found = false;
-                for (var j = 0; j < tds.length; j++) {
+                for (let j = 0; j < tds.length; j++) {
                     if (tds[j]) {
-                        var txtValue = tds[j].textContent || tds[j].innerText;
+                        const txtValue = tds[j].textContent || tds[j].innerText;
                         if (txtValue.toUpperCase().indexOf(filter) > -1) {
                             found = true;
                             break;
@@ -50,4 +58,6 @@ document.getElementById('searchInput').addEventListener('keyup', function () {
                 }
                 trs[i].style.display = found ? '' : 'none';
             }
- });
+        });
+    }
+});

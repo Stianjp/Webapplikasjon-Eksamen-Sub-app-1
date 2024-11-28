@@ -1,116 +1,99 @@
-
-<div class="collapse sidebar d-lg-block" id="sidebarMenu">
-    <div class="sidebar-content d-flex flex-column flex-shrink-0 p-3">
-        <img class="logo" src="~/icons/LogoGreen.svg" alt="Logo of Food bank">
-        <span class="navbar-brand">FoodBank</span>
-        <hr>
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item">
-                <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")"
-                   asp-controller="Home" asp-action="Index">
-                   <img src="~/icons/house-solid.svg" alt="Home page" class="icon"/> Home
-                </a>
-            </li>
-            
-            <!-- Products Menu Item -->
-            <li class="nav-item">
-                @if (User.Identity != null && User.Identity.IsAuthenticated)
-                {
-                    <!-- Products link with active class -->
-                    <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Products" && ViewContext.RouteData.Values["action"]?.ToString() == "Productsindex" ? "active" : "")"
-                       asp-controller="Products" asp-action="Productsindex">
-                       <img src="~/icons/box-open-solid.svg" alt="Se all products" class="icon"> Products
-                    </a>
-
-                    <!-- Submenu for Admin/FoodProducer/RegularUser -->
-                    @if (User.IsInRole(UserRoles.Administrator) || User.IsInRole(UserRoles.FoodProducer) || User.IsInRole(UserRoles.RegularUser)) 
-                    {
-                        <ul class="nav flex-column ms-2">
-                            <!-- "View All" submenu -->
-                            <li class="nav-item">
-                                <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Productsindex" ? "active" : "")"
-                                asp-controller="Products" asp-action="Productsindex">
-                                     <img src="~/icons/eye-solid.svg" alt="Se all products" class="icon"> View All
-                                </a>
-                            </li>
-                            
-                            @if(!User.IsInRole(UserRoles.RegularUser)) 
-                            {
-                                <!-- "My Products" submenu -->
-                                <li class="nav-item">
-                                    <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "UserProducts" ? "active" : "")"
-                                    asp-controller="Products" asp-action="UserProducts">
-                                        <img src="~/icons/list-solid.svg" alt="List of my products" class="icon"> My Products
-                                    </a>
-                                </li>
-                                
-                                <!-- "Add" submenu -->
-                                <li class="nav-item">
-                                    <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Create" ? "active" : "")"
-                                    asp-controller="Products" asp-action="Create">
-                                       <img src="~/icons/circle-plus-solid.svg" alt="Add a new product" class="icon"> Add
-                                    </a>
-                                </li>
-                            }
-                        </ul>
-                    }
-                }
-                else
-                {
-                    <!-- Disabled Products link for unauthenticated users -->
-                    <a class="nav-link disabled" aria-disabled="true">
-                        <img src="~/icons/bowl-food-solid.svg" alt="Products" class="icon"> Products
-                    </a>
-                }
-            </li>
-
-            <!-- Account Menu Item -->
-            <li class="nav-item">
-                <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Account" ? "active" : "")"
-                asp-controller="Account" asp-action="Index">
-                    <img src="~/icons/gear-solid.svg" alt="Account Icon" class="icon"> Account
-                </a>
-            </li>
-
-            <!-- Privacy Menu Item -->
-            <li class="nav-item">
-                <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Privacy" ? "active" : "")"
-                    asp-controller="Home" asp-action="Privacy">
-                    <img src="~/icons/bowl-food-solid.svg" alt="Privacy Icon" class="icon"> Privacy
-                </a>
-            </li>
-        </ul>
-
-        <!-- Log in/Logout button -->
-        <hr>
+<div class="sidebar-content d-flex flex-column flex-shrink-0 p-3">
+    <img class="logo" src="~/icons/LogoGreen.svg" alt="Logo of Food bank">
+    <span class="navbar-brand">FoodBank</span>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")"
+               asp-controller="Home" asp-action="Index">
+                <img src="~/icons/house-solid.svg" alt="Home page" class="icon"/> Home
+            </a>
+        </li>
         
-        <div class="logout">
+        <!-- Products Menu Item -->
+        <li class="nav-item">
             @if (User.Identity != null && User.Identity.IsAuthenticated)
             {
-                <!-- Log out button -->
-                <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
-                    @Html.AntiForgeryToken()
-                    <button type="submit" class="btn btn-danger" id="logoutButton">
-                        <img src="~/icons/right-to-bracket-solid.svg" alt="Logout Icon" class="icon" /> Logout
-                    </button>
-                </form>
+                <!-- Products link with active class -->
+                <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Products" && ViewContext.RouteData.Values["action"]?.ToString() == "Productsindex" ? "active" : "")"
+                   asp-controller="Products" asp-action="Productsindex">
+                    <img src="~/icons/box-open-solid.svg" alt="All products" class="icon"> Products
+                </a>
+
+                <!-- Submenu for Admin/FoodProducer/RegularUser -->
+                @if (User.IsInRole(UserRoles.Administrator) || User.IsInRole(UserRoles.FoodProducer) || User.IsInRole(UserRoles.RegularUser))
+                {
+                    <ul class="nav flex-column ms-2">
+                        <!-- "View All" submenu -->
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Productsindex" ? "active" : "")"
+                               asp-controller="Products" asp-action="Productsindex">
+                                <img src="~/icons/eye-solid.svg" alt="All products" class="icon"> View All
+                            </a>
+                        </li>
+                        @if (!User.IsInRole(UserRoles.RegularUser))
+                        {
+                            <!-- "My Products" submenu -->
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "UserProducts" ? "active" : "")"
+                                   asp-controller="Products" asp-action="UserProducts">
+                                    <img src="~/icons/list-solid.svg" alt="My products" class="icon"> My Products
+                                </a>
+                            </li>
+                            <!-- "Add" submenu -->
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Create" ? "active" : "")"
+                                   asp-controller="Products" asp-action="Create">
+                                    <img src="~/icons/circle-plus-solid.svg" alt="Add a product" class="icon"> Add
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                }
             }
             else
             {
-                <!-- Log in button -->            
-                var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
-                var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
-                var isOnLoginPage = (currentController == "Account" && currentAction == "Index");
-                var loginButtonClass = "btn btn-success" + (isOnLoginPage ? " active-login" : "");
-                var loginButtonDisabled = isOnLoginPage ? "disabled" : "";
-                
-
-                <form asp-controller="Account" asp-action="Index" method="get">
-                    <button class="btn btn-primary" type="submit" class="@loginButtonClass" @loginButtonDisabled>
-                        <img src="~/icons/right-to-bracket-solid.svg" alt="Login Icon" class="icon"/> Log in
-                    </button>
-                </form>
+                <!-- Disabled Products link for unauthenticated users -->
+                <a class="nav-link disabled" aria-disabled="true">
+                    <img src="~/icons/bowl-food-solid.svg" alt="Products" class="icon"> Products
+                </a>
             }
-        </div>
+        </li>
+
+        <!-- Account Menu Item -->
+        <li class="nav-item">
+            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Account" ? "active" : "")"
+               asp-controller="Account" asp-action="Index">
+                <img src="~/icons/gear-solid.svg" alt="Account settings" class="icon"> Account
+            </a>
+        </li>
+
+        <!-- Privacy Menu Item -->
+        <li class="nav-item">
+            <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Privacy" ? "active" : "")"
+               asp-controller="Home" asp-action="Privacy">
+                <img src="~/icons/eye-solid.svg" alt="Privacy policy" class="icon"> Privacy
+            </a>
+        </li>
+    </ul>
+    <hr>
+    <div class="logout">
+        @if (User.Identity != null && User.Identity.IsAuthenticated)
+        {
+            <!-- Log out button -->
+            <form asp-controller="Account" asp-action="Logout" method="post">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-danger d-flex align-items-center">
+                    <img src="~/icons/right-to-bracket-solid.svg" alt="Logout" class="icon" /> Logout
+                </button>
+            </form>
+        }
+        else
+        {
+            <!-- Log in button -->
+            <a class="btn btn-primary d-flex align-items-center" asp-controller="Account" asp-action="Index">
+                <img src="~/icons/right-to-bracket-solid.svg" alt="Login" class="icon" /> Login
+            </a>
+        }
     </div>
 </div>
