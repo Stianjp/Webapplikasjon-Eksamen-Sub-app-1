@@ -8,6 +8,11 @@
 
 body {
   color: var(--text-primary);
+  background-image: url('background-image.jpg'); /* Update with the correct image path */
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; /* Make the background static (no scroll effect) */
 }
 
 hr {
